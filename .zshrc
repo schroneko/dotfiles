@@ -42,18 +42,18 @@ setopt print_eight_bit
 
 ## PROMPT
 # vcs_infoロード
-autoload -Uz vcs_info    
+autoload -Uz vcs_info
 
-# PROMPT変数内で変数参照する    
+# PROMPT変数内で変数参照する
 setopt prompt_subst
 
-# vcsの表示    
+# vcsの表示
 zstyle ':vcs_info:*' enable git svn hg bzr
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr "+"
 zstyle ':vcs_info:*' unstagedstr "*"
-zstyle ':vcs_info:*' formats '(%b%c%u)'    
-zstyle ':vcs_info:*' actionformats '(%b(%a)%c%u)'    
+zstyle ':vcs_info:*' formats '(%b%c%u)'
+zstyle ':vcs_info:*' actionformats '(%b(%a)%c%u)'
 
 #add-zsh-hook precmd _update_vcs_info_msg
 PROMPT="%{${fg[green]}%}%n%{${reset_color}%}@%F{blue}localhost%f:%1(v|%F{red}%1v%f|) $ "
@@ -61,3 +61,8 @@ RPROMPT='[%F{green}%d%f]'
 
 # node path
 export PATH=$HOME/.nodebrew/current/bin:$PATH
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+# phits
+export PHITSPATH=/Users/yutahayashi/phits
+export PATH=$PHITSPATH/bin:$PHITSPATH/dchain-sp/bin:$PATH
