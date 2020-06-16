@@ -66,3 +66,4 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 # phits
 export PHITSPATH=/Users/yutahayashi/phits
 export PATH=$PHITSPATH/bin:$PHITSPATH/dchain-sp/bin:$PATH
+eval "$(anyenv init -)"
