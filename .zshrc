@@ -59,11 +59,19 @@ zstyle ':vcs_info:*' actionformats '(%b(%a)%c%u)'
 PROMPT="%{${fg[green]}%}%n%{${reset_color}%}@%F{blue}localhost%f:%1(v|%F{red}%1v%f|) $ "
 RPROMPT='[%F{green}%d%f]'
 
-# node path
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-
 # phits
 export PHITSPATH=/Users/yutahayashi/phits
 export PATH=$PHITSPATH/bin:$PHITSPATH/dchain-sp/bin:$PATH
-eval "$(anyenv init -)"
+
+# Setting Path for Flutter
+export PATH="$PATH:$HOME/Downloads/flutter/bin"
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Setting Path for Volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+autoload bashcompinit && bashcompinit
+complete -C '/usr/local/bin/aws_completer' aws
+complete
