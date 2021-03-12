@@ -1,5 +1,3 @@
-" curl -OL https://raw.githubusercontent.com/schroneko/dotfiles/master/.vimrc
-
 set fenc=utf-8
 set nobackup
 set noswapfile
