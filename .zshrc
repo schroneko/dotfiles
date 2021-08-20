@@ -20,7 +20,5 @@ zstyle ':vcs_info:*' actionformats '(%b(%a)%c%u)'
 
 PROMPT="%{${fg[green]}%}%n%{${reset_color}%}@%F{blue}localhost%f:%1(v|%F{red}%1v%f|) $ "
 RPROMPT='[%F{green}%d%f]'
-cd $HOME/Downloads
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
