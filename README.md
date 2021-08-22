@@ -8,4 +8,8 @@ ln -snfv ~/.dotfiles/.vimrc ~/
 
 ln -snfv ~/.dotfiles/.zshrc ~/
 
+cd .dotfiles
+
+brew bundle
+
 echo "### .vimrc .zshrc installed"
