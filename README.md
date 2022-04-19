@@ -1,15 +1,25 @@
-# .dotfiles
+# My Dotfiles Repo
 
-cd
+This repo includes dotfiles for
 
-git clone https://github.com/schroneko/.dotfiles.git
+- `zsh`
+- `vim`
 
-ln -snfv ~/.dotfiles/.vimrc ~/
+# How to install
 
-ln -snfv ~/.dotfiles/.zshrc ~/
+```zsh
+# Clone this repository
+git clone https://github.com/schroneko/dotfiles
 
-cd .dotfiles
+# Move to the repository
+mv dotfiles $HOME/dotfiles
 
-brew bundle
+# Initialize some additional packages
+ln -snfv ~/dotfiles/.vimrc ~/
 
-echo "### .vimrc .zshrc installed"
+ln -snfv ~/dotfiles/.zshrc ~/
+
+cd $HOME/dotfiles && brew bundle
+
+source ~/.zshrc
+```
