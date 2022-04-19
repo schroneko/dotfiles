@@ -1,5 +1,4 @@
-alias ls='ls -G'
-alias la='ls -aG'
+zstyle ":completion:*:commands" rehash 1
 export LANG=en_US.UTF-8
 autoload -Uz colors
 colors
@@ -21,4 +20,33 @@ zstyle ':vcs_info:*' actionformats '(%b(%a)%c%u)'
 PROMPT="%{${fg[green]}%}%n%{${reset_color}%}@%F{blue}localhost%f:%1(v|%F{red}%1v%f|) $ "
 RPROMPT='[%F{green}%d%f]'
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
+if [[ $(command -v exa) ]]; then
+  alias e='exa --icons --git'
+  alias l=e
+  alias ls=e
+  alias ea='exa -a --icons --git'
+  alias la=ea
+  alias l='clear && ls'
+fi
+
+eval "$(starship init zsh)"
+
+alias bu='brew update && brew upgrade && brew upgrade --cask'
+alias ds='find $HOME –name ‘.DS_Store’ –type f –delete'
+
+export PATH=~/.deno/bin:$PATH
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+alias dia='vim ~/.diary/$(date "+%Y/%m/%d.md")'
+alias diagit='cd ~/.diary/ && git add . && git commit -m "update" && git push origin main'
+alias diaopen='open -a "/Applications/Google Chrome.app/" ~/.diary/$(date "+%Y/%m/%d.md")'
+
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  autoload -Uz compinit
+  compinit
+fi
