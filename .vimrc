@@ -65,7 +65,7 @@ autocmd FileType javascript set formatprg=prettier\ --parser\ javascript
 
 " [markdown] format on save
 " autocmd! BufWritePre *.md call s:mdfmt()
-autocmd! BufWritePre *.md, *.js call s:mdfmt()
+autocmd! BufWritePre *.md call s:mdfmt()
 function s:mdfmt()
     let l:curw = winsaveview()
     silent! exe "normal! a \<bs>\<esc>" | undojoin |
@@ -76,8 +76,3 @@ endfunction
 " auto reload .vimrc
 autocmd! bufwritepost ~/.vimrc source %
 
-" auto Prettier
-" augroup fmt
-" autocmd!
-" autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
-" augroup END
