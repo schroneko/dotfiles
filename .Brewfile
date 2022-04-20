@@ -67,3 +67,7 @@ cask "visual-studio-code"
 cask "vrew"
 # Video communication and virtual meeting platform
 cask "zoom"
+mas "uBlacklist for Safari", id: 1547912640
+mas "Xcode", id: 497799835
+mas "Final Cut Pro", id: 424389933
+mas "Keepa - Price Tracker", id: 1533805339
