@@ -4,6 +4,7 @@ This repo includes dotfiles for
 
 - `zsh`
 - `vim`
+- `Brewfile`
 
 # How to install
 ```
