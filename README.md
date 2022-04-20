@@ -7,7 +7,7 @@ This repo includes dotfiles for
 
 # How to install
 ```
-curl -o - https://raw.githubusercontent.com/schroneko/dotfiles/main/install | zsh
+curl -o - https://raw.githubusercontent.com/schroneko/dotfiles/main/install.sh | zsh
 ```
 
 ```.sh:zsh
