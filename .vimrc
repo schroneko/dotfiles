@@ -24,6 +24,7 @@ set wildmenu
 set wildmode=longest:full,full
 set wrapscan
 set relativenumber
+set viminfo=
 
 autocmd! bufwritepost $MYVIMRC source %
 filetype plugin indent on
