@@ -40,10 +40,10 @@ export PATH=~/.deno/bin:$PATH
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
-alias dia='vim ~/.diary/$(date "+%Y/%m/%d.md")'
-alias diagit='cd ~/.diary/ && git add . && git commit -m "update" && git push origin main'
-alias diaopen='open -a "/Applications/Google Chrome.app/" ~/.diary/$(date "+%Y/%m/%d.md")'
+alias dia='vim ~/diary/$(date "+%Y/%m/%d.md")'
+alias diaopen='open -a "/Applications/Google Chrome.app/" ~/diary/$(date "+%Y/%m/%d.md")'
 
+alias gall='git add . && git commit -m "update" && git push origin main'
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
