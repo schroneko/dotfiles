@@ -18,7 +18,6 @@ dotfiles
 ├── .Brewfile
 ├── .vimrc
 ├── .zshrc
-├── Npmfile
 ├── README.md
 └── install.sh
 ```
