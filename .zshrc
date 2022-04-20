@@ -33,7 +33,7 @@ fi
 
 eval "$(starship init zsh)"
 
-alias bu='brew update && brew upgrade && brew upgrade --cask'
+alias bu='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
 alias ds='find $HOME –name ‘.DS_Store’ –type f –delete'
 
 export PATH=~/.deno/bin:$PATH
