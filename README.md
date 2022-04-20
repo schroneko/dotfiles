@@ -6,8 +6,11 @@ This repo includes dotfiles for
 - `vim`
 
 # How to install
+```
+curl -o - https://raw.githubusercontent.com/schroneko/dotfiles/main/install | zsh
+```
 
-```zsh
+```.sh:zsh
 # Clone this repository
 git clone https://github.com/schroneko/dotfiles
 
@@ -22,4 +25,16 @@ ln -snfv ~/dotfiles/.zshrc ~/
 cd $HOME/dotfiles && brew bundle
 
 source ~/.zshrc
+```
+
+# Structure
+```
+❯ tree dotfiles -a -I '.git'    
+dotfiles
+├── .Brewfile
+├── .vimrc
+├── .zshrc
+├── Npmfile
+├── README.md
+└── install.sh
 ```
