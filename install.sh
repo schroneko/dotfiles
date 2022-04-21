@@ -24,7 +24,7 @@ for dotfile in .*; do
 done
 
 ## ========== Xcode ==========
-xcode-select --install >/dev/null 2>&1
+# xcode-select --install >/dev/null 2>&1
 
 ## ========== Homebrew ==========
 which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
