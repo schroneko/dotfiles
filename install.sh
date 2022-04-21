@@ -16,9 +16,10 @@ if [ ! -d $DOTPATH ]; then
 fi
 
 ## ========== Create Symbolic Links ==========
-dotfiles=(.vimrc .zshrc .Brewfile)
-for dotfile in ${dotfiles}; do
-  ln -snfv $DOTPATH/$dotfile $HOME
+for dotfile in .*; do
+  [[ "$dotfile" == ".git" ]] && continue
+  [[ "$dotfile" == ".DS_Store" ]] && continue
+  ln -snfv $DOTPATH/"$dotfile" $HOME/"$dotfile"
 done
 
 ## ========== Xcode ==========
