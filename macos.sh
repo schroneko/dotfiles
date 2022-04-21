@@ -2,12 +2,12 @@
 defaults write -g ApplePressAndHoldEnabled -bool false
 defaults write -g AppleShowAllExtensions -bool true
 defaults write -g AppleShowAllFiles -bool true
-defaults write -g InitialKeyRepeat -int 10
-defaults write -g KeyRepeat -int 1
+defaults write -g InitialKeyRepeat -int 12
+defaults write -g KeyRepeat -int 1.5
+defaults write -g WebKitDeveloperExtras -bool true
+defaults write -g WebKitDeveloperExtras -bool true
 defaults write -g com.apple.trackpad.scaling 2
 defaults write .GlobalPreferences NSAutomaticCapitalizationEnabled -bool false
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
@@ -37,7 +37,7 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
     -c "Set :${CurrentUUID}:CBBlueReductionStatus:BlueLightReductionSchedule:NightStartMinute 0" \
     ${NPLIST}
 
-## ========== Other Settings ==========
+## ========== Change Capslock to Ctrl ==========
 keyboard_id="$(ioreg -c AppleEmbeddedKeyboard -r | grep -Eiw "VendorID|ProductID" | awk '{ print $4 }' | paste -s -d'-\n' -)-0"
 defaults -currentHost write -g com.apple.keyboard.modifiermapping.${keyboard_id} -array-add "
 <dict>
@@ -48,6 +48,7 @@ defaults -currentHost write -g com.apple.keyboard.modifiermapping.${keyboard_id}
 </dict>
 "
 
+## ========== Disable Startup Sound ==========
 sudo nvram SystemAudioVolume=" "
 
 ## ========== Cache Clear ==========
