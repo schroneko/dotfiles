@@ -5,6 +5,7 @@ This repo includes dotfiles for
 - `zsh`
 - `vim`
 - `brew`
+- `starship`
 
 # How to install
 ```
