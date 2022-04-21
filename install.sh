@@ -12,7 +12,7 @@ fi
 
 ## ========== Clone Repo ==========
 if [ ! -d $DOTPATH ]; then
-  git clone https://github.com/schroneko/dotfiles $HOME
+  git clone https://github.com/schroneko/dotfiles $HOME/dotfiles
 fi
 
 ## ========== Create Symbolic Links ==========
