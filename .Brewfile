@@ -1,6 +1,5 @@
 tap "homebrew/bundle"
 tap "homebrew/cask"
-tap "homebrew/cask-fonts"
 tap "homebrew/core"
 brew "readline"
 brew "sqlite"
@@ -21,10 +20,10 @@ cask "blender"
 cask "discord"
 cask "docker"
 cask "figma"
-cask "font-fira-code-nerd-font"
 cask "google-chrome"
 cask "grammarly"
 cask "imageoptim"
+cask "kindle"
 cask "shiftit"
 cask "slack"
 cask "visual-studio-code"
@@ -33,4 +32,3 @@ cask "zoom"
 mas "Final Cut Pro", id: 424389933
 mas "Keepa - Price Tracker", id: 1533805339
 mas "uBlacklist for Safari", id: 1547912640
-mas "Xcode", id: 497799835
