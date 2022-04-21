@@ -8,12 +8,7 @@ This repo includes dotfiles for
 
 # How to install
 ```
-<<<<<<< HEAD
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/install.sh)"
-
-=======
-curl -L raw.github.com/schroneko/dotfiles/main/install.sh | zsh
->>>>>>> fcff0fbbbf05f608a0ccf8efcf36bd71d2afd2ca
 ```
 
 # Structure
@@ -21,6 +16,7 @@ curl -L raw.github.com/schroneko/dotfiles/main/install.sh | zsh
 ❯ tree dotfiles -a -I '.git'    
 dotfiles
 ├── .Brewfile
+├── .hushlogin
 ├── .vimrc
 ├── .zshrc
 ├── README.md
