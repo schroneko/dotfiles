@@ -8,8 +8,12 @@ This repo includes dotfiles for
 
 # How to install
 ```
+<<<<<<< HEAD
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/install.sh)"
 
+=======
+curl -L raw.github.com/schroneko/dotfiles/main/install.sh | zsh
+>>>>>>> fcff0fbbbf05f608a0ccf8efcf36bd71d2afd2ca
 ```
 
 # Structure
