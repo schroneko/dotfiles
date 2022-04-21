@@ -11,7 +11,7 @@ if [ "$(uname)" != "Darwin" ] ; then
 fi
 
 ## ========== Clone Repo ==========
-if [ ! -d $DOTPATH]; then
+if [ ! -d $DOTPATH ]; then
   git clone https://github.com/schroneko/dotfiles $HOME
 fi
 
