@@ -29,6 +29,9 @@ if [ ! -f /opt/homebrew/bin/brew ]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+## ========== Source zshrc ==========
+source $HOME/.zshrc
+
 ## ========== Brew Bundle ==========
 brew bundle --global
 brew update
