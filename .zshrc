@@ -22,8 +22,8 @@ alias dia='vim ~/diary/$(date "+%Y/%m/%d.md")'
 alias diaopen='open -a "/Applications/Google Chrome.app/" ~/diary/$(date "+%Y/%m/%d.md")'
 alias ds='find $HOME –name ‘.DS_Store’ –type f –delete'
 alias gall='git add . && git commit -m "update" && git push origin main'
-# alias ls="ls -G -w"
-# alias la="ls -G -w -a"
+alias ls="ls -G -w"
+alias la="ls -G -w -a"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
