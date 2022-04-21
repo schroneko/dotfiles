@@ -2,7 +2,7 @@
 set -eux
 
 ## ========== Dotfiles Path ==========
-DOTPATH=$HOME/dotfiles
+DOT_DIR=$HOME/dotfiles
 
 ## ========== Not macOS ==========
 if [ "$(uname)" != "Darwin" ] ; then
@@ -11,17 +11,19 @@ if [ "$(uname)" != "Darwin" ] ; then
 fi
 
 ## ========== Clone Repo ==========
-if [ ! -d $DOTPATH ]; then
+if [ ! -d $DOT_DIR ]; then
   git clone https://github.com/schroneko/dotfiles $HOME/dotfiles
 fi
 
 ## ========== Create Symbolic Links ==========
-cd $DOTPATH
-for dotfile in .*; do
-  [[ "$dotfile" == ".git" ]] && continue
-  [[ "$dotfile" == ".DS_Store" ]] && continue
-  ln -snfv $DOTPATH/"$dotfile" $HOME/"$dotfile"
-done
+if if [ ! -d ${DOT_DIR} ]; then
+  cd $DOT_DIR
+  for dotfile in .*; do
+    [[ "$dotfile" == ".git" ]] && continue
+    [[ "$dotfile" == ".DS_Store" ]] && continue
+    ln -snfv $DOT_DIR/"$dotfile" $HOME/"$dotfile"
+  done
+fi
 
 ## ========== Xcode ==========
 # xcode-select --install >/dev/null 2>&1
