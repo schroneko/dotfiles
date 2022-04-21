@@ -14,8 +14,11 @@ zsh -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/i
 # Structure
 ```
 ❯ tree dotfiles -a -I '.git'    
+
 dotfiles
 ├── .Brewfile
+├── .config
+│   └── starship.toml
 ├── .hushlogin
 ├── .vimrc
 ├── .zshrc
