@@ -20,10 +20,10 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 alias bu='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
 alias dia='vim ~/diary/$(date "+%Y/%m/%d.md")'
 alias diaopen='open -a "/Applications/Google Chrome.app/" ~/diary/$(date "+%Y/%m/%d.md")'
-alias ds='find . -name '.DS_Store' -type f -ls -delete'
+alias ds='find . -name '.DS_Store' -or -name '.localized' -type f -ls -delete'
 alias gall='git add . && git commit -m "update" && git push origin main'
-alias ls="ls -G -w"
 alias la="ls -G -w -a"
+alias ls="ls -G -w"
 alias sz="source $HOME/.zshrc"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
