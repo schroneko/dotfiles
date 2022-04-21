@@ -24,9 +24,9 @@ alias ds='find $HOME –name ‘.DS_Store’ –type f –delete'
 alias gall='git add . && git commit -m "update" && git push origin main'
 alias ls="ls -G -w"
 alias la="ls -G -w -a"
+alias sz="source $HOME/.zshrc"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 
 chpwd() { ls }
-
