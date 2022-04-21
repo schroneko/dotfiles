@@ -38,5 +38,4 @@ source $HOME/.zshrc
 brew bundle --global
 brew update
 brew upgrade
-brew cleanup
 
