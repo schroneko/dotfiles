@@ -16,6 +16,7 @@ if [ ! -d $DOTPATH ]; then
 fi
 
 ## ========== Create Symbolic Links ==========
+cd $DOTPATH
 for dotfile in .*; do
   [[ "$dotfile" == ".git" ]] && continue
   [[ "$dotfile" == ".DS_Store" ]] && continue
