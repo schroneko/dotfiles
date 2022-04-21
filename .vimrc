@@ -10,12 +10,14 @@ set nobackup
 set nolist
 set noswapfile
 set path+=**
+set relativenumber
 set ruler
 set shiftwidth=2
 set showcmd
 set showmatch
 set smartindent
 set tabstop=2
+set viminfo=
 set virtualedit=onemore
 set visualbell
 set whichwrap=h,l
@@ -23,8 +25,6 @@ set wildignorecase
 set wildmenu
 set wildmode=longest:full,full
 set wrapscan
-set relativenumber
-set viminfo=
 
 autocmd! bufwritepost $MYVIMRC source %
 filetype plugin indent on
