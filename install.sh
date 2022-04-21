@@ -24,12 +24,10 @@ for dotfile in .*; do
 done
 
 ## ========== Xcode ==========
-xcode-select --install > /dev/null
+xcode-select --install >/dev/null 2>&1
 
 ## ========== Homebrew ==========
-if [ ! -f /opt/homebrew/bin/brew ]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 ## ========== Source zshrc ==========
 source $HOME/.zshrc
