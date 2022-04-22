@@ -1,18 +1,11 @@
 # My Dotfiles Repo
 
-This repo includes dotfiles for
-
-- `zsh`
-- `vim`
-- `brew`
-- `starship`
-
-# How to install
+## How to install
 ```
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/install.sh)"
 ```
 
-# Structure
+## Structure
 ```
 ❯ tree dotfiles -a -I '.git'    
 
@@ -21,8 +14,10 @@ dotfiles
 ├── .config
 │   └── starship.toml
 ├── .hushlogin
+├── .screenrc
 ├── .vimrc
 ├── .zshrc
 ├── README.md
-└── install.sh
+├── install.sh
+└── macos.sh
 ```
