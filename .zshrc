@@ -34,8 +34,9 @@ alias ds='find . -name '.DS_Store' -or -name '.localized' -type f -ls -delete'
 alias gall='git add . && git commit -m "update" && git push origin main'
 alias la="ls -G -w -a"
 alias ls="ls -G -w"
-alias sz="source ~/.zshrc"
 alias rm="rm -i"
+alias zshrc="vim ~/.zshrc && source ~/.zshrc"
+alias vimrc="vim ~/.vimrc"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
