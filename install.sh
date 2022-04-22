@@ -16,20 +16,20 @@ if [ ! -d $DOT_DIR ]; then
 fi
 
 ## ========== Create Symbolic Links ==========
-# if if [ ! -d ${DOT_DIR} ]; then
-#   cd $DOT_DIR
-#   for dotfile in .*; do
-#     [[ "$dotfile" == ".git" ]] && continue
-#     [[ "$dotfile" == ".DS_Store" ]] && continue
-#     ln -snfv $DOT_DIR/"$dotfile" $HOME/"$dotfile"
-#   done
-# fi
+if if [ ! -d ${DOT_DIR} ]; then
+  cd $DOT_DIR
+  for dotfile in .*; do
+    [[ "$dotfile" == ".git" ]] && continue
+    [[ "$dotfile" == ".DS_Store" ]] && continue
+    ln -snfv $DOT_DIR/"$dotfile" $HOME/"$dotfile"
+  done
+fi
 
 ## ========== Xcode ==========
-# xcode-select --install >/dev/null 2>&1
+xcode-select --install >/dev/null 2>&1
 
 ## ========== Homebrew ==========
-# which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 ## ========== Source zshrc ==========
 source $HOME/.zshrc
