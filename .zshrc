@@ -4,8 +4,11 @@ autoload -Uz compinit && compinit
 setopt auto_cd
 setopt complete_in_word
 setopt correct
+setopt hist_ignore_all_dups
 setopt hist_ignore_dups
+setopt hist_ignore_space
 setopt hist_reduce_blanks
+setopt hist_save_no_dups
 setopt list_packed
 setopt share_history
 
@@ -32,6 +35,7 @@ alias gall='git add . && git commit -m "update" && git push origin main'
 alias la="ls -G -w -a"
 alias ls="ls -G -w"
 alias sz="source ~/.zshrc"
+alias rm="rm -i"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
