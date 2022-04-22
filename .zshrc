@@ -1,10 +1,17 @@
-autoload -Uz compinit && compinit
 autoload -Uz colors   && colors
+autoload -Uz compinit && compinit
 
 setopt auto_cd
 setopt complete_in_word
 setopt correct
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
 setopt list_packed
+setopt share_history
+
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
 
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -20,7 +27,6 @@ export VOLTA_HOME="$HOME/.volta"
 
 alias bu='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
 alias dia='vim ~/diary/$(date "+%Y/%m/%d.md")'
-alias diaopen='open -a "/Applications/Google Chrome.app/" ~/diary/$(date "+%Y/%m/%d.md")'
 alias ds='find . -name '.DS_Store' -or -name '.localized' -type f -ls -delete'
 alias gall='git add . && git commit -m "update" && git push origin main'
 alias la="ls -G -w -a"
