@@ -29,5 +29,4 @@ set wrapscan
 autocmd! bufwritepost $MYVIMRC source %
 filetype plugin indent on
 inoremap <silent> jj <ESC>
-nnoremap gp :silent %!prettier --stdin-filepath %<CR>
 syntax on
