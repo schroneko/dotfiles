@@ -1,0 +1,9 @@
+defbce on
+defencoding utf8
+defutf8 on
+encoding utf8 utf8
+escape ^@a
+hardstatus alwayslastline "%{= cd} %-w%{= wk} %n %t* %{-}%+w %= LoadAVG [%l] "
+startup_message off
+term xterm-256color
+vbell off
