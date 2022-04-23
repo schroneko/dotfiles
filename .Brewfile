@@ -9,6 +9,7 @@ brew "ffmpeg"
 brew "mas"
 brew "nkf"
 brew "pwgen"
+brew "screen"
 brew "starship"
 brew "tree"
 brew "volta"
@@ -17,6 +18,8 @@ cask "adguard"
 cask "appcleaner"
 cask "autodesk-fusion360"
 cask "blender"
+cask "cmd-eikana"
+cask "deepl"
 cask "discord"
 cask "docker"
 cask "figma"
@@ -30,5 +33,8 @@ cask "visual-studio-code"
 cask "vrew"
 cask "zoom"
 mas "Final Cut Pro", id: 424389933
+mas "Just Focus", id: 1142151959
 mas "Keepa - Price Tracker", id: 1533805339
 mas "uBlacklist for Safari", id: 1547912640
+mas "Vimari", id: 1480933944
+mas "Xcode", id: 497799835
