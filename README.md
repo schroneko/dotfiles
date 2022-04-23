@@ -21,3 +21,9 @@ dotfiles
 ├── install.sh
 └── macos.sh
 ```
+
+## How to export .Brewfile
+```
+brew bundle dump --global --force
+mas list | awk -F '[ ][ ]+' '{print "mas \"" $2 "\", id: " $1}' >> $HOME/.Brewfile
+```
