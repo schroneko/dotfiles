@@ -14,7 +14,6 @@ dotfiles
 ├── .config
 │   └── starship.toml
 ├── .hushlogin
-├── .screenrc
 ├── .vimrc
 ├── .zshrc
 ├── README.md
@@ -25,5 +24,4 @@ dotfiles
 ## How to export .Brewfile
 ```
 brew bundle dump --global --force
-mas list | awk -F '[ ][ ]+' '{print "mas \"" $2 "\", id: " $1}' >> $HOME/.Brewfile
 ```
