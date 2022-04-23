@@ -29,7 +29,7 @@ export PATH=~/.deno/bin:$PATH
 export VOLTA_HOME="$HOME/.volta"
 
 alias bu='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
-alias dia='vim ~/diary/$(date "+%Y/%m/%d.md")'
+alias dia='code ~/diary/$(date "+%Y/%m/%d.md")'
 alias ds='find . -name '.DS_Store' -or -name '.localized' -type f -ls -delete'
 alias gall='git add . && git commit -m "update" && git push origin main'
 alias la="ls -G -w -a"
