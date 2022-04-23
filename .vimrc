@@ -30,3 +30,4 @@ autocmd! bufwritepost $MYVIMRC source %
 filetype plugin indent on
 inoremap <silent> jj <ESC>
 syntax on
+
