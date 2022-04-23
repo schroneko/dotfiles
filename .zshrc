@@ -38,6 +38,10 @@ alias rm="rm -i"
 alias zshrc="vim ~/.zshrc && source ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 
+alias add="git add"
+alias commit="git commit"
+alias push="git push"
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 
