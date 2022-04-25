@@ -38,6 +38,7 @@ alias rm="rm -i"
 alias zshrc="vim ~/.zshrc && source ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias dotfiles="cd ~/dotfiles"
+alias diary="cd ~/diary"
 
 alias add="git add"
 alias commit="git commit"
