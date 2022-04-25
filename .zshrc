@@ -30,13 +30,14 @@ export VOLTA_HOME="$HOME/.volta"
 
 alias bu='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
 alias dia='code ~/diary/$(date "+%Y/%m/%d.md")'
-alias ds='find . -name '.DS_Store' -or -name '.localized' -type f -ls -delete'
+alias ds='find . -name ".DS_Store" -type f -ls -delete -or -name ".localized" -type f -ls -delete'
 alias gall='git add . && git commit -m "update" && git push origin main'
 alias la="ls -G -w -a"
 alias ls="ls -G -w"
 alias rm="rm -i"
 alias zshrc="vim ~/.zshrc && source ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
+alias dotfiles="cd ~/dotfiles"
 
 alias add="git add"
 alias commit="git commit"
