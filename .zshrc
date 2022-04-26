@@ -26,9 +26,6 @@ zstyle ':completion::complete:*' use-cache true
 export LANG=en_US.UTF-8
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-export PATH="$VOLTA_HOME/bin:$PATH"
-export PATH=~/.deno/bin:$PATH
-export VOLTA_HOME="$HOME/.volta"
 
 alias bu='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
 alias dia='code ~/diary/$(date "+%Y/%m/%d.md")'
@@ -50,12 +47,6 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 
 chpwd() { ls }
-
-autoload -Uz history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^[[A" history-beginning-search-backward-end
-bindkey "^[[B" history-beginning-search-forward-end
 
 # Fig post block. Keep at the bottom of this file.
 . "$HOME/.fig/shell/zshrc.post.zsh"
