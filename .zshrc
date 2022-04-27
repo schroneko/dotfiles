@@ -42,6 +42,7 @@ alias diary="cd ~/diary"
 alias add="git add"
 alias commit="git commit"
 alias push="git push"
+alias mkdir='{ IFS= read -r d && mkdir -p "$d" && cd "$_"; } <<<'
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
