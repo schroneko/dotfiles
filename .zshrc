@@ -50,8 +50,9 @@ eval "$(starship init zsh)"
 
 chpwd() { ls }
 
-# Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Fig post block. Keep at the bottom of this file.
+. "$HOME/.fig/shell/zshrc.post.zsh"
