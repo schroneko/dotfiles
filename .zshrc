@@ -1,5 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/zshrc.pre.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 autoload -Uz colors   && colors
 autoload -Uz compinit && compinit
 
@@ -27,17 +27,14 @@ export LANG=en_US.UTF-8
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
-alias bu='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
-alias dia='code ~/diary/$(date "+%Y/%m/%d.md")'
-alias ds='find . -name ".DS_Store" -type f -ls -delete -or -name ".localized" -type f -ls -delete'
+alias ds='find $HOME -name ".DS_Store" -type f -ls -delete -or -name ".localized" -type f -ls -delete 2> /dev/null'
 alias gall='git add . && git commit -m "update" && git push origin main'
 alias la="ls -G -w -a"
 alias ls="ls -G -w"
-alias rm="rm -i"
+
 alias zshrc="vim ~/.zshrc && source ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias dotfiles="cd ~/dotfiles"
-alias diary="cd ~/diary"
 
 alias add="git add"
 alias commit="git commit"
@@ -45,14 +42,22 @@ alias push="git push"
 alias mkdir='{ IFS= read -r d && mkdir -p "$d" && cd "$_"; } <<<'
 alias chrome='open -a Google\ Chrome.app'
 
+if type trash > /dev/null 2>&1; then
+    alias rm='trash -F'
+fi
+
+alias update='brew update && brew upgrade && brew upgrade --cask --greedy && mas upgrade'
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
-
-chpwd() { ls }
 
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+export PATH="/Applications/Xcode.app/Contents/Developer/usr/bin//bin:$PATH"
+
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+
+chpwd() { ls }
