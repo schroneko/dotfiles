@@ -1,3 +1,5 @@
+inoremap <silent> jj <ESC>
+packloadall
 set autoindent
 set autoread
 set backspace=indent,eol,start
@@ -9,8 +11,8 @@ set laststatus=2
 set nobackup
 set nolist
 set noswapfile
-set path+=**
-set relativenumber
+set number
+set path+=** 
 set ruler
 set shiftwidth=2
 set showcmd
@@ -25,9 +27,4 @@ set wildignorecase
 set wildmenu
 set wildmode=longest:full,full
 set wrapscan
-
-autocmd! bufwritepost $MYVIMRC source %
-filetype plugin indent on
-inoremap <silent> jj <ESC>
 syntax on
-
