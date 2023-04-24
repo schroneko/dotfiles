@@ -1,5 +1,5 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
-[[ -z "$TMUX" && "$TERM" != "screen" && "$TERM" != "tmux" ]] && tmux && exit
+# [[ -z "$TMUX" && "$TERM" != "screen" && "$TERM" != "tmux" ]] && tmux && exit
 
 source ${ZSH_CUSTOM:-~/.zsh}/plugins/zsh-system-clipboard/zsh-system-clipboard.zsh
 
@@ -12,15 +12,17 @@ fi
 
 # Alias
 alias ls="ls -Gwltr"
-alias new='vim ~/Tips/$(uuidgen).md && echo "Created: "$_'
+alias new='vim $(uuidgen).md && echo "Created: "$_'
 alias yta='yt-dlp --extract-audio --audio-format m4a -o "%(title)s.%(ext)s"'
 alias ytv='yt-dlp -o "%(title).200s.%(ext)s"'
 alias today='vim $(date -I).md'
 alias vimrc='vim $HOME/.vimrc'
 alias zshrc='vim $HOME/.zshrc'
+alias arc='vim $HOME/.alacritty.yml'
 alias tmuxrc='vim $HOME/.tmux.conf'
-alias arc='vim $HOME/.config/alacritty/alacritty.yml'
-alias rg='vim +Rg'
+alias rip='vim +Rg'
+alias webui='cd $HOME/stable-diffusion-webui && bash webui.sh'
+alias venv='python3 -m venv venv && source ./venv/bin/activate && pip install --upgrade pip'
 
 # Keybind
 ## When you type jj, change to vi-mode on zsh

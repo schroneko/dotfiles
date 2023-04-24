@@ -1,1 +1,9 @@
-{"dependencies":{}}
+{
+  "dependencies": {
+    "coc-json": ">=1.8.0",
+    "coc-css": ">=2.0.0",
+    "coc-markdownlint": ">=1.27.0",
+    "coc-pyright": ">=1.1.296"
+  },
+  "lastUpdate": 1679928302637
+}

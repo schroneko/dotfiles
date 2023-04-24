@@ -13,19 +13,23 @@ font:
   size: 20.0
 
   normal:
-    family: UDEV Gothic NF
+    # family: UDEV Gothic NF
+    family: PlemolJP Console NF
     style: Regular
 
   bold:
-    family: UDEV Gothic NF
+    # family: UDEV Gothic NF
+    family: PlemolJP Console NF
     style: Bold
 
   italic:
-    family: UDEV Gothic NF
+    # family: UDEV Gothic NF
+    family: PlemolJP Console NF
     style: Italic
 
   bold_italic:
-    family: UDEV Gothic NF
+    # family: UDEV Gothic NF
+    family: PlemolJP Console NF
     style: Bold Italic
 
 colors:
