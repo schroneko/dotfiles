@@ -7,7 +7,11 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-    "buffer_font_size": 15,
-    "buffer_font_family": "UDEV Gothic NF",
-    "vim_mode": true
+    "theme": "One Dark",
+    "buffer_font_size": 20,
+    // "buffer_font_family": "UDEV Gothic NF",
+    "buffer_font_family": "PlemolJP Console NF",
+    "vim_mode": true,
+    "format_on_save": "on",
+    "formatter": "language_server"
 }
