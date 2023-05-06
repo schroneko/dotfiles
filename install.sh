@@ -16,7 +16,7 @@ if [ ! -d $DOT_DIR ]; then
 fi
 
 ## ========== Create Symbolic Links ==========
-if if [ ! -d ${DOT_DIR} ]; then
+if [ ! -d ${DOT_DIR} ]; then
   cd $DOT_DIR
   for dotfile in .*; do
     [[ "$dotfile" == ".git" ]] && continue
