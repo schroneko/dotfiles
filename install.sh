@@ -16,14 +16,12 @@ if [ ! -d $DOT_DIR ]; then
 fi
 
 ## ========== Create Symbolic Links ==========
-if [ ! -d ${DOT_DIR} ]; then
-  cd $DOT_DIR
-  for dotfile in .*; do
-    [[ "$dotfile" == ".git" ]] && continue
-    [[ "$dotfile" == ".DS_Store" ]] && continue
-    ln -snfv $DOT_DIR/"$dotfile" $HOME/"$dotfile"
-  done
-fi
+cd $DOT_DIR
+for dotfile in .*; do
+  [[ "$dotfile" == ".git" ]] && continue
+  [[ "$dotfile" == ".DS_Store" ]] && continue
+  ln -snfv $DOT_DIR/"$dotfile" $HOME/"$dotfile"
+done
 
 ## ========== Xcode ==========
 xcode-select --install >/dev/null 2>&1
