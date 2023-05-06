@@ -25,17 +25,6 @@ defaults write com.apple.dock static-only -bool true
 defaults write com.apple.finder ShowPathbar -bool true
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
-# ========== Nightshift Schedule ==========
-  NPLIST="/private/var/root/Library/Preferences/com.apple.CoreBrightness.plist"
-  CurrentUUID=$(dscl . -read /Users/$(whoami)/ GeneratedUID | cut -d' ' -f2)
-  CurrentUUID="CBUser-${CurrentUUID}"
-  sudo /usr/libexec/PlistBuddy \
-    -c "Set :${CurrentUUID}:CBBlueReductionStatus:BlueReductionEnabled 1" \
-    -c "Set :${CurrentUUID}:CBBlueReductionStatus:BlueLightReductionSchedule:DayStartHour 23" \
-    -c "Set :${CurrentUUID}:CBBlueReductionStatus:BlueLightReductionSchedule:DayStartMinute 59" \
-    -c "Set :${CurrentUUID}:CBBlueReductionStatus:BlueLightReductionSchedule:NightStartHour 0" \
-    -c "Set :${CurrentUUID}:CBBlueReductionStatus:BlueLightReductionSchedule:NightStartMinute 0" \
-    ${NPLIST}
 
 ## ========== Change Capslock to Ctrl ==========
 keyboard_id="$(ioreg -c AppleEmbeddedKeyboard -r | grep -Eiw "VendorID|ProductID" | awk '{ print $4 }' | paste -s -d'-\n' -)-0"
