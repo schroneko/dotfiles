@@ -9,6 +9,7 @@ alias zshrc='vim $HOME/.zshrc'
 autoload -Uz compinit && compinit
 bindkey jj vi-cmd-mode
 eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(starship init zsh)"
 export HISTSIZE=10000
 export LANG=en_US.UTF-8
 export LSCOLORS=exfxcxdxbxegedabagacad
@@ -27,3 +28,9 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion::complete:*' use-cache true
+
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^N" history-beginning-search-forward-end
+bindkey "^P" history-beginning-search-backward-end
