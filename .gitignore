@@ -1,2 +1,6 @@
-.config/github-copilot
 .DS_Store
+.AppleDouble
+.LSOverride
+
+.config/github-copilot
+.config/codegpt
