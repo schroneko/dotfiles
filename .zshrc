@@ -6,6 +6,7 @@ alias webui='cd $HOME/stable-diffusion-webui && bash webui.sh && cd $HOME'
 alias yta='yt-dlp --extract-audio --audio-format m4a -o "%(title)s.%(ext)s"'
 alias ytv='yt-dlp -o "%(title).200s.%(ext)s"'
 alias zshrc='vim $HOME/.zshrc'
+alias update='brew update && brew upgrade && brew list --cask | xargs brew upgrade --cask && brew cleanup'
 autoload -Uz compinit && compinit
 bindkey jj vi-cmd-mode
 eval "$(/opt/homebrew/bin/brew shellenv)"
