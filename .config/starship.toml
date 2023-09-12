@@ -1,6 +1,34 @@
-add_newline = false
-
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
 [character]
-success_symbol = "[>](bold green)"
-error_symbol   = "[X](bold red)"
-vicmd_symbol   = "[V](bold green)"
+format = "[\\$](green bold) "
+
+[directory]
+truncation_length = 3
+
+[git_branch]
+symbol = ''
+format = '\([$symbol$branch(:$remote_branch)]($style)\)'
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+conflicted = ''
+ahead = ''
+behind = ''
+diverged = ''
+up_to_date = '✓'
+untracked = ''
+stashed = ''
+modified = '🔥'
+staged = ''
+renamed = ''
+deleted = ''
+
+[package]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[gcloud]
+disabled = true

@@ -10,6 +10,9 @@ if [ "$(uname)" != "Darwin" ]; then
 	exit 1
 fi
 
+## ========== Xcode ==========
+xcode-select --install >/dev/null 2>&1
+
 ## ========== Clone Repo ==========
 if [ ! -d $DOT_DIR ]; then
   git clone https://github.com/schroneko/dotfiles $HOME/dotfiles
@@ -23,14 +26,12 @@ for dotfile in .*; do
   ln -snfv $DOT_DIR/"$dotfile" $HOME/"$dotfile"
 done
 
-## ========== Xcode ==========
-xcode-select --install >/dev/null 2>&1
-
 ## ========== Homebrew ==========
 which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+## ========== Brew Bundle ==========
+brew bundle --global
 
 ## ========== Source zshrc ==========
 source $HOME/.zshrc
 
-## ========== Brew Bundle ==========
-brew bundle --global
