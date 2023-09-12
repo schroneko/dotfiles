@@ -2,34 +2,34 @@
   "coc-json|global": {
     "json-schema-cache": {
       "https://json.schemastore.org/web-manifest-combined.json": {
-        "etag": "\"43e0aa0326ad81:0\"",
+        "etag": "\"9256526360d0d91:0\"",
         "fileName": "b06e2f702dd4972ea2bb3d76ff088406.schema.json",
-        "updateTime": 1679363545590
+        "updateTime": 1694242345466
       },
       "https://json.schemastore.org/webextension.json": {
-        "etag": "\"0723a2b8ad2d81:0\"",
+        "etag": "\"07f86260d0d91:0\"",
         "fileName": "b731fe11a3d127fd02a39912a2530816.schema.json",
-        "updateTime": 1679363545591
+        "updateTime": 1694242345467
       },
       "https://json.schemastore.org/foxx-manifest.json": {
-        "etag": "\"8020ee6d181ad91:0\"",
+        "etag": "\"0ad956060d0d91:0\"",
         "fileName": "5e1deef4adbcb453011b95df734ed4a0.schema.json",
-        "updateTime": 1679363545587
+        "updateTime": 1694242345462
       },
       "https://json.schemastore.org/web-manifest-share-target.json": {
         "etag": "\"8059190326ad81:0\"",
         "fileName": "cdeb8e92350ff78b8eec26631dae6f2d.schema.json",
-        "updateTime": 1679363546070
+        "updateTime": 1694242345929
       },
       "https://json.schemastore.org/web-manifest-app-info.json": {
         "etag": "\"b27da80326ad81:0\"",
         "fileName": "37e25b60beaa201ec2222b96a2ea00d6.schema.json",
-        "updateTime": 1679363546069
+        "updateTime": 1694242345915
       },
       "https://json.schemastore.org/web-manifest.json": {
         "etag": "\"8059190326ad81:0\"",
         "fileName": "6edb6ea4435d040104641056c40c6326.schema.json",
-        "updateTime": 1679363546061
+        "updateTime": 1694242345917
       },
       "https://json.schemastore.org/tsconfig.json": {
         "etag": "\"80cc784ccf34d91:0\"",
@@ -39,42 +39,42 @@
       "http://json.schemastore.org/prettierrc": {
         "etag": "\"80e08ca9849bd81:0\"",
         "fileName": "b2ed7a7b6c79e58baf94e4ce160282de.schema.json",
-        "updateTime": 1679290543567
+        "updateTime": 1690240573580
       },
       "https://json.schemastore.org/package.json": {
-        "etag": "\"0ff6ca2e030d91:0\"",
+        "etag": "\"0cbc4ae1193d91:0\"",
         "fileName": "473f72b44c2905902dfbcc770aab7f7a.schema.json",
-        "updateTime": 1679290543801
+        "updateTime": 1690240573820
       },
       "https://json.schemastore.org/jscpd.json": {
         "etag": "\"80bec5ba1984d81:0\"",
         "fileName": "22bfc1ab1ff56aae62322f6ce45dab5a.schema.json",
-        "updateTime": 1679290544290
+        "updateTime": 1690240574251
       },
       "https://json.schemastore.org/ava.json": {
         "etag": "\"80cdbd40989d91:0\"",
         "fileName": "635f57185b22bce9d3a56c68f5da4ad7.schema.json",
-        "updateTime": 1679290544296
+        "updateTime": 1690240574260
       },
       "https://json.schemastore.org/semantic-release.json": {
         "etag": "\"808cdec3a9a4d81:0\"",
         "fileName": "fbc95702ba6eddb3e2de4f52e31ca82a.schema.json",
-        "updateTime": 1679290544302
+        "updateTime": 1690240574268
       },
       "https://json.schemastore.org/prettierrc.json": {
         "etag": "\"80e08ca9849bd81:0\"",
         "fileName": "ea5ab10330a3ab77dfd6d00a735b0925.schema.json",
-        "updateTime": 1679290544305
+        "updateTime": 1690240574254
       },
       "https://json.schemastore.org/eslintrc.json": {
         "etag": "\"09c10cf5f2bd91:0\"",
         "fileName": "c5064f140d4cfdbf4d6fbe68f68abbb1.schema.json",
-        "updateTime": 1679290544313
+        "updateTime": 1690240574262
       },
       "https://json.schemastore.org/stylelintrc.json": {
-        "etag": "\"80e08ca9849bd81:0\"",
+        "etag": "\"0d52dd6eabd91:0\"",
         "fileName": "000bfbdd14d2fb8ec5b0d59bec32ef98.schema.json",
-        "updateTime": 1679290544318
+        "updateTime": 1690240574271
       }
     }
   }
