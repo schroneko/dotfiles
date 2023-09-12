@@ -1,37 +1,25 @@
 #! /bin/zsh
 set -eux
 
-## ========== Dotfiles Path ==========
-DOTFILES_DIR=$HOME/dotfiles
+DOTFILES_DIR="$HOME/dotfiles"
 
-## ========== Not macOS ==========
-if [ "$(uname)" != "Darwin" ]; then
-	echo "This Scripts is for macOS!"
-	exit 1
+[ "$(uname)" = "Darwin" ] || { echo "This script is for macOS!"; exit 1; }
+
+if ! xcode-select -p &>/dev/null; then
+  xcode-select --install &>/dev/null
 fi
 
-## ========== Xcode ==========
-xcode-select --install >/dev/null 2>&1
+[ -d "$DOTFILES_DIR" ] || git clone https://github.com/schroneko/dotfiles "$DOTFILES_DIR"
 
-## ========== Clone Repo ==========
-if [ ! -d $DOTFILES_DIR ]; then
-  git clone https://github.com/schroneko/dotfiles $HOME/dotfiles
-fi
-
-## ========== Create Symbolic Links ==========
-cd $DOTFILES_DIR
-for dotfile in .*; do
-  [[ "$dotfile" == ".git" ]] && continue
-  [[ "$dotfile" == ".DS_Store" ]] && continue
-  ln -snfv $DOTFILES_DIR/"$dotfile" $HOME/"$dotfile"
+cd "$DOTFILES_DIR"
+for dotfile in .[^.]*; do
+  [[ "$dotfile" == ".git" || "$dotfile" == ".DS_Store" ]] && continue
+  [ -L "$HOME/$dotfile" ] && continue
+  ln -snfv "$DOTFILES_DIR/$dotfile" "$HOME/$dotfile"
 done
 
-## ========== Homebrew ==========
-which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-## ========== Brew Bundle ==========
 brew bundle --global
 
-## ========== Source zshrc ==========
-source $HOME/.zshrc
-
+[ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc"

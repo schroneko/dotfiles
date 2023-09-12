@@ -1,6 +1,4 @@
+# macOS system files
 .DS_Store
 .AppleDouble
 .LSOverride
-
-.config/github-copilot
-.config/codegpt
