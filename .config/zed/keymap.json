@@ -1,8 +1,0 @@
-[
-    {
-        "context": "Editor",
-        "bindings": {
-            "ctrl-j": "editor::Cancel"
-        }
-    }
-]

@@ -1,39 +1,39 @@
-# Fig pre block. Keep at the top of this file.
+# Load Fig pre block
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+
+# Aliases
 alias ls="ls -Gwltr"
-alias new='vim $(uuidgen).md && echo "Created: "$_'
 alias update='brew update && brew upgrade && brew cleanup'
 alias venv='python3 -m venv venv && source venv/bin/activate && pip install --upgrade pip'
-alias vimrc='vim $HOME/.vimrc'
 alias webui='cd $HOME/stable-diffusion-webui && bash webui.sh && cd $HOME'
-alias icloud='cd /Users/schroneko/Library/Mobile\ Documents/com\~apple\~CloudDocs'
-alias yta='yt-dlp --extract-audio --audio-format m4a'
-alias ytv='yt-dlp'
-alias zshrc='vim $HOME/.zshrc'
 alias note='vim $HOME/Downloads/prettier/text.md'
+
+# Initialization
 autoload -Uz compinit && compinit
+
+# Key bindings
 bindkey jj vi-cmd-mode
-eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(starship init zsh)"
-eval "$(sheldon source)"
+
+# Environment variables
 export HISTSIZE=10000
 export LANG=en_US.UTF-8
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 export PATH=$PATH:~/.local/bin
-setopt auto_cd
-setopt complete_in_word
-setopt correct
-setopt hist_ignore_all_dups
-setopt hist_ignore_dups
-setopt hist_reduce_blanks
-setopt hist_save_no_dups
-setopt list_packed
-setopt share_history
+
+# Eval statements
+eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(starship init zsh)"
+eval "$(sheldon source)"
+
+# Set options
+setopt auto_cd complete_in_word correct hist_ignore_all_dups hist_ignore_dups hist_reduce_blanks hist_save_no_dups list_packed share_history
+
+# Completion styles
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion::complete:*' use-cache true
 
-# Fig post block. Keep at the bottom of this file.
+# Load Fig post block
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
