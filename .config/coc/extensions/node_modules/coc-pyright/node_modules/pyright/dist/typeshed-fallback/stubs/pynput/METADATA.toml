@@ -1,4 +1,0 @@
-version = "1.7.*"
-
-[tool.stubtest]
-platforms = ["darwin", "linux", "win32"]

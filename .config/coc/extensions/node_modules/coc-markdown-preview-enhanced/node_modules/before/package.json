@@ -1,0 +1,15 @@
+{
+  "name": "before",
+  "version": "0.0.1",
+  "repository": "https://github.com/stagas/before",
+  "description": "before decorator factory",
+  "keywords": ["before", "pre", "hook"],
+  "author": "stagas <gstagas@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "should": "~2.1.0"
+  },
+  "engines": { "node": "*" }
+}

@@ -1,5 +1,0 @@
-version = "2.6.1"
-requires = ["types-Pillow>=9.2.0"]
-
-[tool.stubtest]
-stubtest_requirements = ["cryptography"]

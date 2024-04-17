@@ -4,77 +4,82 @@
       "https://json.schemastore.org/web-manifest-combined.json": {
         "etag": "\"9256526360d0d91:0\"",
         "fileName": "b06e2f702dd4972ea2bb3d76ff088406.schema.json",
-        "updateTime": 1694242345466
+        "updateTime": 1712396730505
       },
       "https://json.schemastore.org/webextension.json": {
         "etag": "\"07f86260d0d91:0\"",
         "fileName": "b731fe11a3d127fd02a39912a2530816.schema.json",
-        "updateTime": 1694242345467
+        "updateTime": 1712396730493
       },
       "https://json.schemastore.org/foxx-manifest.json": {
-        "etag": "\"0ad956060d0d91:0\"",
+        "etag": "\"0a624b1156da1:0\"",
         "fileName": "5e1deef4adbcb453011b95df734ed4a0.schema.json",
-        "updateTime": 1694242345462
+        "updateTime": 1712396730502
       },
       "https://json.schemastore.org/web-manifest-share-target.json": {
-        "etag": "\"8059190326ad81:0\"",
+        "etag": "\"8047ce18b33da1:0\"",
         "fileName": "cdeb8e92350ff78b8eec26631dae6f2d.schema.json",
-        "updateTime": 1694242345929
+        "updateTime": 1712396730977
       },
       "https://json.schemastore.org/web-manifest-app-info.json": {
         "etag": "\"b27da80326ad81:0\"",
         "fileName": "37e25b60beaa201ec2222b96a2ea00d6.schema.json",
-        "updateTime": 1694242345915
+        "updateTime": 1712396730978
       },
       "https://json.schemastore.org/web-manifest.json": {
         "etag": "\"8059190326ad81:0\"",
         "fileName": "6edb6ea4435d040104641056c40c6326.schema.json",
-        "updateTime": 1694242345917
+        "updateTime": 1712396730976
       },
       "https://json.schemastore.org/tsconfig.json": {
-        "etag": "\"80cc784ccf34d91:0\"",
+        "etag": "\"8097a1efe48bda1:0\"",
         "fileName": "a28507e42e8bfd5fba830538461d5db3.schema.json",
-        "updateTime": 1679928138666
+        "updateTime": 1713005311947
       },
       "http://json.schemastore.org/prettierrc": {
-        "etag": "\"80e08ca9849bd81:0\"",
+        "etag": "\"079e10ba4ada1:0\"",
         "fileName": "b2ed7a7b6c79e58baf94e4ce160282de.schema.json",
-        "updateTime": 1690240573580
+        "updateTime": 1712903878501
       },
       "https://json.schemastore.org/package.json": {
-        "etag": "\"0cbc4ae1193d91:0\"",
+        "etag": "\"0a624b1156da1:0\"",
         "fileName": "473f72b44c2905902dfbcc770aab7f7a.schema.json",
-        "updateTime": 1690240573820
+        "updateTime": 1712903878720
       },
       "https://json.schemastore.org/jscpd.json": {
-        "etag": "\"80bec5ba1984d81:0\"",
+        "etag": "\"09e8ecc624ada1:0\"",
         "fileName": "22bfc1ab1ff56aae62322f6ce45dab5a.schema.json",
-        "updateTime": 1690240574251
+        "updateTime": 1712903879172
       },
       "https://json.schemastore.org/ava.json": {
-        "etag": "\"80cdbd40989d91:0\"",
+        "etag": "\"0d33f13698ada1:0\"",
         "fileName": "635f57185b22bce9d3a56c68f5da4ad7.schema.json",
-        "updateTime": 1690240574260
+        "updateTime": 1712903879200
       },
       "https://json.schemastore.org/semantic-release.json": {
-        "etag": "\"808cdec3a9a4d81:0\"",
+        "etag": "\"09e8ecc624ada1:0\"",
         "fileName": "fbc95702ba6eddb3e2de4f52e31ca82a.schema.json",
-        "updateTime": 1690240574268
+        "updateTime": 1712903879188
       },
       "https://json.schemastore.org/prettierrc.json": {
-        "etag": "\"80e08ca9849bd81:0\"",
+        "etag": "\"079e10ba4ada1:0\"",
         "fileName": "ea5ab10330a3ab77dfd6d00a735b0925.schema.json",
-        "updateTime": 1690240574254
+        "updateTime": 1712903879204
       },
       "https://json.schemastore.org/eslintrc.json": {
-        "etag": "\"09c10cf5f2bd91:0\"",
+        "etag": "\"8097a1efe48bda1:0\"",
         "fileName": "c5064f140d4cfdbf4d6fbe68f68abbb1.schema.json",
-        "updateTime": 1690240574262
+        "updateTime": 1712903879206
       },
       "https://json.schemastore.org/stylelintrc.json": {
-        "etag": "\"0d52dd6eabd91:0\"",
+        "etag": "\"802db6e3f81da1:0\"",
         "fileName": "000bfbdd14d2fb8ec5b0d59bec32ef98.schema.json",
-        "updateTime": 1690240574271
+        "updateTime": 1712903879178
+      },
+      "https://json.schemastore.org/partial-eslint-plugins.json": {
+        "etag": "\"0e6595e698ada1:0\"",
+        "fileName": "fc7bb6e733b774ce47be6006f0b75b87.schema.json",
+        "updateTime": 1712903879803
       }
     }
   }

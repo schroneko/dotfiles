@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: ruff-lsp
+Version: 0.0.53
+Summary: A Language Server Protocol implementation for Ruff.
+Project-URL: repository, https://github.com/astral-sh/ruff-lsp
+Author-email: Charlie Marsh <charlie.r.marsh@gmail.com>
+Maintainer-email: Charlie Marsh <charlie.r.marsh@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: language-server,language-server-protocol,lsp,python,ruff
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Requires-Dist: lsprotocol>=2023.0.0
+Requires-Dist: packaging>=23.1
+Requires-Dist: pygls>=1.1.0
+Requires-Dist: ruff>=0.0.274
+Requires-Dist: typing-extensions
+Provides-Extra: dev
+Requires-Dist: mypy==1.4.1; extra == 'dev'
+Requires-Dist: pip-tools<7.0.0,>=6.13.0; extra == 'dev'
+Requires-Dist: pytest-asyncio==0.21.1; extra == 'dev'
+Requires-Dist: pytest<8.0.0,>=7.3.1; extra == 'dev'
+Requires-Dist: python-lsp-jsonrpc==1.0.0; extra == 'dev'

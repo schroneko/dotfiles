@@ -1,2 +1,0 @@
-version = "3.3.*"
-requires = ["types-pyasn1"] # excluding pyrsa, cryptography until typing is available

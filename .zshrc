@@ -1,12 +1,89 @@
-# Load Fig pre block
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-
 # Aliases
-alias ls="ls -Gwltr"
-alias update='brew update && brew upgrade && brew cleanup'
-alias venv='python3 -m venv venv && source venv/bin/activate && pip install --upgrade pip'
-alias webui='cd $HOME/stable-diffusion-webui && bash webui.sh && cd $HOME'
+alias update='brew update && brew upgrade && brew upgrade --greedy && brew cleanup'
+alias venv='python3 -m venv .venv && source .venv/bin/activate && pip install --upgrade pip'
 alias note='vim $HOME/Downloads/prettier/text.md'
+alias bell='afplay /System/Library/Sounds/Hero.aiff'
+alias icloud='$HOME/Library/Mobile\ Documents/com~apple~CloudDocs/'
+alias man='man_vim() { man "$@" | col -b | vim -; }; man_vim'
+alias gcd='clone_and_cd() { git clone "$@" && cd "$(basename "$_" .git)" }; clone_and_cd'
+alias ocr='shortcuts run transcribe --input-path'
+
+nb2py() {
+    if command -v jupyter &> /dev/null
+    then
+        jupyter nbconvert --to python "$1"
+    else
+        echo "Error: Jupyter is not installed."
+        echo "Please install Jupyter using the following command:"
+        echo "brew install jupyterlab"
+        exit 1
+    fi
+}
+
+extract() {
+    if [ $# -ne 1 ]; then
+        echo "Usage: extract <directory_path>"
+        return 1
+    fi
+
+    dir_path="$1"
+    output_file=output.txt
+    echo -n "" > $output_file
+
+    find "$dir_path" -type f ! -path "$dir_path/.*/*" -print0 | while IFS= read -r -d '' file; do
+        file_path="${file#$dir_path/}"
+        if file "$file" | grep -qE 'text|charset'; then
+            echo "\`\`\`$file_path" >> $output_file
+            sed 's/\r//' "$file" >> $output_file
+            echo "\`\`\`" >> $output_file
+            echo >> $output_file
+        else
+            echo "Binary file: $file_path" >> $output_file
+            echo >> $output_file
+        fi
+    done
+
+    echo "Output saved to $output_file"
+}
+
+convert2audio() {
+    local file="$1"
+    local ext="${file##*.}"
+    typeset -l l_ext="$ext" # extを小文字に変換してl_extに代入
+    local supported_ext=("mp4" "mkv" "avi" "mov" "mpg" "mpeg" "mp3" "wav" "flac" "m4a" "aac")
+    local is_supported=0
+
+    # 拡張子がサポートされているかチェック
+    for e in "${supported_ext[@]}"; do
+        if [[ "$l_ext" == "$e" ]]; then
+            is_supported=1
+            break
+        fi
+    done
+
+    # サポートされている拡張子の場合、変換を実行
+    if [[ $is_supported -eq 1 ]]; then
+        ffmpeg -i "$file" -ar 16000 -ac 1 -c:a pcm_s16le "${file%.*}.wav"
+    else
+        echo "Error: Unsupported file type ($ext). Please provide a video or audio file with one of the following extensions: ${supported_ext[*]}."
+    fi
+}
+
+# peco
+function peco-select-history() {
+    local tac
+    if command -v gtac >/dev/null 2>&1; then
+        tac="gtac"
+    elif command -v tac >/dev/null 2>&1; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(fc -l 1 | eval $tac | sed -e 's/^\s*[0-9]\+\s\+//' | awk '!a[$0]++' | peco --query "$LBUFFER")
+    CURSOR=${#BUFFER}
+}
+zle -N peco-select-history
+bindkey '^R' peco-select-history
 
 # Initialization
 autoload -Uz compinit && compinit
@@ -19,7 +96,6 @@ export HISTSIZE=10000
 export LANG=en_US.UTF-8
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-export PATH=$PATH:~/.local/bin
 
 # Eval statements
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -35,5 +111,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion::complete:*' use-cache true
 
-# Load Fig post block
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion

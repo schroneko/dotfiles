@@ -1,0 +1,181 @@
+{
+    "name": "black-formatter",
+    "displayName": "Black Formatter",
+    "description": "%extension.description%",
+    "version": "2023.6.0",
+    "preview": true,
+    "serverInfo": {
+        "name": "Black",
+        "module": "black"
+    },
+    "publisher": "ms-python",
+    "license": "MIT",
+    "homepage": "https://github.com/Microsoft/vscode-black-formatter",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microsoft/vscode-black-formatter.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Microsoft/vscode-black-formatter/issues"
+    },
+    "icon": "icon.png",
+    "galleryBanner": {
+        "color": "#1e415e",
+        "theme": "dark"
+    },
+    "keywords": [
+        "python",
+        "formatting",
+        "black"
+    ],
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Formatters"
+    ],
+    "extensionDependencies": [
+        "ms-python.python"
+    ],
+    "capabilities": {
+        "virtualWorkspaces": {
+            "supported": false,
+            "description": "Virtual Workspaces are not supported with Black formatter."
+        }
+    },
+    "activationEvents": [
+        "onLanguage:python",
+        "workspaceContains:pyproject.toml",
+        "workspaceContains:.black",
+        "workspaceContains:*.py"
+    ],
+    "main": "./dist/extension.js",
+    "l10n": "./l10n",
+    "scripts": {
+        "compile": "webpack",
+        "compile-tests": "tsc -p . --outDir out",
+        "format-check": "prettier --check 'src/**/*.ts' 'build/**/*.yml' '.github/**/*.yml'",
+        "lint": "eslint src --ext ts",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "test": "node ./out/test/runTest.js",
+        "vsce-package": "vsce package -o black-formatter.vsix",
+        "vscode:prepublish": "npm run package",
+        "watch": "webpack --watch",
+        "watch-tests": "tsc -p . -w --outDir out"
+    },
+    "contributes": {
+        "languages": [
+            {
+                "filenames": [
+                    "pyproject.toml",
+                    ".black"
+                ],
+                "id": "toml"
+            }
+        ],
+        "configuration": {
+            "properties": {
+                "black-formatter.args": {
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "markdownDescription": "%settings.args.description%",
+                    "scope": "resource",
+                    "type": "array"
+                },
+                "black-formatter.importStrategy": {
+                    "default": "useBundled",
+                    "enum": [
+                        "fromEnvironment",
+                        "useBundled"
+                    ],
+                    "markdownDescription": "%settings.importStrategy.description%",
+                    "markdownEnumDescriptions": [
+                        "%settings.importStrategy.fromEnvironment.description%",
+                        "%settings.importStrategy.useBundled.description%"
+                    ],
+                    "scope": "resource",
+                    "type": "string"
+                },
+                "black-formatter.interpreter": {
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "markdownDescription": "%settings.interpreter.description%",
+                    "scope": "resource",
+                    "type": "array"
+                },
+                "black-formatter.path": {
+                    "default": [],
+                    "examples": [
+                        [
+                            "-m",
+                            "black",
+                            "~/.env/python"
+                        ],
+                        [
+                            "~/global_env/black"
+                        ]
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
+                    "markdownDescription": "%settings.path.description%",
+                    "scope": "resource",
+                    "type": "array"
+                },
+                "black-formatter.showNotifications": {
+                    "default": "off",
+                    "enum": [
+                        "always",
+                        "off",
+                        "onError",
+                        "onWarning"
+                    ],
+                    "markdownDescription": "%settings.showNotifications.description%",
+                    "markdownEnumDescriptions": [
+                        "%settings.showNotifications.always.description%",
+                        "%settings.showNotifications.off.description%",
+                        "%settings.showNotifications.onError.description%",
+                        "%settings.showNotifications.onWarning.description%"
+                    ],
+                    "scope": "machine",
+                    "type": "string"
+                }
+            }
+        },
+        "commands": [
+            {
+                "title": "%command.restartServer%",
+                "category": "Black Formatter",
+                "command": "black-formatter.restart"
+            }
+        ]
+    },
+    "dependencies": {
+        "@vscode/python-extension": "^1.0.5",
+        "fs-extra": "^11.1.1",
+        "vscode-languageclient": "^8.1.0"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^11.0.3",
+        "@types/glob": "^8.1.0",
+        "@types/node": "16.x",
+        "@types/vscode": "^1.74.0",
+        "@typescript-eslint/eslint-plugin": "^6.9.1",
+        "@typescript-eslint/parser": "^6.9.1",
+        "@vscode/test-electron": "^2.3.6",
+        "@vscode/vsce": "^2.22.0",
+        "eslint": "^8.52.0",
+        "glob": "^10.3.10",
+        "prettier": "^3.0.3",
+        "ts-loader": "^9.5.0",
+        "typescript": "^5.2.2",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4"
+    }
+}

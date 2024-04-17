@@ -1,0 +1,2 @@
+[console_scripts]
+ruff-lsp = ruff_lsp.__main__:main
