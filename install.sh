@@ -9,7 +9,7 @@ if ! xcode-select -p &>/dev/null; then
   xcode-select --install &>/dev/null
 fi
 
-[ -d "$DOTFILES_DIR" ] || git clone https://github.com/schroneko/dotfiles "$DOTFILES_DIR"
+[ -d "$DOTFILES_DIR" ] || git clone git@github.com:schroneko/dotfiles.git "$DOTFILES_DIR"
 
 cd "$DOTFILES_DIR"
 for dotfile in .[^.]*; do
