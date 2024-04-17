@@ -1,18 +1,22 @@
 # My Dotfiles Repo
 
 ## How to install
+
 ```
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/install.sh)"
 ```
 
 ## Structure
+
 ```
-❯ tree dotfiles -a -I '.git'    
+❯ tree . -a -I '.git'
 
 dotfiles
 ├── .Brewfile
+├── .alacritty.toml
 ├── .config
 │   └── starship.toml
+├── .gitignore
 ├── .hushlogin
 ├── .vimrc
 ├── .zshrc
@@ -22,6 +26,7 @@ dotfiles
 ```
 
 ## How to export .Brewfile
+
 ```
 brew bundle dump --global --force
 ```
