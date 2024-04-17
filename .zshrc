@@ -100,7 +100,6 @@ export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46
 # Eval statements
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
-eval "$(sheldon source)"
 
 # Set options
 setopt auto_cd complete_in_word correct hist_ignore_all_dups hist_ignore_dups hist_reduce_blanks hist_save_no_dups list_packed share_history
