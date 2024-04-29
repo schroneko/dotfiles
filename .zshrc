@@ -1,12 +1,8 @@
 # Aliases
 alias update='brew update && brew upgrade && brew upgrade --greedy && brew cleanup'
-alias venv='python3 -m venv .venv && source .venv/bin/activate && pip install --upgrade pip'
-alias note='vim $HOME/Downloads/prettier/text.md'
-alias bell='afplay /System/Library/Sounds/Hero.aiff'
+alias note='vim $HOME/Downloads/text.md'
 alias icloud='$HOME/Library/Mobile\ Documents/com~apple~CloudDocs/'
 alias man='man_vim() { man "$@" | col -b | vim -; }; man_vim'
-alias gcd='clone_and_cd() { git clone "$@" && cd "$(basename "$_" .git)" }; clone_and_cd'
-alias ocr='shortcuts run transcribe --input-path'
 
 nb2py() {
     if command -v jupyter &> /dev/null
@@ -16,7 +12,7 @@ nb2py() {
         echo "Error: Jupyter is not installed."
         echo "Please install Jupyter using the following command:"
         echo "brew install jupyterlab"
-        exit 1
+        return 1
     fi
 }
 
@@ -27,8 +23,7 @@ extract() {
     fi
 
     dir_path="$1"
-    output_file=output.txt
-    echo -n "" > $output_file
+    output_file=$(mktemp)
 
     find "$dir_path" -type f ! -path "$dir_path/.*/*" -print0 | while IFS= read -r -d '' file; do
         file_path="${file#$dir_path/}"
@@ -44,6 +39,8 @@ extract() {
     done
 
     echo "Output saved to $output_file"
+    cat $output_file
+    rm $output_file
 }
 
 convert2audio() {
@@ -70,18 +67,19 @@ convert2audio() {
 }
 
 # peco
+if command -v gtac >/dev/null 2>&1; then
+    tac="gtac"
+elif command -v tac >/dev/null 2>&1; then
+    tac="tac"
+else
+    tac="tail -r"
+fi
+
 function peco-select-history() {
-    local tac
-    if command -v gtac >/dev/null 2>&1; then
-        tac="gtac"
-    elif command -v tac >/dev/null 2>&1; then
-        tac="tac"
-    else
-        tac="tail -r"
-    fi
-    BUFFER=$(fc -l 1 | eval $tac | sed -e 's/^\s*[0-9]\+\s\+//' | awk '!a[$0]++' | peco --query "$LBUFFER")
+    BUFFER=$(fc -l -n 1 | eval $tac | awk '!a[$0]++' | peco --query "$LBUFFER")
     CURSOR=${#BUFFER}
 }
+
 zle -N peco-select-history
 bindkey '^R' peco-select-history
 
@@ -110,6 +108,5 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion::complete:*' use-cache true
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
