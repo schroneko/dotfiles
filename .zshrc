@@ -3,6 +3,55 @@ alias update='brew update && brew upgrade && brew upgrade --greedy && brew clean
 alias note='vim $HOME/Downloads/text.md'
 alias icloud='$HOME/Library/Mobile\ Documents/com~apple~CloudDocs/'
 alias man='man_vim() { man "$@" | col -b | vim -; }; man_vim'
+alias venv='python3 -m venv .venv && source .venv/bin/activate && pip install --upgrade pip'
+alias topdf='soffice --headless --convert-to pdf'
+alias lsd='ls -d */'
+alias empty='find ~/.Trash -mindepth 1 -exec rm -rf {} +'
+alias today='export TODAY=$(date "+%Y-%m-%d") && pbcopy <<< $TODAY'
+alias bell='afplay /System/Library/Sounds/Hero.aiff'
+alias restart='sudo shutdown -r now'
+alias ipad='osascript -e '\''tell application "System Settings" to activate'\'' -e '\''tell application "System Events" to tell process "System Settings" to click menu item "Move to MyPad" of menu "Window" of menu bar 1'\'''
+alias export='{ HISTFILE=/dev/null; } && export'
+
+# Path
+export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:$PATH"
+
+lofi() {
+    # Check if mpv is installed, if not prompt to install it
+    if ! command -v mpv &> /dev/null; then
+        echo "mpv is not installed. Please install it by running: brew install mpv"
+        return
+    fi
+
+    # Check if yt-dlp is installed, if not prompt to install it
+    if ! command -v yt-dlp &> /dev/null; then
+        echo "yt-dlp is not installed. Please install it by running: brew install yt-dlp"
+        return
+    fi
+
+    # Check if mpv is already running
+    if pgrep -x "mpv" > /dev/null; then
+        # If mpv is running, send the stop signal
+        pkill -9 mpv
+        echo "Lofi music stopped."
+    else
+        # If mpv is not running, start playing the lofi music in the background
+        nohup mpv $(yt-dlp -g -f "bestaudio" "https://www.youtube.com/watch?v=4oStw0r33so" 2> /dev/null) < /dev/null &> /dev/null & disown
+        echo "Lofi music playing."
+    fi
+}
+
+ocr() {
+    shortcuts run ocr --input-path "$1" | pbcopy
+}
+
+search() {
+  if [ -z "$1" ]; then
+    echo "Usage: search 'pattern'"
+    return 1
+  fi
+  grep -rnw '.' -e "$1"
+}
 
 nb2py() {
     if command -v jupyter &> /dev/null
@@ -23,7 +72,7 @@ extract() {
     fi
 
     dir_path="$1"
-    output_file=$(mktemp)
+    output_file="output.txt"
 
     find "$dir_path" -type f ! -path "$dir_path/.*/*" -print0 | while IFS= read -r -d '' file; do
         file_path="${file#$dir_path/}"
@@ -40,7 +89,6 @@ extract() {
 
     echo "Output saved to $output_file"
     cat $output_file
-    rm $output_file
 }
 
 convert2audio() {
@@ -110,3 +158,8 @@ zstyle ':completion::complete:*' use-cache true
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# ngrok
+if command -v ngrok &>/dev/null; then
+  eval "$(ngrok completion)"
+fi

@@ -1,4 +1,4 @@
-#!/Users/yuta_hayashi/dotfiles/.config/coc/extensions/@yaegassy/coc-ruff-data/ruff-lsp/venv/bin/python
+#!/Users/yutahayashi/dotfiles/.config/coc/extensions/@yaegassy/coc-ruff-data/ruff-lsp/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
