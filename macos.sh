@@ -34,22 +34,6 @@ defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 # ダウンロードしたアプリの警告を無効化
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-# Safari: 開発メニューを表示
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-
-# Safari: 拡張機能の自動更新を有効化
-defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
-
-# Safari: アドレスバーに完全なURLを表示
-defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
-
-# Safari: ステータスバーを表示
-defaults write com.apple.Safari ShowStatusBar -bool true
-
-# Safari: 開発者向け機能を有効化
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-
 # ネットワークドライブで.DS_Storeファイルを作成しない
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
