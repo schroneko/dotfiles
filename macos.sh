@@ -40,22 +40,31 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 # USBドライブで.DS_Storeファイルを作成しない
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-# Dock: 自動的に隠す
+# Dock関連の設定
+# 自動的に隠す
 defaults write com.apple.dock autohide -bool true
 
-# Dock: 最近使用したアプリを表示しない
+# 最近使用したアプリを表示しない
 defaults write com.apple.dock show-recents -bool false
 
-# Dock: 固定のアプリのみ表示
+# 固定のアプリのみ表示
 defaults write com.apple.dock static-only -bool true
 
-# Finder: パスバーを表示
+# Dockのアプリをすべて削除
+defaults write com.apple.dock persistent-apps -array
+
+# Finder関連の設定
+# パスバーを表示
 defaults write com.apple.finder ShowPathbar -bool true
 
-# Finder: ゴミ箱を空にする前の警告を無効化
+# ゴミ箱を空にする前の警告を無効化
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
 # 起動音を無効化
 sudo nvram SystemAudioVolume=" "
 
-echo "すべての設定が適用されました。変更を反映するには、コンピュータの再起動が必要な場合があります。"
+# 設定の即時反映
+killall Dock
+killall Finder
+killall SystemUIServer
+killall "System Preferences"
