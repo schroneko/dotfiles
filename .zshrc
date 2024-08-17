@@ -1,16 +1,10 @@
 # Aliases
 alias update='brew update && brew upgrade && brew upgrade --greedy && brew cleanup'
 alias note='vim $HOME/Downloads/text.md'
-alias icloud='$HOME/Library/Mobile\ Documents/com~apple~CloudDocs/'
 alias man='man_vim() { man "$@" | col -b | vim -; }; man_vim'
 alias venv='python3 -m venv .venv && source .venv/bin/activate && pip install --upgrade pip'
-alias topdf='soffice --headless --convert-to pdf'
-alias lsd='ls -d */'
 alias empty='find ~/.Trash -mindepth 1 -exec rm -rf {} +'
-alias today='export TODAY=$(date "+%Y-%m-%d") && pbcopy <<< $TODAY'
 alias bell='afplay /System/Library/Sounds/Hero.aiff'
-alias restart='sudo shutdown -r now'
-alias ipad='osascript -e '\''tell application "System Settings" to activate'\'' -e '\''tell application "System Events" to tell process "System Settings" to click menu item "Move to MyPad" of menu "Window" of menu bar 1'\'''
 alias export='{ HISTFILE=/dev/null; } && export'
 
 # Path
@@ -133,6 +127,19 @@ bindkey '^R' peco-select-history
 
 # Initialization
 autoload -Uz compinit && compinit
+
+# zle-keymap-select ウィジェットの定義
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+
+# vi mode の遷移を速くする
+export KEYTIMEOUT=1
 
 # Key bindings
 bindkey jj vi-cmd-mode
