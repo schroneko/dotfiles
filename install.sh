@@ -1,5 +1,5 @@
 #! /bin/zsh
-set -eux
+set -euo pipefail
 
 DOTFILES_DIR="$HOME/dotfiles"
 

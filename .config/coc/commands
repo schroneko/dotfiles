@@ -449,6 +449,11 @@ prettier.formatFile
 prettier.formatFile
 prettier.formatFile
 prettier.formatFile
+prettier.formatFile
+prettier.formatFile
+prettier.formatFile
+prettier.formatFile
+prettier.formatFile
 ruff.executeAutofix
 ruff.executeAutofix
 ruff.executeAutofix
