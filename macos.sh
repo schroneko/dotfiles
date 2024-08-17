@@ -1,44 +1,77 @@
-# Global settings
-global_settings=(
-  "ApplePressAndHoldEnabled -bool false"
-  "AppleShowAllExtensions -bool true"
-  "AppleShowAllFiles -bool true"
-  "InitialKeyRepeat -int 15"
-  "KeyRepeat -int 2"
-  "WebKitDeveloperExtras -bool true"
-  "com.apple.trackpad.scaling 2"
-  ".GlobalPreferences NSAutomaticCapitalizationEnabled -bool false"
-)
+#!/bin/bash
 
-# App-specific settings
-app_settings=(
-  "com.apple.AppleMultitouchTrackpad Clicking -bool true"
-  "com.apple.LaunchServices LSQuarantine -bool false"
-  "com.apple.Safari IncludeDevelopMenu -bool true"
-  "com.apple.Safari InstallExtensionUpdatesAutomatically -bool true"
-  "com.apple.Safari ShowFullURLInSmartSearchField -bool true"
-  "com.apple.Safari ShowStatusBar -bool true"
-  "com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true"
-  "com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true"
-  "com.apple.desktopservices DSDontWriteNetworkStores -bool true"
-  "com.apple.desktopservices DSDontWriteUSBStores -bool true"
-  "com.apple.dock autohide -bool true"
-  "com.apple.dock orientation -string 'left'"
-  "com.apple.dock show-recents -bool false"
-  "com.apple.dock static-only -bool true"
-  "com.apple.finder ShowPathbar -bool true"
-  "com.apple.finder WarnOnEmptyTrash -bool false"
-)
+# グローバル設定
 
-# Apply global settings
-for setting in "${global_settings[@]}"; do
-  defaults write -g $setting
-done
+# キーを押し続けたときに文字を繰り返さないようにする
+defaults write -g ApplePressAndHoldEnabled -bool false
 
-# Apply app-specific settings
-for setting in "${app_settings[@]}"; do
-  defaults write $setting
-done
+# すべてのファイル拡張子を表示
+defaults write -g AppleShowAllExtensions -bool true
 
-# Disable startup sound
+# 隠しファイルを表示
+defaults write -g AppleShowAllFiles -bool true
+
+# キーリピート開始までの時間を短縮
+defaults write -g InitialKeyRepeat -int 15
+
+# キーリピートの速度を上げる
+defaults write -g KeyRepeat -int 2
+
+# WebKitの開発者ツールを有効化
+defaults write -g WebKitDeveloperExtras -bool true
+
+# トラックパッドの速度を上げる
+defaults write -g com.apple.trackpad.scaling 2
+
+# 自動大文字化を無効にする
+defaults write .GlobalPreferences NSAutomaticCapitalizationEnabled -bool false
+
+# アプリ固有の設定
+
+# トラックパッドのタップでクリックを有効化
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+
+# ダウンロードしたアプリの警告を無効化
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+# Safari: 開発メニューを表示
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+
+# Safari: 拡張機能の自動更新を有効化
+defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
+
+# Safari: アドレスバーに完全なURLを表示
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+
+# Safari: ステータスバーを表示
+defaults write com.apple.Safari ShowStatusBar -bool true
+
+# Safari: 開発者向け機能を有効化
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+
+# ネットワークドライブで.DS_Storeファイルを作成しない
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# USBドライブで.DS_Storeファイルを作成しない
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Dock: 自動的に隠す
+defaults write com.apple.dock autohide -bool true
+
+# Dock: 最近使用したアプリを表示しない
+defaults write com.apple.dock show-recents -bool false
+
+# Dock: 固定のアプリのみ表示
+defaults write com.apple.dock static-only -bool true
+
+# Finder: パスバーを表示
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Finder: ゴミ箱を空にする前の警告を無効化
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
+# 起動音を無効化
 sudo nvram SystemAudioVolume=" "
+
+echo "すべての設定が適用されました。変更を反映するには、コンピュータの再起動が必要な場合があります。"
