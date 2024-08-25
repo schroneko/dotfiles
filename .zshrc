@@ -2,10 +2,14 @@
 alias update='brew update && brew upgrade && brew upgrade --greedy && brew cleanup'
 alias note='vim $HOME/Downloads/text.md'
 alias man='man_vim() { man "$@" | col -b | vim -; }; man_vim'
-alias venv='python3 -m venv .venv && source .venv/bin/activate && pip install --upgrade pip'
+alias venv='python -m venv .venv && source .venv/bin/activate && pip install --upgrade pip'
 alias empty='find ~/.Trash -mindepth 1 -exec rm -rf {} +'
 alias bell='afplay /System/Library/Sounds/Hero.aiff'
-alias export='{ HISTFILE=/dev/null; } && export'
+alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
+
+export() {
+  HISTFILE=/dev/null command export "$@"
+}
 
 # Path
 export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:$PATH"
