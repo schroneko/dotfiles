@@ -53,6 +53,9 @@ defaults write com.apple.dock static-only -bool true
 # Dockのアプリをすべて削除
 defaults write com.apple.dock persistent-apps -array
 
+# Dockのプロセスインジケータを非表示
+defaults write com.apple.dock show-process-indicators -bool false
+
 # Finder関連の設定
 # パスバーを表示
 defaults write com.apple.finder ShowPathbar -bool true
