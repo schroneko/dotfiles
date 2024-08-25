@@ -3,3 +3,13 @@
 .AppleDouble
 .LSOverride
 .config/github-copilot/hosts.json
+.config/github-copilot/apps.json
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node.js
+node_modules/
+
