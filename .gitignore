@@ -13,3 +13,5 @@
 # Node.js
 node_modules/
 
+# Coc.nvim
+.config/coc/
