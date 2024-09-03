@@ -6,13 +6,11 @@ alias venv='python -m venv .venv && source .venv/bin/activate && pip install --u
 alias empty='find ~/.Trash -mindepth 1 -exec rm -rf {} +'
 alias bell='afplay /System/Library/Sounds/Hero.aiff'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 export() {
   HISTFILE=/dev/null command export "$@"
 }
-
-# Path
-export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:$PATH"
 
 lofi() {
     # Check if mpv is installed, if not prompt to install it
@@ -39,28 +37,33 @@ lofi() {
     fi
 }
 
-ocr() {
-    shortcuts run ocr --input-path "$1" | pbcopy
-}
-
 search() {
-  if [ -z "$1" ]; then
-    echo "Usage: search 'pattern'"
-    return 1
-  fi
-  grep -rnw '.' -e "$1"
-}
+  local search_term="$1"
+  shift
+  local ignore_patterns=()
 
-nb2py() {
-    if command -v jupyter &> /dev/null
-    then
-        jupyter nbconvert --to python "$1"
-    else
-        echo "Error: Jupyter is not installed."
-        echo "Please install Jupyter using the following command:"
-        echo "brew install jupyterlab"
-        return 1
+  # Parse ignore patterns
+  while [[ "$1" == "--ignore" ]]; do
+    shift
+    while [[ $# -gt 0 && "$1" != "--ignore" ]]; do
+      ignore_patterns+=("$1")
+      shift
+    done
+  done
+
+  # Construct find command
+  local find_cmd="find . -type f"
+  for pattern in "${ignore_patterns[@]}"; do
+    find_cmd+=" -not -path \"*$pattern*\""
+  done
+
+  # Execute the search
+  eval "$find_cmd -print0" | while IFS= read -r -d '' file; do
+    if grep -q "$search_term" "$file"; then
+      echo "$file"
+      grep --color=always -Hn "$search_term" "$file"
     fi
+  done
 }
 
 extract() {
@@ -87,29 +90,6 @@ extract() {
 
     echo "Output saved to $output_file"
     cat $output_file
-}
-
-convert2audio() {
-    local file="$1"
-    local ext="${file##*.}"
-    typeset -l l_ext="$ext" # extを小文字に変換してl_extに代入
-    local supported_ext=("mp4" "mkv" "avi" "mov" "mpg" "mpeg" "mp3" "wav" "flac" "m4a" "aac")
-    local is_supported=0
-
-    # 拡張子がサポートされているかチェック
-    for e in "${supported_ext[@]}"; do
-        if [[ "$l_ext" == "$e" ]]; then
-            is_supported=1
-            break
-        fi
-    done
-
-    # サポートされている拡張子の場合、変換を実行
-    if [[ $is_supported -eq 1 ]]; then
-        ffmpeg -i "$file" -ar 16000 -ac 1 -c:a pcm_s16le "${file%.*}.wav"
-    else
-        echo "Error: Unsupported file type ($ext). Please provide a video or audio file with one of the following extensions: ${supported_ext[*]}."
-    fi
 }
 
 # peco
