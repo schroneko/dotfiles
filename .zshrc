@@ -8,10 +8,6 @@ alias bell='afplay /System/Library/Sounds/Hero.aiff'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
-export() {
-  HISTFILE=/dev/null command export "$@"
-}
-
 lofi() {
     # Check if mpv is installed, if not prompt to install it
     if ! command -v mpv &> /dev/null; then
@@ -154,3 +150,17 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 if command -v ngrok &>/dev/null; then
   eval "$(ngrok completion)"
 fi
+autoload -U compinit; compinit
+
+# Miniforge3 initialization
+__conda_setup="$('/Users/yutahayashi/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/yutahayashi/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/Users/yutahayashi/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/yutahayashi/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
