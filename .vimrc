@@ -10,8 +10,6 @@ filetype plugin on
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-commentary'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
@@ -22,26 +20,7 @@ inoremap jj <ESC>
 nmap ; :
 nnoremap <Esc><Esc> :nohlsearch<Enter>
 nnoremap <C-n> :Prettier<Enter>
-" nnoremap <C-a> :NERDTreeToggle<CR>
-" nnoremap <C-p> <Plug>AirlineSelectPrevTab
-" nnoremap <C-n> <Plug>AirlineSelectNextTab
 nnoremap <C-p> :MarkdownPreview<Enter>
-
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#buffer_idx_format = {
-	\ '0': '0 ',
-	\ '1': '1 ',
-	\ '2': '2 ',
-	\ '3': '3 ',
-	\ '4': '4 ',
-	\ '5': '5 ',
-	\ '6': '6 ',
-	\ '7': '7 ',
-	\ '8': '8 ',
-	\ '9': '9 '
-	\}
 
 " Search Settings
 set hlsearch
