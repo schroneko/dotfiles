@@ -7,6 +7,7 @@ alias empty='find ~/.Trash -mindepth 1 -exec rm -rf {} +'
 alias bell='afplay /System/Library/Sounds/Hero.aiff'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+alias ls='ls --color=auto'
 
 lofi() {
     # Check if mpv is installed, if not prompt to install it
@@ -106,7 +107,8 @@ zle -N peco-select-history
 bindkey '^R' peco-select-history
 
 # Initialization
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+compinit
 
 # zle-keymap-select ウィジェットの定義
 function zle-keymap-select {
@@ -133,15 +135,17 @@ export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46
 # Eval statements
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
+eval "$(uv generate-shell-completion zsh)"
 
 # Set options
 setopt auto_cd complete_in_word correct hist_ignore_all_dups hist_ignore_dups hist_reduce_blanks hist_save_no_dups list_packed share_history
 
 # Completion styles
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*:default' menu select=1
-zstyle ':completion::complete:*' use-cache true
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*:descriptions' format '%F{green}-- %d --%f'
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
@@ -153,14 +157,14 @@ fi
 autoload -U compinit; compinit
 
 # Miniforge3 initialization
-__conda_setup="$('/Users/yutahayashi/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/yutahayashi/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/Users/yutahayashi/miniforge3/etc/profile.d/conda.sh"
+    if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/miniforge3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/yutahayashi/miniforge3/bin:$PATH"
+        export PATH="$HOME/miniforge3/bin:$PATH"
     fi
 fi
 unset __conda_setup
