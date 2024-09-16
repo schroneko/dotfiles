@@ -4,6 +4,7 @@
 .LSOverride
 .config/github-copilot/hosts.json
 .config/github-copilot/apps.json
+.config/zed/
 
 # macOS system files
 .DS_Store

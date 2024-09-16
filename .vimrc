@@ -8,11 +8,11 @@ endif
 " Plugin and Filetype Settings
 filetype plugin on
 call plug#begin()
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'tpope/vim-commentary'
-Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 call plug#end()
 
 " Key Mappings

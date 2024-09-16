@@ -7,7 +7,6 @@ alias empty='find ~/.Trash -mindepth 1 -exec rm -rf {} +'
 alias bell='afplay /System/Library/Sounds/Hero.aiff'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-alias ls='ls --color=auto'
 
 lofi() {
     # Check if mpv is installed, if not prompt to install it

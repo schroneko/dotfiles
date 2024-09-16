@@ -1,12 +1,16 @@
+live_config_reload = true
+
 [window]
-decorations = "none"
+# decorations = "none"
 opacity = 0.8
 startup_mode = "Maximized"
+decorations = "Buttonless"
+padding = { x = 8, y = 8 }
+dynamic_padding = true
 
-
-[window.padding]
-x = 10
-y = 10
+# [window.padding]
+# x = 10
+# y = 10
 
 
 [colors.bright]
