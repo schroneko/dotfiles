@@ -5,6 +5,7 @@
 .config/github-copilot/hosts.json
 .config/github-copilot/apps.json
 .config/zed/prompts/
+.config/zed/conversations/
 
 # macOS system files
 .DS_Store
