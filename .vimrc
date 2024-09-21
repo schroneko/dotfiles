@@ -13,6 +13,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'ryanoasis/vim-devicons'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
 call plug#end()
 
 " Key Mappings
@@ -21,6 +22,9 @@ nmap ; :
 nnoremap <Esc><Esc> :nohlsearch<Enter>
 nnoremap <C-n> :Prettier<Enter>
 nnoremap <C-p> :MarkdownPreview<Enter>
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 " Search Settings
 set hlsearch

@@ -4,8 +4,10 @@ live_config_reload = true
 opacity = 0.8
 startup_mode = "Maximized"
 decorations = "Buttonless"
-padding = { x = 8, y = 8 }
+padding.x = 8
+padding.y = 8
 dynamic_padding = true
+blur = true
 
 
 [colors.bright]
