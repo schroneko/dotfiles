@@ -25,8 +25,15 @@ dotfiles
 └── macos.sh
 ```
 
-## How to export .Brewfile
+## Export the `.Brewfile` from your system
 
 ```
-brew bundle dump --global --force
+brew bundle dump --file=$HOME/dotfiles/.Brewfile --force
+```
+
+## Sync the `.Brewfile` with your system
+
+```
+brew bundle --file=$HOME/dotfiles/.Brewfile
+brew bundle cleanup --file=$HOME/dotfiles/.Brewfile
 ```
