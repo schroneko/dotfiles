@@ -1,72 +1,33 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+autoload -U +X compinit && compinit
+
+eval $(/opt/homebrew/bin/brew shellenv)
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Aliases
-alias update='brew update && brew upgrade && brew upgrade --greedy && brew cleanup'
+alias update='brew update && brew upgrade && brew cleanup'
 alias note='vim $HOME/Downloads/text.md'
-alias man='man_vim() { man "$@" | col -b | vim -; }; man_vim'
-alias venv='python -m venv .venv && source .venv/bin/activate && pip install --upgrade pip'
-alias empty='find ~/.Trash -mindepth 1 -exec rm -rf {} +'
-alias bell='afplay /System/Library/Sounds/Hero.aiff'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
-alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+alias ls='eza --group-directories-first'
 
 lofi() {
-    # Check if mpv is installed, if not prompt to install it
-    if ! command -v mpv &> /dev/null; then
-        echo "mpv is not installed. Please install it by running: brew install mpv"
-        return
-    fi
+    for cmd in mpv yt-dlp; do
+        if ! command -v $cmd &> /dev/null; then
+            echo "$cmd is not installed. Please install it: brew install $cmd"
+            return
+        fi
+    done
 
-    # Check if yt-dlp is installed, if not prompt to install it
-    if ! command -v yt-dlp &> /dev/null; then
-        echo "yt-dlp is not installed. Please install it by running: brew install yt-dlp"
-        return
-    fi
-
-    # Check if mpv is already running
     if pgrep -x "mpv" > /dev/null; then
-        # If mpv is running, send the stop signal
-        pkill -9 mpv
-        echo "Lofi music stopped."
+        pkill -9 mpv && echo "Lofi music stopped."
     else
-        # If mpv is not running, start playing the lofi music in the background
-        nohup mpv $(yt-dlp -g -f "bestaudio" "https://www.youtube.com/watch?v=4oStw0r33so" 2> /dev/null) < /dev/null &> /dev/null & disown
+        nohup mpv $(yt-dlp -g -f "bestaudio" "https://www.youtube.com/watch?v=4oStw0r33so" 2>/dev/null) < /dev/null &> /dev/null & disown
         echo "Lofi music playing."
     fi
-}
-
-search() {
-  local search_term="$1"
-  shift
-  local ignore_patterns=()
-
-  # Parse ignore patterns
-  while [[ "$1" == "--ignore" ]]; do
-    shift
-    while [[ $# -gt 0 && "$1" != "--ignore" ]]; do
-      ignore_patterns+=("$1")
-      shift
-    done
-  done
-
-  # Construct find command
-  local find_cmd="find . -type f"
-  for pattern in "${ignore_patterns[@]}"; do
-    find_cmd+=" -not -path \"*$pattern*\""
-  done
-
-  # Execute the search
-  eval "$find_cmd -print0" | while IFS= read -r -d '' file; do
-    if grep -q "$search_term" "$file"; then
-      echo "$file"
-      grep --color=always -Hn "$search_term" "$file"
-    fi
-  done
 }
 
 extract() {
@@ -95,7 +56,6 @@ extract() {
     cat $output_file
 }
 
-# peco
 if command -v gtac >/dev/null 2>&1; then
     tac="gtac"
 elif command -v tac >/dev/null 2>&1; then
@@ -112,11 +72,6 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^R' peco-select-history
 
-# Initialization
-autoload -Uz compinit
-compinit
-
-# zle-keymap-select ウィジェットの定義
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
     echo -ne '\e[1 q'
@@ -126,59 +81,34 @@ function zle-keymap-select {
 }
 zle -N zle-keymap-select
 
-# vi mode の遷移を速くする
 export KEYTIMEOUT=1
 
-# Key bindings
 bindkey jj vi-cmd-mode
 
-# Environment variables
 export HISTSIZE=10000
 export LANG=en_US.UTF-8
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
 
-# Eval statements
-eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(starship init zsh)"
-eval "$(uv generate-shell-completion zsh)"
-eval "$(direnv hook zsh)"
+setopt auto_cd complete_in_word correct hist_ignore_dups hist_reduce_blanks hist_save_no_dups list_packed share_history
 
-# Set options
-setopt auto_cd complete_in_word correct hist_ignore_all_dups hist_ignore_dups hist_reduce_blanks hist_save_no_dups list_packed share_history
-
-# Completion styles
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*:descriptions' format '%F{green}-- %d --%f'
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
-# ngrok
-if command -v ngrok &>/dev/null; then
-  eval "$(ngrok completion)"
-fi
-autoload -U compinit; compinit
-
-# Miniforge3 initialization
-__conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+if [ -f "$HOME/miniforge3/bin/conda" ]; then
+    eval "$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+elif [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
+    . "$HOME/miniforge3/etc/profile.d/conda.sh"
 else
-    if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "$HOME/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/miniforge3/bin:$PATH"
-    fi
+    export PATH="$HOME/miniforge3/bin:$PATH"
 fi
-unset __conda_setup
 
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -5,16 +5,35 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Check Prettier 
+if !executable('prettier')
+  echohl WarningMsg
+  echom "Warning: Prettier is not installed. Please install it using 'npm install -g prettier' or 'volta install prettier'."
+  echohl None
+endif
+
 " Plugin and Filetype Settings
 filetype plugin on
 call plug#begin()
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'ryanoasis/vim-devicons'
+
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'mattn/vim-lsp-icons'
+
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 call plug#end()
+
+" LSP Settings
+" let g:lsp_diagnostics_echo_cursor = 1
 
 " Key Mappings
 inoremap jj <ESC>
@@ -73,6 +92,8 @@ syntax on
 " Load All Plugins
 packloadall
 
+" Python Linting
+let g:syntastic_python_pycodestyle_args='--ignore=E501'
+
 " Custom Commands
-command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 command! -nargs=0 MarkdownPreview :call CocAction('runCommand', 'markdown-preview-enhanced.openPreview')
