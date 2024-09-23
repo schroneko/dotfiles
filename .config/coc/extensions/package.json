@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "coc-tsserver": ">=2.1.4",
+    "coc-markdown-preview-enhanced": ">=0.5.3",
+    "coc-webview": ">=0.12.0",
+    "coc-prettier": ">=9.3.2"
+  },
+  "lastUpdate": 1724558246314
+}
