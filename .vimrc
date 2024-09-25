@@ -17,25 +17,8 @@ filetype plugin on
 call plug#begin()
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'ryanoasis/vim-devicons'
-
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Plug 'prettier/vim-prettier', {
-"   \ 'do': 'yarn install --frozen-lockfile --production',
-"   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
-
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-" Plug 'mattn/vim-lsp-icons'
-
-" Plug 'hrsh7th/vim-vsnip'
-" Plug 'hrsh7th/vim-vsnip-integ'
 call plug#end()
-
-" LSP Settings
-" let g:lsp_diagnostics_echo_cursor = 1
 
 " Key Mappings
 inoremap jj <ESC>
@@ -43,9 +26,6 @@ nmap ; :
 nnoremap <Esc><Esc> :nohlsearch<Enter>
 nnoremap <C-n> :Prettier<Enter>
 nnoremap <C-p> :MarkdownPreview<Enter>
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 " Search Settings
 set hlsearch
@@ -98,4 +78,5 @@ packloadall
 let g:syntastic_python_pycodestyle_args='--ignore=E501'
 
 " Custom Commands
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 command! -nargs=0 MarkdownPreview :call CocAction('runCommand', 'markdown-preview-enhanced.openPreview')

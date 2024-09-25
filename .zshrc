@@ -1,6 +1,7 @@
 autoload -U +X compinit && compinit
 
 eval $(/opt/homebrew/bin/brew shellenv)
+eval "$(direnv hook zsh)"
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
