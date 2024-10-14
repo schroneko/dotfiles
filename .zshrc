@@ -31,30 +31,54 @@ lofi() {
     fi
 }
 
+
 extract() {
-    if [ $# -ne 1 ]; then
-        echo "Usage: extract <directory_path>"
-        return 1
+    usage() {
+        echo "Usage: extract <directory> [--ext <extension>]"
+        echo "  <directory>: The directory to search for files"
+        echo "  --ext <extension>: (Optional) The file extension to filter by (without dot)"
+        echo "  If --ext is not provided, all files will be processed"
+        exit 1
+    }
+    
+    if [[ $# -lt 1 ]]; then
+        usage
     fi
-
-    dir_path="$1"
-    output_file="output.txt"
-
-    find "$dir_path" -type f ! -path "$dir_path/.*/*" -print0 | while IFS= read -r -d '' file; do
-        file_path="${file#$dir_path/}"
-        if file "$file" | grep -qE 'text|charset'; then
-            echo "\`\`\`$file_path" >> $output_file
-            sed 's/\r//' "$file" >> $output_file
-            echo "\`\`\`" >> $output_file
-            echo >> $output_file
-        else
-            echo "Binary file: $file_path" >> $output_file
-            echo >> $output_file
-        fi
+    
+    directory="$1"
+    extension=""
+    
+    shift
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --ext)
+                shift
+                extension="$1"
+                ;;
+            *)
+                usage
+                ;;
+        esac
+        shift
     done
-
-    echo "Output saved to $output_file"
-    cat $output_file
+    
+    process_files() {
+        local find_cmd="find \"$directory\" -type f"
+        if [[ -n "$extension" ]]; then
+            find_cmd="$find_cmd -name \"*.$extension\""
+        fi
+        
+        eval $find_cmd | while read -r file; do
+            echo "<${file#$directory/}>"
+            cat "$file"
+            echo "</${file#$directory/}>"
+            echo
+        done
+    }
+    
+    process_files > output.txt
+    
+    echo "Extraction complete. Results saved in output.txt"
 }
 
 if command -v gtac >/dev/null 2>&1; then
