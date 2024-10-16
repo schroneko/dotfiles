@@ -15,6 +15,10 @@ alias note='vim $HOME/Downloads/text.md'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
 alias ls='eza --group-directories-first'
 
+notify() {
+  osascript -e 'display notification "Finished!" with title "Task Complete" sound name "Tink"'
+}
+
 jina() {
     local JINA_API_KEY="jina_c4dc96767d0b4a8f94e0cd27d298ab04eB847jDhBDi96R4pGN48JTAaDfxM"
     local statement="$*"
