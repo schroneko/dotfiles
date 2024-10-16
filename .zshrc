@@ -15,6 +15,40 @@ alias note='vim $HOME/Downloads/text.md'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
 alias ls='eza --group-directories-first'
 
+jina() {
+    local JINA_API_KEY="jina_c4dc96767d0b4a8f94e0cd27d298ab04eB847jDhBDi96R4pGN48JTAaDfxM"
+    local statement="$*"
+    local response=$(curl -s -X POST https://g.jina.ai \
+         -H "Content-Type: application/json" \
+         -H "Authorization: Bearer $JINA_API_KEY" \
+         -d "{\"statement\":\"$statement\"}")
+    
+    if [ -z "$response" ]; then
+        echo "Error: Empty response from API"
+        return 1
+    fi
+    
+    local error_name=$(echo "$response" | jq -r '.name // empty')
+    local error_message=$(echo "$response" | jq -r '.message // empty')
+    
+    if [ "$error_name" = "InsufficientBalanceError" ]; then
+        echo "Error: Insufficient balance. $error_message"
+        echo "To generate a new API key, please visit: https://jina.ai/reader/#apiform"
+        echo "After generating a new key, update the JINA_API_KEY variable in your .zshrc file."
+        return 1
+    fi
+    
+    local text=$(echo "$response" | jq -r '.text // empty')
+    if [ -z "$text" ] || [ "$text" = "null" ]; then
+        echo "API Response:"
+        echo "$response" | jq '.'
+        echo "Error: Unexpected response from API. Check the full response above."
+        return 1
+    fi
+    
+    echo "$text"
+}
+
 lofi() {
     for cmd in mpv yt-dlp; do
         if ! command -v $cmd &> /dev/null; then
