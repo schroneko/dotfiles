@@ -7,17 +7,18 @@
 node_modules/
 
 # Coc.nvim
-.config/coc/node_modules/
+.config/coc/commands
 .config/coc/extensions/@yaegassy/
 .config/coc/extensions/coc-json-data/
 .config/coc/extensions/coc-toml-data/
 .config/coc/list_history.dat
 .config/coc/lists/
 .config/coc/memos.json
+.config/coc/node_modules/
 
 # GitHub Copilot
-.config/github-copilot/hosts.json
 .config/github-copilot/apps.json
+.config/github-copilot/hosts.json
 
 # Zed
 .config/zed/conversations/
