@@ -19,6 +19,37 @@ notify() {
   osascript -e 'display notification "Finished!" with title "Task Complete" sound name "Tink"'
 }
 
+export PATH=$PATH:/opt/homebrew/opt/john-jumbo/share/john
+
+crack() {
+    if ! command -v zip2john > /dev/null; then
+        echo "Please install john-jumbo first:"
+        echo "brew install john-jumbo"
+        return 1
+    fi
+    
+    if [ $# -ne 1 ]; then
+        echo "Usage: crack <zipfile>"
+        return 1
+    fi
+    
+    local zipfile=$1
+    local tmp=$(mktemp)
+    
+    zip2john "$zipfile" > "$tmp" 2>/dev/null
+    
+    if [ $? -eq 0 ]; then
+        john --incremental=ASCII "$tmp" 2>/dev/null >/dev/null
+        local password=$(john --show "$tmp" 2>/dev/null | awk -F: 'NR==1 {print $2}')
+        echo "Password: $password"
+        rm -f "$tmp"
+    else
+        echo "Error: Failed to process zip file"
+        rm -f "$tmp"
+        return 1
+    fi
+}
+
 jina() {
     local JINA_API_KEY="jina_c4dc96767d0b4a8f94e0cd27d298ab04eB847jDhBDi96R4pGN48JTAaDfxM"
     local statement="$*"
@@ -101,7 +132,7 @@ extract() {
     done
     
     process_files() {
-        local find_cmd="find \"$directory\" -type f"
+        local find_cmd="find \"$directory\" -type f -not -path '*/\.*' -not -name 'output.txt'"
         if [[ -n "$extension" ]]; then
             find_cmd="$find_cmd -name \"*.$extension\""
         fi

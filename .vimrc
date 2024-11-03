@@ -18,6 +18,7 @@ call plug#begin()
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'ryanoasis/vim-devicons'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ggml-org/llama.vim'
 call plug#end()
 
 " Key Mappings
