@@ -10,7 +10,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-alias update='brew update && brew upgrade && brew cleanup'
+alias update='brew update && brew upgrade --greedy && brew cleanup'
 alias note='vim $HOME/Downloads/text.md'
 alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
 alias drive='cd "$HOME/My Drive/"'
