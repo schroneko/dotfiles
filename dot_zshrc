@@ -30,19 +30,6 @@ alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
 alias huggingface-cli='hf'
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
-function load_function() {
-    local func_file="$1"
-    if [ -f "$func_file" ]; then
-        source "$func_file"
-    else
-        echo "Warning: Function file not found: $func_file"
-    fi
-}
-
-for func in $HOME/dotfiles/config/shell/functions/*.zsh; do
-    load_function "$func"
-done
-
 function peco-select-history() {
     BUFFER=$(fc -l -n 1 | tail -r | awk '!a[$0]++' | peco --query "$LBUFFER")
     CURSOR=${#BUFFER}
