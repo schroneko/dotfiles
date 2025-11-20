@@ -1,0 +1,66 @@
+eval $(/opt/homebrew/bin/brew shellenv)
+typeset -U PATH path
+export VOLTA_HOME="$HOME/.volta"
+path=("$VOLTA_HOME/bin" "/opt/homebrew/bin" "$HOME/.local/bin" $path)
+export PATH
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+autoload -U +X compinit && compinit
+
+setopt auto_cd
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt hist_save_no_dups
+setopt share_history
+setopt complete_in_word
+
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' menu select
+
+if command -v eza &> /dev/null; then
+    alias ls='eza --group-directories-first'
+    alias tree='eza --tree'
+else
+    alias ls='ls -G'
+fi
+
+alias note='vim -c "setlocal buftype=nofile bufhidden=wipe noswapfile filetype=markdown" /tmp/note.md'
+alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
+alias huggingface-cli='hf'
+alias dl='yt-dlp -o "%(title)s.%(ext)s"'
+
+function load_function() {
+    local func_file="$1"
+    if [ -f "$func_file" ]; then
+        source "$func_file"
+    else
+        echo "Warning: Function file not found: $func_file"
+    fi
+}
+
+for func in $HOME/dotfiles/config/shell/functions/*.zsh; do
+    load_function "$func"
+done
+
+function peco-select-history() {
+    BUFFER=$(fc -l -n 1 | tail -r | awk '!a[$0]++' | peco --query "$LBUFFER")
+    CURSOR=${#BUFFER}
+}
+
+zle -N peco-select-history
+bindkey '^R' peco-select-history
+
+export LANG=en_US.UTF-8
+export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
+
+eval "$(starship init zsh)"
+
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/username/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# Added by Antigravity
+export PATH="/Users/username/.antigravity/antigravity/bin:$PATH"

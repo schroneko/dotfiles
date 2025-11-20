@@ -1,0 +1,81 @@
+set number
+set cursorline
+set clipboard+=unnamed
+set autoread
+set nobackup
+set noswapfile
+set backspace=indent,eol,start
+set whichwrap=h,l
+
+syntax on
+filetype plugin indent on
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set autoindent
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set ambiwidth=double
+set wildmenu
+set wildmode=longest:full,full
+
+autocmd FileType javascript,typescript,json,yaml setlocal tabstop=2 shiftwidth=2
+
+inoremap jj <ESC>
+nnoremap <Esc><Esc> :nohlsearch<Enter>
+nnoremap ;; :
+
+function! RunFormatAndFix()
+    let l:view = winsaveview()
+    let l:ext = expand('%:e')
+    let l:tempfile = tempname() . '.' . l:ext
+
+    try
+        call writefile(getline(1, '$'), l:tempfile)
+
+        " Prettier
+        let l:cmd_prettier = 'PRETTIER_EXPERIMENTAL_CLI=1 prettier --write ' . shellescape(l:tempfile)
+        let l:prettier_output = system(l:cmd_prettier)
+
+        if v:shell_error != 0
+            echoerr "Prettier failed! " . l:prettier_output
+            return
+        endif
+
+        echo "Prettier: OK... "
+
+        " textlint (markdown のみ)
+        if &filetype == 'markdown'
+            let l:cmd_textlint = 'textlint --fix ' . shellescape(l:tempfile)
+            let l:textlint_output = system(l:cmd_textlint)
+            let l:textlint_exit = v:shell_error
+
+            if l:textlint_exit == 2
+                echoerr "textlint error! " . l:textlint_output
+                return
+            elseif l:textlint_exit == 1
+                echo "Formatted & Fixed (Issues remain) ⚠️"
+            else
+                echo "Formatted & Fixed (Perfect) ✨"
+            endif
+        else
+            echo "Formatted (Prettier) ✨"
+        endif
+
+        let l:final_lines = readfile(l:tempfile)
+        silent %delete _
+        call setline(1, l:final_lines)
+        call winrestview(l:view)
+        redraw
+    finally
+        call delete(l:tempfile)
+    endtry
+endfunction
+
+nnoremap <C-=> :call RunFormatAndFix()<CR>
+
+set makeprg=textlint\ -f\ unix\ %
+set errorformat=%f:%l:%c:\ %m
+command! Lint silent make | redraw! | copen
