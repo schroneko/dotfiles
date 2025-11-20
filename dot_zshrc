@@ -57,6 +57,7 @@ export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
 eval "$(starship init zsh)"
 
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/username/.lmstudio/bin"

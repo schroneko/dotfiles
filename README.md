@@ -5,8 +5,10 @@ chezmoi で管理している個人用 dotfiles
 ## 管理しているファイル
 
 - `.vimrc` - Vim 設定 (Prettier + textlint 統合)
-- `.zshrc` - Zsh 設定
+- `.zshrc` - Zsh 設定 (zsh-autosuggestions, zsh-syntax-highlighting)
 - `.hushlogin` - macOS ログインメッセージ抑制
+- `.Brewfile` - Homebrew パッケージ一覧
+- `~/Library/LaunchAgents/com.homebrew.autoupdate.plist` - Homebrew 自動更新（毎日朝 6 時）
 
 ## セットアップ
 
@@ -18,6 +20,12 @@ brew install chezmoi
 
 # dotfiles を適用
 chezmoi init --apply git@github.com:schroneko/dotfiles.git
+
+# Homebrew パッケージをインストール
+brew bundle --global
+
+# LaunchAgent を有効化（Homebrew 自動更新）
+launchctl load ~/Library/LaunchAgents/com.homebrew.autoupdate.plist
 ```
 
 ### 設定ファイルの更新
