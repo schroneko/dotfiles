@@ -1,0 +1,5 @@
+Host *.trycloudflare.com
+    HostName %h
+    User root
+    Port 22
+    ProxyCommand /opt/homebrew/bin/cloudflared access ssh --hostname %h
