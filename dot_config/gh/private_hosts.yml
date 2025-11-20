@@ -1,0 +1,6 @@
+github.com:
+    git_protocol: ssh
+    users:
+        schroneko:
+            git_protocol: ssh
+    user: schroneko
