@@ -1,0 +1,63 @@
+{
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash(brew services:*)",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(lsof:*)",
+      "Bash(node:*)",
+      "Bash(grep:*)",
+      "Bash(npm info:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm test)",
+      "Bash(npm uninstall:*)",
+      "Bash(npx husky init:*)",
+      "Bash(npx textlint:*)",
+      "Bash(npx wrangler:*)",
+      "Bash(tail:*)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:apify.com)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:empathyfirstmedia.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:openai.com)",
+      "WebFetch(domain:pure.md)",
+      "WebFetch(domain:qiita.com)",
+      "WebFetch(domain:railway.com)",
+      "WebFetch(domain:rapidapi.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:supadata.ai)",
+      "WebFetch(domain:typicode.github.io)",
+      "WebFetch(domain:vercel.com)",
+      "WebFetch(domain:www.anthropic.com)",
+      "WebFetch(domain:www.dumplingai.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:x.ai)",
+      "WebFetch(domain:zenn.dev)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Funk.aiff"
+          }
+        ]
+      }
+    ]
+  },
+  "outputStyle": "Learning",
+  "alwaysThinkingEnabled": true
+}
