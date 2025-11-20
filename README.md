@@ -8,6 +8,7 @@ chezmoi で管理している個人用 dotfiles
 
 - `.vimrc`
 - `.zshrc`
+- `.bashrc`
 - `.hushlogin`
 - `.textlintrc`
 
