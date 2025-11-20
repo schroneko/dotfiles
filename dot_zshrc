@@ -1,11 +1,20 @@
+# ============================================
+# PATH と環境変数
+# ============================================
 eval $(/opt/homebrew/bin/brew shellenv)
 typeset -U PATH path
 export VOLTA_HOME="$HOME/.volta"
-path=("$VOLTA_HOME/bin" "/opt/homebrew/bin" "$HOME/.local/bin" $path)
+path=("$VOLTA_HOME/bin" "/opt/homebrew/bin" "$HOME/.local/bin" "$HOME/.lmstudio/bin" "$HOME/.antigravity/antigravity/bin" $path)
 export PATH
+
+export LANG=en_US.UTF-8
 export HISTSIZE=10000
 export SAVEHIST=10000
+export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
 
+# ============================================
+# Zsh オプション
+# ============================================
 autoload -U +X compinit && compinit
 
 setopt auto_cd
@@ -15,9 +24,15 @@ setopt hist_save_no_dups
 setopt share_history
 setopt complete_in_word
 
+# ============================================
+# 補完設定
+# ============================================
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
+# ============================================
+# エイリアス
+# ============================================
 if command -v eza &> /dev/null; then
     alias ls='eza --group-directories-first'
     alias tree='eza --tree'
@@ -26,10 +41,11 @@ else
 fi
 
 alias note='vim -c "setlocal buftype=nofile bufhidden=wipe noswapfile filetype=markdown" /tmp/note.md'
-alias icloud='cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs/"'
-alias huggingface-cli='hf'
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
+# ============================================
+# 関数
+# ============================================
 function peco-select-history() {
     BUFFER=$(fc -l -n 1 | tail -r | awk '!a[$0]++' | peco --query "$LBUFFER")
     CURSOR=${#BUFFER}
@@ -38,17 +54,15 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^R' peco-select-history
 
-export LANG=en_US.UTF-8
-export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
-
+# ============================================
+# プロンプト & プラグイン
+# ============================================
 eval "$(starship init zsh)"
 
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/username/.lmstudio/bin"
-# End of LM Studio CLI section
-
-# Added by Antigravity
-export PATH="/Users/username/.antigravity/antigravity/bin:$PATH"
+# ============================================
+# 起動時の設定
+# ============================================
+cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
