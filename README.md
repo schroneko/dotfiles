@@ -5,25 +5,30 @@ chezmoi で管理している個人用 dotfiles
 ## 管理しているファイル
 
 ### シェル & エディタ
+
 - `.vimrc`
 - `.zshrc`
 - `.hushlogin`
 - `.textlintrc`
 
 ### Git & SSH
+
 - `.gitconfig`
 - `.ssh/config`
 - `.config/gh/`
 
 ### ターミナル & プロンプト
+
 - `.config/ghostty/config`
 - `.config/starship.toml`
 
 ### パッケージ管理 & 自動化
+
 - `.Brewfile`
 - `~/Library/LaunchAgents/com.homebrew.autoupdate.plist`
 
 ### Claude Code
+
 - `.claude/CLAUDE.md`
 - `.claude/settings.json`
 - `.claude/commands/`
