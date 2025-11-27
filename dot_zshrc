@@ -46,6 +46,28 @@ alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 # ============================================
 # 関数
 # ============================================
+
+# brew install/uninstall 時に Brewfile を自動更新
+function brew() {
+    command brew "$@"
+    local exit_code=$?
+
+    case "$1" in
+        install|uninstall|remove)
+            if [[ $exit_code -eq 0 ]]; then
+                echo "📦 Brewfile を更新中..."
+                command brew bundle dump --file=~/.Brewfile --force
+                if command -v chezmoi &>/dev/null; then
+                    chezmoi add ~/.Brewfile
+                    echo "✅ chezmoi に反映しました"
+                fi
+            fi
+            ;;
+    esac
+
+    return $exit_code
+}
+
 function peco-select-history() {
     BUFFER=$(fc -l -n 1 | tail -r | awk '!a[$0]++' | peco --query "$LBUFFER")
     CURSOR=${#BUFFER}
