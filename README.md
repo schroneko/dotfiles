@@ -87,6 +87,9 @@ chezmoi git push
 ```bash
 # 最新版に同期
 chezmoi update
+
+# Brewfile が更新されていたらパッケージも同期
+brew bundle --global
 ```
 
 ## よく使うコマンド
