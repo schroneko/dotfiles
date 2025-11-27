@@ -9,6 +9,8 @@
       "Bash(lsof:*)",
       "Bash(node:*)",
       "Bash(grep:*)",
+      "Bash(tree:*)",
+      "Bash(jq:*)",
       "Bash(npm info:*)",
       "Bash(npm init:*)",
       "Bash(npm install:*)",
@@ -58,6 +60,6 @@
       }
     ]
   },
-  "outputStyle": "Learning",
+  "outputStyle": "Explanatory",
   "alwaysThinkingEnabled": true
 }

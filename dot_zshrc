@@ -65,4 +65,11 @@ source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # ============================================
 # 起動時の設定
 # ============================================
-cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+if [[ "$PWD" == "$HOME" ]]; then
+    cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+fi
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/username/.lmstudio/bin"
+# End of LM Studio CLI section
+
