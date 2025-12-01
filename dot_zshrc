@@ -77,10 +77,15 @@ zle -N peco-select-history
 bindkey '^R' peco-select-history
 
 # ============================================
-# プロンプト & プラグイン
+# プロンプト
 # ============================================
-eval "$(starship init zsh)"
+PROMPT='
+%F{blue}%1~%f
+❯ '
 
+# ============================================
+# プラグイン
+# ============================================
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
