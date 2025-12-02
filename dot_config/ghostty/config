@@ -5,12 +5,12 @@ background-opacity = 0.8
 macos-titlebar-style = hidden
 macos-titlebar-style = tabs
 background-blur = true
-window-padding-x = 20
-window-padding-y = 0,10
+# window-padding-x = 20
+# window-padding-y = 0,10
 font-size = 20
 adjust-cell-height = 4
 font-thicken = true
-window-padding-balance = true
+# window-padding-balance = true
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+l=goto_split:right
 keybind = shift+enter=text:\x1b\r
