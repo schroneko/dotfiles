@@ -1,93 +1,14 @@
 # ============================================
-# 対話シェルチェック
+# .bashrc
 # ============================================
+
+# 対話シェルチェック
 case $- in
     *i*) ;;
       *) return;;
 esac
 
-# ============================================
-# PATH と環境変数
-# ============================================
-if [ -d /home/linuxbrew/.linuxbrew/bin ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$HOME/.local/bin:$HOME/.lmstudio/bin:$HOME/.antigravity/antigravity/bin:$PATH"
-
-export LANG=en_US.UTF-8
-export HISTSIZE=10000
-export SAVEHIST=10000
-export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
-
-# ============================================
-# Bash オプションと履歴設定
-# ============================================
-shopt -s histappend
-shopt -s checkwinsize
-shopt -s cdspell
-
-HISTCONTROL=ignoreboth:erasedups
-HISTSIZE=10000
-HISTFILESIZE=10000
-SAVEHIST=10000
-
-# ============================================
-# 補完設定
-# ============================================
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-bind "set completion-ignore-case on"
-
-# ============================================
-# エイリアス
-# ============================================
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias grep='grep --color=auto'
-fi
-
-if command -v eza &> /dev/null; then
-    alias ls='eza --group-directories-first'
-    alias tree='eza --tree'
-else
-    alias ls='ls --color=auto'
-fi
-
-alias note='vim -c "setlocal buftype=nofile bufhidden=wipe noswapfile filetype=markdown" /tmp/note.md'
-alias dl='yt-dlp -o "%(title)s.%(ext)s"'
-
-# ============================================
-# 関数
-# ============================================
-function peco-select-history() {
-    local selected
-    selected=$(history | tac | awk '{$1=""; print substr($0,2)}' | awk '!a[$0]++' | peco --query "$READLINE_LINE")
-    READLINE_LINE="$selected"
-    READLINE_POINT=${#READLINE_LINE}
-}
-
-if command -v peco &> /dev/null; then
-    bind -x '"\C-r": peco-select-history'
-fi
-
-# ============================================
-# プロンプト
-# ============================================
-if command -v starship &> /dev/null; then
-    eval "$(starship init bash)"
-fi
-
-# ============================================
-# 追加エイリアス
-# ============================================
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+# シェル設定を読み込み
+for f in ~/.config/shell/{common,bash}.sh; do
+    [ -r "$f" ] && . "$f"
+done
