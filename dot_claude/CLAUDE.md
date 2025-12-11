@@ -50,21 +50,22 @@ Edit / Write ツールを使用する前に、必ずユーザーの明示的な�
 
 ### OpenAI
 
-| モデル | 用途 | 備考 |
-|--------|------|------|
-| gpt-5.1 | 汎用（デフォルト推奨） | 2025年11月リリース。Instant/Thinking の2バリアント |
-| gpt-5.1-codex-max | コーディング特化 | GitHub Copilot 向け |
-| o3, o4-mini | リーズニング特化 | 複雑な問題解決向け |
+| モデル            | 用途                   | 備考                                               |
+| ----------------- | ---------------------- | -------------------------------------------------- |
+| gpt-5.1           | 汎用（デフォルト推奨） | 2025年11月リリース。Instant/Thinking の2バリアント |
+| gpt-5.1-codex-max | コーディング特化       | GitHub Copilot 向け                                |
+| o3, o4-mini       | リーズニング特化       | 複雑な問題解決向け                                 |
 
 ### Anthropic
 
-| モデル | 用途 | 備考 |
-|--------|------|------|
-| claude-opus-4-5-20251101 | 最高性能 | 2025年11月リリース。コーディング、エージェント、コンピュータ操作に最適 |
-| claude-sonnet-4-5-20241022 | バランス型 | コストと性能のバランス |
-| claude-haiku-4-5 | 高速・低コスト | 軽量タスク向け |
+| モデル                     | 用途           | 備考                                                                   |
+| -------------------------- | -------------- | ---------------------------------------------------------------------- |
+| claude-opus-4-5-20251101   | 最高性能       | 2025年11月リリース。コーディング、エージェント、コンピュータ操作に最適 |
+| claude-sonnet-4-5-20241022 | バランス型     | コストと性能のバランス                                                 |
+| claude-haiku-4-5           | 高速・低コスト | 軽量タスク向け                                                         |
 
 参考:
+
 - [OpenAI GPT-5.1](https://openai.com/index/gpt-5-1-for-developers/)
 - [Anthropic Claude Opus 4.5](https://www.anthropic.com/news/claude-opus-4-5)
 
@@ -97,6 +98,13 @@ op item get "SUMMARY_API_KEY" --fields credential --reveal
 # 間違い（値が取得できない）
 op item get "SUMMARY_API_KEY" --fields credential
 ```
+
+## Bash コマンド実行時のディレクトリ
+
+`CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1` により、Bash はプロジェクトルートで実行される。
+
+- `cd` コマンドは原則使用しない
+- ディレクトリ移動が必要な場合は、事前にユーザーに確認する
 
 ## zsh でのコマンド実行（重要）
 
@@ -159,10 +167,10 @@ pattern = "example.com"
 custom_domain = true
 ```
 
-| 設定 | DNS レコード | SSL 証明書 | 用途 |
-|------|-------------|-----------|------|
-| `routes` + `zone_name` | 手動作成 | 手動 | 特定パスのみ Worker に向ける場合 |
-| `custom_domain = true` | 自動作成 | 自動 | ドメイン全体を Worker に向ける場合（推奨） |
+| 設定                   | DNS レコード | SSL 証明書 | 用途                                       |
+| ---------------------- | ------------ | ---------- | ------------------------------------------ |
+| `routes` + `zone_name` | 手動作成     | 手動       | 特定パスのみ Worker に向ける場合           |
+| `custom_domain = true` | 自動作成     | 自動       | ドメイン全体を Worker に向ける場合（推奨） |
 
 ## DNS キャッシュクリア
 
@@ -180,6 +188,7 @@ sudo systemd-resolve --flush-caches
 ```
 
 ブラウザの DNS キャッシュも確認:
+
 - Chrome: `chrome://net-internals/#dns` → 「Clear host cache」
 - Safari: 開発メニュー → 「キャッシュを空にする」
 
