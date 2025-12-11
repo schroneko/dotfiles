@@ -82,18 +82,6 @@ chezmoi git commit -- -m "vimrc を更新"
 chezmoi git push
 ```
 
-#### 複数のファイルをまとめて反映する場合
-
-```bash
-# 管理下の全ファイルをホームから取り込む
-chezmoi re-add
-
-# コミット & プッシュ
-chezmoi git add .
-chezmoi git commit -- -m "設定を更新"
-chezmoi git push
-```
-
 #### 他のマシンの変更を取り込む場合
 
 ```bash

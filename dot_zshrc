@@ -10,7 +10,7 @@ export PATH
 export LANG=en_US.UTF-8
 export HISTSIZE=10000
 export SAVEHIST=10000
-export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
+export MANPAGER="nvim +Man!"
 
 # ============================================
 # Zsh オプション
@@ -40,7 +40,9 @@ else
     alias ls='ls -G'
 fi
 
-alias note='vim -c "setlocal buftype=nofile bufhidden=wipe noswapfile filetype=markdown" /tmp/note.md'
+alias vim='nvim'
+alias vi='nvim'
+alias note='nvim /tmp/note.md -c "setlocal buftype=nofile bufhidden=wipe noswapfile"'
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
 # ============================================
