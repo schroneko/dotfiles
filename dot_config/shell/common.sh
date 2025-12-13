@@ -64,8 +64,8 @@ alias note='${EDITOR:-vim} /tmp/note.md -c "setlocal buftype=nofile bufhidden=wi
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
 # --------------------------------------------
-# プロンプト (Starship)
+# プロンプト (starship 風)
 # --------------------------------------------
-if command -v starship &> /dev/null; then
-    eval "$(starship init ${SHELL##*/})"
-fi
+PROMPT='
+%F{blue}%1~%f
+❯ '
