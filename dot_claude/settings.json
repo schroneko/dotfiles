@@ -6,6 +6,9 @@
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
+      "WebFetch(domain:cookbook.openai.com)",
+      "Bash(chezmoi git status:*)",
+      "Bash(chezmoi git log:*)",
       "Bash(brew info:*)",
       "Bash(ls:*)",
       "Bash(brew info:*)",
@@ -91,7 +94,12 @@
       "WebFetch(domain:zenn.dev)"
     ],
     "deny": ["NotebookEdit", "NotebookRead"],
-    "ask": []
+    "ask": [
+      "Bash(rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git rebase:*)"
+    ]
   },
   "model": "opus",
   "enableAllProjectMcpServers": true,
