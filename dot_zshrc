@@ -7,4 +7,4 @@ for f in ~/.config/shell/{common,zsh}.sh; do
     [ -r "$f" ] && . "$f"
 done
 
-alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew cleanup && brew doctor && chezmoi git add -A && chezmoi git commit -m "sync dotfiles" && chezmoi git push'
+alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew cleanup && brew doctor && git -C ~/.local/share/chezmoi add -A && git -C ~/.local/share/chezmoi commit -m "sync dotfiles" && git -C ~/.local/share/chezmoi push'
