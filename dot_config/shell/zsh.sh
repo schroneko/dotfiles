@@ -73,9 +73,3 @@ if [ -n "$HOMEBREW_PREFIX" ]; then
         source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-# --------------------------------------------
-# 起動時の設定（macOS: iCloud に移動）
-# --------------------------------------------
-if [ "$(uname)" = "Darwin" ] && [ "$PWD" = "$HOME" ]; then
-    cd "$HOME/Library/Mobile Documents/com~apple~CloudDocs" 2>/dev/null || true
-fi
