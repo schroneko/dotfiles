@@ -1,32 +1,20 @@
 {
   "env": {
     "MAX_THINKING_TOKENS": "32000",
-    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_ENV_FILE": "/Users/username/.claude/env-loader.sh"
   },
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
-      "WebFetch(domain:cookbook.openai.com)",
-      "Bash(chezmoi git status:*)",
-      "Bash(chezmoi git log:*)",
       "Bash(brew info:*)",
-      "Bash(ls:*)",
-      "Bash(brew info:*)",
-      "Bash(du:*)",
-      "Bash(npx oxfmt:*)",
-      "Bash(dig:*)",
-      "Bash(whois:*)",
-      "Skill(frontend-design)",
-      "Bash(brew search:*)",
-      "WebFetch(domain:docs.claude.com)",
-      "WebFetch(domain:docs.anthropic.com)",
       "Bash(brew list:*)",
-      "Bash(npx wrangler:*)",
-      "Bash(wrangler --version:*)",
-      "WebSearch",
+      "Bash(brew search:*)",
       "Bash(brew services:*)",
       "Bash(cat:*)",
       "Bash(chezmoi diff:*)",
+      "Bash(chezmoi git log:*)",
+      "Bash(chezmoi git status:*)",
       "Bash(chezmoi managed:*)",
       "Bash(chezmoi source-path:*)",
       "Bash(chezmoi status:*)",
@@ -34,11 +22,14 @@
       "Bash(claude config --help:*)",
       "Bash(claude mcp --help:*)",
       "Bash(defaults read:*)",
+      "Bash(dig:*)",
+      "Bash(du:*)",
       "Bash(find:*)",
       "Bash(gh run list:*)",
       "Bash(git init:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
+      "Bash(ls:*)",
       "Bash(lsof:*)",
       "Bash(node:*)",
       "Bash(npm info:*)",
@@ -49,10 +40,12 @@
       "Bash(npm test)",
       "Bash(npx biome check:*)",
       "Bash(npx lefthook install)",
+      "Bash(npx oxfmt:*)",
       "Bash(npx textlint:*)",
       "Bash(npx tsc --noEmit)",
       "Bash(npx tsc:*)",
       "Bash(npx tsx:*)",
+      "Bash(npx wrangler:*)",
       "Bash(paste:*)",
       "Bash(plutil:*)",
       "Bash(ps:*)",
@@ -60,13 +53,19 @@
       "Bash(sort:*)",
       "Bash(tail:*)",
       "Bash(tree:*)",
+      "Bash(whois:*)",
+      "Bash(wrangler --version:*)",
+      "Skill(frontend-design)",
       "WebFetch(domain:api.github.com)",
       "WebFetch(domain:apify.com)",
       "WebFetch(domain:arxiv.org)",
       "WebFetch(domain:cdn.jsdelivr.net)",
       "WebFetch(domain:cdn.simpleicons.org)",
       "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:cookbook.openai.com)",
       "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:docs.claude.com)",
       "WebFetch(domain:docs.firecrawl.dev)",
       "WebFetch(domain:empathyfirstmedia.com)",
       "WebFetch(domain:github.com)",
@@ -91,14 +90,16 @@
       "WebFetch(domain:www.humanlayer.dev)",
       "WebFetch(domain:www.npmjs.com)",
       "WebFetch(domain:x.ai)",
-      "WebFetch(domain:zenn.dev)"
+      "WebFetch(domain:zenn.dev)",
+      "WebSearch"
     ],
-    "deny": ["NotebookEdit", "NotebookRead"],
+    "deny": ["NotebookEdit", "NotebookRead", "Bash(bash -c:*)"],
     "ask": [
       "Bash(rm:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(git rebase:*)"
+      "Bash(git rebase:*)",
+      "Bash(curl:*)"
     ]
   },
   "model": "opus",
@@ -124,15 +125,6 @@
       }
     ],
     "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -f .dev.vars ] && cat .dev.vars | while IFS='=' read -r key value; do [ -n \"$key\" ] && echo \"export $key=\\\"$value\\\"\"; done || exit 0"
-          }
-        ]
-      },
       {
         "matcher": "WebSearch",
         "hooks": [
