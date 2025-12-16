@@ -8,3 +8,13 @@ for f in ~/.config/shell/{common,zsh}.sh; do
 done
 
 alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew cleanup && brew doctor && git -C ~/.local/share/chezmoi diff --quiet || (git -C ~/.local/share/chezmoi add -A && git -C ~/.local/share/chezmoi commit -m "sync dotfiles" && git -C ~/.local/share/chezmoi push)'
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/username/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+# Claude Code: auto-load .dev.vars
+export CLAUDE_ENV_FILE="$HOME/.claude/env-loader.sh"
+
+export EDITOR=nvim

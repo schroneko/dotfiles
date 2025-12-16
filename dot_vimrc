@@ -1,6 +1,14 @@
 set number
 set cursorline
 set clipboard+=unnamed
+set laststatus=0
+set cmdheight=0
+set title
+set titlestring=%t
+set shortmess+=F
+set noshowcmd
+set noshowmode
+set signcolumn=no
 set autoread
 set nobackup
 set noswapfile
@@ -35,16 +43,16 @@ function! RunFormatAndFix()
     try
         call writefile(getline(1, '$'), l:tempfile)
 
-        " Prettier
-        let l:cmd_prettier = 'PRETTIER_EXPERIMENTAL_CLI=1 prettier --write ' . shellescape(l:tempfile)
-        let l:prettier_output = system(l:cmd_prettier)
+        " oxfmt
+        let l:cmd_oxfmt = 'npx oxfmt ' . shellescape(l:tempfile)
+        let l:oxfmt_output = system(l:cmd_oxfmt)
 
         if v:shell_error != 0
-            echoerr "Prettier failed! " . l:prettier_output
+            echoerr "oxfmt failed! " . l:oxfmt_output
             return
         endif
 
-        echo "Prettier: OK... "
+        echo "oxfmt: OK... "
 
         " textlint (markdown のみ)
         if &filetype == 'markdown'
@@ -61,7 +69,7 @@ function! RunFormatAndFix()
                 echo "Formatted & Fixed (Perfect) ✨"
             endif
         else
-            echo "Formatted (Prettier) ✨"
+            echo "Formatted (oxfmt) ✨"
         endif
 
         let l:final_lines = readfile(l:tempfile)
@@ -76,7 +84,7 @@ endfunction
 
 nnoremap <C-=> :call RunFormatAndFix()<CR>
 
-set makeprg=textlint\ -f\ unix\ %
+set makeprg=npx\ oxlint\ --type-aware\ %
 set errorformat=%f:%l:%c:\ %m
 command! Lint silent make | redraw! | copen
 
