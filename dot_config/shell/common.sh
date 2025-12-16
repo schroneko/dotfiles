@@ -60,7 +60,9 @@ if command -v nvim &> /dev/null; then
     alias vi='nvim'
 fi
 
-alias note='${EDITOR:-vim} /tmp/note.md -c "setlocal buftype=nofile bufhidden=wipe noswapfile"'
+note() {
+  ${EDITOR:-vim} /tmp/note.md -c "setlocal buftype=nofile bufhidden=wipe noswapfile"
+}
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
 # --------------------------------------------
