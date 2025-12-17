@@ -4,7 +4,10 @@
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
     "CLAUDE_ENV_FILE": "/Users/username/.claude/env-loader.sh"
   },
-  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "permissions": {
     "allow": [
       "Bash(brew info:*)",
@@ -93,7 +96,12 @@
       "WebFetch(domain:zenn.dev)",
       "WebSearch"
     ],
-    "deny": ["NotebookEdit", "NotebookRead", "Bash(bash -c:*)", "Bash(pip:*"],
+    "deny": [
+      "NotebookEdit",
+      "NotebookRead",
+      "Bash(bash -c:*)",
+      "Bash(pip:*"
+    ],
     "ask": [
       "Bash(rm:*)",
       "Bash(git commit:*)",
@@ -182,7 +190,11 @@
     "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir // .cwd'); dir_display=\"${cwd/#$HOME/\\~}\"; git_info=\"\"; if git -C \"$cwd\" rev-parse --git-dir >/dev/null 2>&1; then branch=$(git -C \"$cwd\" branch --show-current 2>/dev/null || echo \"detached\"); status_output=$(git -C \"$cwd\" --no-optional-locks status --porcelain 2>/dev/null); modified=$(echo \"$status_output\" | grep -c \"^ M\" || true); added=$(echo \"$status_output\" | grep -c \"^A\" || true); deleted=$(echo \"$status_output\" | grep -c \"^D\" || true); untracked=$(echo \"$status_output\" | grep -c \"^??\" || true); ahead_behind=$(git -C \"$cwd\" --no-optional-locks rev-list --left-right --count HEAD...@{upstream} 2>/dev/null || echo \"0 0\"); ahead=$(echo \"$ahead_behind\" | awk '{print $1}'); behind=$(echo \"$ahead_behind\" | awk '{print $2}'); git_status=\"\"; [[ $modified -gt 0 ]] && git_status=\"${git_status}~${modified}\"; [[ $added -gt 0 ]] && git_status=\"${git_status}+${added}\"; [[ $deleted -gt 0 ]] && git_status=\"${git_status}x${deleted}\"; [[ $untracked -gt 0 ]] && git_status=\"${git_status}?${untracked}\"; [[ $ahead -gt 0 ]] && git_status=\"${git_status}>${ahead}\"; [[ $behind -gt 0 ]] && git_status=\"${git_status}<${behind}\"; if [[ -n \"$git_status\" ]]; then git_info=$(printf \" \\033[32mgit\\033[0m \\033[33m%s\\033[0m \\033[31m[%s]\\033[0m\" \"$branch\" \"$git_status\"); else git_info=$(printf \" \\033[32mgit\\033[0m \\033[33m%s\\033[0m\" \"$branch\"); fi; fi; printf \"\\033[36m%s\\033[0m%s\" \"$dir_display\" \"$git_info\""
   },
   "enabledPlugins": {
-    "frontend-design@claude-code-plugins": true
+    "frontend-design@claude-code-plugins": true,
+    "serena@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "explanatory-output-style@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
   },
   "outputStyle": "Explanatory",
   "sandbox": {
