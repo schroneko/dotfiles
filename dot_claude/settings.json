@@ -93,7 +93,7 @@
       "WebFetch(domain:zenn.dev)",
       "WebSearch"
     ],
-    "deny": ["NotebookEdit", "NotebookRead", "Bash(bash -c:*)"],
+    "deny": ["NotebookEdit", "NotebookRead", "Bash(bash -c:*)", "Bash(pip:*"],
     "ask": [
       "Bash(rm:*)",
       "Bash(git commit:*)",
