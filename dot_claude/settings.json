@@ -96,18 +96,14 @@
       "WebFetch(domain:zenn.dev)",
       "WebSearch"
     ],
-    "deny": [
-      "NotebookEdit",
-      "NotebookRead",
-      "Bash(bash -c:*)",
-      "Bash(pip:*"
-    ],
+    "deny": ["NotebookEdit", "NotebookRead", "Bash(bash -c:*)", "Bash(pip:*)"],
     "ask": [
       "Bash(rm:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git rebase:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(xargs:*)"
     ]
   },
   "model": "opus",
