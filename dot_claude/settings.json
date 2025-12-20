@@ -2,7 +2,8 @@
   "env": {
     "MAX_THINKING_TOKENS": "32000",
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
-    "CLAUDE_ENV_FILE": "/Users/username/.claude/env-loader.sh"
+    "CLAUDE_ENV_FILE": "/Users/username/.claude/env-loader.sh",
+    "CLAUDE_CODE_SHELL": "/bin/bash"
   },
   "attribution": {
     "commit": "",
@@ -97,19 +98,15 @@
       "WebFetch(domain:zenn.dev)",
       "WebSearch"
     ],
-    "deny": [
-      "NotebookEdit",
-      "NotebookRead",
-      "Bash(bash -c:*)",
-      "Bash(pip:*)"
-    ],
+    "deny": ["NotebookEdit", "NotebookRead", "Bash(bash -c:*)", "Bash(pip:*)"],
     "ask": [
       "Bash(rm:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git rebase:*)",
       "Bash(curl:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(export:*)"
     ]
   },
   "model": "opus",
