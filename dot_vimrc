@@ -90,3 +90,6 @@ command! Lint silent make | redraw! | copen
 
 " chezmoi 管理ファイルを保存したら自動で re-add
 autocmd BufWritePost ~/.zshrc,~/.bashrc,~/.vimrc,~/.gitconfig,~/.textlintrc,~/.Brewfile,~/.claude/*,~/.config/ghostty/*,~/.config/gh/*,~/.config/starship.toml,~/.ssh/config silent! !chezmoi re-add %
+
+" OSC 52 clipboard sync (for SSH)
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankRegister "' | endif
