@@ -1,3 +1,4 @@
+brew "bookokrat"
 brew "chezmoi"
 brew "cloudflared"
 brew "cmake"
