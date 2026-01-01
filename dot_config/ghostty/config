@@ -5,11 +5,9 @@ background-opacity = 0.8
 macos-titlebar-style = tabs
 background-blur = true
 font-size = 20
-adjust-cell-height = 4
+adjust-cell-height = 2
 font-thicken = true
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+l=goto_split:right
 keybind = shift+enter=text:\x1b\r
-
 window-inherit-working-directory = true
-shell-integration = detect
