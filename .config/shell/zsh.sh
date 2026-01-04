@@ -39,6 +39,31 @@ if command -v peco &> /dev/null; then
 fi
 
 # --------------------------------------------
+# brew 関数（install/uninstall 時に Brewfile 自動更新）
+# --------------------------------------------
+if command -v brew &> /dev/null; then
+    function _update_brewfile() {
+        {
+            command brew tap
+            command brew leaves --installed-on-request | sed 's/^/brew "/' | sed 's/$/"/'
+            command brew list --cask -1 | sed 's/^/cask "/' | sed 's/$/"/'
+        } > ~/.Brewfile
+        echo "Brewfile を更新しました"
+    }
+
+    function brew() {
+        command brew "$@"
+        local exit_code=$?
+        case "$1" in
+            install|uninstall|remove|untap)
+                [[ $exit_code -eq 0 ]] && _update_brewfile
+                ;;
+        esac
+        return $exit_code
+    }
+fi
+
+# --------------------------------------------
 # precmd: プロンプト前に空行（初回除く）
 # --------------------------------------------
 precmd() {
