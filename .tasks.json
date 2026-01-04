@@ -1,0 +1,22 @@
+[
+  {
+    "content": "git commit & push",
+    "status": "in_progress",
+    "activeForm": "git commit & push 実行中"
+  },
+  {
+    "content": "ソースディレクトリを ~/dotfiles に移動",
+    "status": "pending",
+    "activeForm": "ソースディレクトリを移動中"
+  },
+  {
+    "content": "chezmoi アンインストール",
+    "status": "pending",
+    "activeForm": "chezmoi をアンインストール中"
+  },
+  {
+    "content": ".vimrc の chezmoi 関連 autocmd 削除",
+    "status": "pending",
+    "activeForm": ".vimrc を編集中"
+  }
+]

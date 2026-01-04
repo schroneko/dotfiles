@@ -1,3 +1,11 @@
+Host myspark
+    HostName 192.168.1.93
+    User username
+
+Host myspark-ts
+    HostName 100.86.102.108
+    User username
+
 Host *.trycloudflare.com
     HostName %h
     User root
