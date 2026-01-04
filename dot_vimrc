@@ -88,6 +88,3 @@ nnoremap <C-=> :call RunFormatAndFix()<CR>
 set makeprg=npx\ oxlint\ --type-aware\ %
 set errorformat=%f:%l:%c:\ %m
 command! Lint silent make | redraw! | copen
-
-" chezmoi 管理ファイルを保存したら自動で re-add
-autocmd BufWritePost ~/.zshrc,~/.bashrc,~/.vimrc,~/.gitconfig,~/.textlintrc,~/.Brewfile,~/.claude/*,~/.config/ghostty/*,~/.config/gh/*,~/.config/starship.toml,~/.ssh/config silent! !chezmoi re-add %

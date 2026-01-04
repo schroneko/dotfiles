@@ -1,4 +1,3 @@
-brew "chezmoi"
 brew "cloudflared"
 brew "cmake"
 brew "coreutils"
