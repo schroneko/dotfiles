@@ -7,7 +7,7 @@ for f in ~/.config/shell/{common,zsh}.sh; do
     [ -r "$f" ] && . "$f"
 done
 
-alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew cleanup --prune=all && brew doctor && git -C ~/.local/share/chezmoi diff --quiet || (git -C ~/.local/share/chezmoi add -A && git -C ~/.local/share/chezmoi commit -m "sync dotfiles" && git -C ~/.local/share/chezmoi push)'
+alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew cleanup --prune=all && brew doctor && git -C ~/dotfiles diff --quiet || (git -C ~/dotfiles add -A && git -C ~/dotfiles commit -m "sync dotfiles" && git -C ~/dotfiles push)'
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/username/.lmstudio/bin"
