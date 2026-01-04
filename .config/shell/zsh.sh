@@ -51,13 +51,7 @@ if command -v brew &> /dev/null; then
                 if [[ $exit_code -eq 0 ]]; then
                     echo "Brewfile を更新中..."
                     command brew bundle dump --file=~/.Brewfile --force
-                    if command -v chezmoi &>/dev/null; then
-                        chezmoi add ~/.Brewfile
-                        chezmoi git -- add dot_Brewfile
-                        chezmoi git -- commit -m "Brewfile: $1 ${*:2}"
-                        chezmoi git -- push
-                        echo "chezmoi に反映しました"
-                    fi
+                    echo "Brewfile を更新しました。git commit は手動で行ってください"
                 fi
                 ;;
         esac
