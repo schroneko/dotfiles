@@ -39,28 +39,6 @@ if command -v peco &> /dev/null; then
 fi
 
 # --------------------------------------------
-# brew 関数（install/uninstall 時に Brewfile 自動更新）
-# --------------------------------------------
-if command -v brew &> /dev/null; then
-    function brew() {
-        command brew "$@"
-        local exit_code=$?
-
-        case "$1" in
-            install|uninstall|remove)
-                if [[ $exit_code -eq 0 ]]; then
-                    echo "Brewfile を更新中..."
-                    command brew bundle dump --file=~/.Brewfile --force
-                    echo "Brewfile を更新しました。git commit は手動で行ってください"
-                fi
-                ;;
-        esac
-
-        return $exit_code
-    }
-fi
-
-# --------------------------------------------
 # precmd: プロンプト前に空行（初回除く）
 # --------------------------------------------
 precmd() {
