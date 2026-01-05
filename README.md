@@ -1,6 +1,25 @@
 # dotfiles
 
-GNU Stow で管理している個人用 dotfiles
+GNU Stow で管理している個人用 dotfiles（macOS / Linux 両対応）
+
+## セットアップ
+
+### ワンライナー（新しいマシン）
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/setup.sh)"
+```
+
+### 手動セットアップ
+
+```bash
+git clone git@github.com:schroneko/dotfiles.git ~/dotfiles
+
+cd ~/dotfiles
+stow --no-folding .
+
+brew bundle --global
+```
 
 ## 管理しているファイル
 
@@ -25,20 +44,7 @@ GNU Stow で管理している個人用 dotfiles
 
 - `.Brewfile`
 
-## セットアップ
-
-### 新しい Mac での初回セットアップ
-
-```bash
-git clone git@github.com:schroneko/dotfiles.git ~/dotfiles
-
-cd ~/dotfiles
-stow --no-folding .
-
-brew bundle --global
-```
-
-### 設定ファイルの更新
+## 設定ファイルの更新
 
 ```bash
 vim ~/dotfiles/.zshrc
@@ -49,7 +55,7 @@ git commit -m "zshrc を更新"
 git push
 ```
 
-### 他のマシンの変更を取り込む場合
+## 他のマシンの変更を取り込む
 
 ```bash
 cd ~/dotfiles

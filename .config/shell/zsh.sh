@@ -48,7 +48,7 @@ if command -v brew &> /dev/null; then
             command brew leaves --installed-on-request | sed 's/^/brew "/' | sed 's/$/"/'
             command brew list --cask -1 | sed 's/^/cask "/' | sed 's/$/"/'
         } > ~/.Brewfile
-        echo "Brewfile を更新しました"
+        echo "Brewfile updated"
     }
 
     function brew() {
@@ -67,6 +67,7 @@ fi
 # precmd: プロンプト前に空行（初回除く）
 # --------------------------------------------
 precmd() {
+  vcs_info
   if [ -z "$_FIRST_PROMPT" ]; then
     _FIRST_PROMPT=1
   else

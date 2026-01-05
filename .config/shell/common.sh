@@ -68,5 +68,10 @@ alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 # --------------------------------------------
 # プロンプト (starship 風)
 # --------------------------------------------
-PROMPT='%F{blue}%1~%f
+autoload -Uz vcs_info
+zstyle ':vcs_info:git:*' formats ' %F{yellow}%b%f'
+zstyle ':vcs_info:*' enable git
+setopt prompt_subst
+
+PROMPT='%F{blue}%1~%f${vcs_info_msg_0_}
 ❯ '
