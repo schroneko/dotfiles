@@ -46,8 +46,11 @@ else
     git -C "$DOTFILES_DIR" pull
 fi
 
-echo "Linking dotfiles with stow..."
+echo "Configuring git hooks..."
 cd "$DOTFILES_DIR"
+git config core.hooksPath .githooks
+
+echo "Linking dotfiles with stow..."
 stow --no-folding .
 
 echo "Installing packages from Brewfile..."
