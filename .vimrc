@@ -44,17 +44,8 @@ function! RunFormatAndFix()
     try
         call writefile(getline(1, '$'), l:tempfile)
 
-        " oxfmt（ファイルタイプで分岐）
-        if l:ext == 'json' || l:ext == 'jsonc'
-            let l:cmd_oxfmt = 'cat ' . shellescape(l:tempfile) . ' | npx oxfmt --stdin-filepath=' . shellescape(l:tempfile)
-            let l:oxfmt_output = system(l:cmd_oxfmt)
-            if v:shell_error == 0
-                call writefile(split(l:oxfmt_output, "\n"), l:tempfile)
-            endif
-        else
-            let l:cmd_oxfmt = 'npx oxfmt ' . shellescape(l:tempfile)
-            let l:oxfmt_output = system(l:cmd_oxfmt)
-        endif
+        let l:cmd_oxfmt = 'npm exec oxfmt -- ' . shellescape(l:tempfile)
+        let l:oxfmt_output = system(l:cmd_oxfmt)
 
         if v:shell_error != 0
             echoerr "oxfmt failed! " . l:oxfmt_output
