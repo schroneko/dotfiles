@@ -8,6 +8,13 @@
 typeset -U PATH path
 
 # --------------------------------------------
+# dotfiles: git hooks path
+# --------------------------------------------
+if [[ -d "$HOME/dotfiles/.githooks" ]]; then
+    git -C "$HOME/dotfiles" config core.hooksPath .githooks 2>/dev/null
+fi
+
+# --------------------------------------------
 # Zsh オプション
 # --------------------------------------------
 setopt auto_cd              # ディレクトリ名だけで cd
