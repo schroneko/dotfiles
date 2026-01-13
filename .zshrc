@@ -6,9 +6,6 @@ for f in ~/.config/shell/{common,zsh}.sh; do
     [ -r "$f" ] && . "$f"
 done
 
-alias python='uv run python'
-alias python3='uv run python'
-
 export CLAUDE_ENV_FILE="$HOME/.claude/env-loader.sh"
 export EDITOR=nvim
 
