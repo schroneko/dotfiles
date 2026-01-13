@@ -7,5 +7,7 @@ background-blur = true
 font-size = 20
 adjust-cell-height = 2
 font-thicken = true
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+l=goto_split:right
 window-inherit-working-directory = true
 scrollback-limit = 1000000000

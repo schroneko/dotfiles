@@ -67,7 +67,6 @@ fi
 # precmd: プロンプト前に空行（初回除く）
 # --------------------------------------------
 precmd() {
-  vcs_info
   if [ -z "$_FIRST_PROMPT" ]; then
     _FIRST_PROMPT=1
   else

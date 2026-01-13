@@ -59,6 +59,8 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NONE', ctermbg = 'NONE' })
     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE', ctermbg = 'NONE' })
     vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = 'NONE', ctermbg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'LineNr', { fg = '#888888', bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#ffffff', bg = 'NONE', bold = true })
   end,
 })
 
@@ -67,3 +69,5 @@ vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE', ctermbg = 'NONE' })
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NONE', ctermbg = 'NONE' })
 vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE', ctermbg = 'NONE' })
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = 'NONE', ctermbg = 'NONE' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#888888', bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#ffffff', bg = 'NONE', bold = true })

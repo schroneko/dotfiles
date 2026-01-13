@@ -44,9 +44,17 @@ function! RunFormatAndFix()
     try
         call writefile(getline(1, '$'), l:tempfile)
 
-        " oxfmt
-        let l:cmd_oxfmt = 'npx oxfmt ' . shellescape(l:tempfile)
-        let l:oxfmt_output = system(l:cmd_oxfmt)
+        " oxfmt（ファイルタイプで分岐）
+        if l:ext == 'json' || l:ext == 'jsonc'
+            let l:cmd_oxfmt = 'cat ' . shellescape(l:tempfile) . ' | npx oxfmt --stdin-filepath=' . shellescape(l:tempfile)
+            let l:oxfmt_output = system(l:cmd_oxfmt)
+            if v:shell_error == 0
+                call writefile(split(l:oxfmt_output, "\n"), l:tempfile)
+            endif
+        else
+            let l:cmd_oxfmt = 'npx oxfmt ' . shellescape(l:tempfile)
+            let l:oxfmt_output = system(l:cmd_oxfmt)
+        endif
 
         if v:shell_error != 0
             echoerr "oxfmt failed! " . l:oxfmt_output
@@ -57,7 +65,7 @@ function! RunFormatAndFix()
 
         " textlint (markdown のみ)
         if &filetype == 'markdown'
-            let l:cmd_textlint = 'textlint --config ~/.textlintrc --fix ' . shellescape(l:tempfile)
+            let l:cmd_textlint = 'textlint --config ~/.claude/.textlintrc --fix ' . shellescape(l:tempfile)
             let l:textlint_output = system(l:cmd_textlint)
             let l:textlint_exit = v:shell_error
 
@@ -74,8 +82,12 @@ function! RunFormatAndFix()
         endif
 
         let l:final_lines = readfile(l:tempfile)
-        silent %delete _
-        call setline(1, l:final_lines)
+        let l:current_lines = getline(1, '$')
+
+        if l:final_lines != l:current_lines
+            silent %delete _
+            call setline(1, l:final_lines)
+        endif
         call winrestview(l:view)
         redraw
     finally

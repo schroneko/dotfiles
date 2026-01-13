@@ -66,12 +66,39 @@ note() {
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
 # --------------------------------------------
-# プロンプト (starship 風)
+# プロンプト
 # --------------------------------------------
-autoload -Uz vcs_info
-zstyle ':vcs_info:git:*' formats ' %F{yellow}%b%f'
-zstyle ':vcs_info:*' enable git
 setopt prompt_subst
 
-PROMPT='%F{blue}%1~%f${vcs_info_msg_0_}
+_git_prompt_info() {
+    git rev-parse --git-dir >/dev/null 2>&1 || return
+
+    local branch=$(git branch --show-current 2>/dev/null || echo "detached")
+    local status_output=$(git --no-optional-locks status --porcelain 2>/dev/null)
+
+    local modified=$(echo "$status_output" | grep -c "^ M" || true)
+    local added=$(echo "$status_output" | grep -c "^A" || true)
+    local deleted=$(echo "$status_output" | grep -c "^D" || true)
+    local untracked=$(echo "$status_output" | grep -c "^??" || true)
+
+    local ahead_behind=$(git --no-optional-locks rev-list --left-right --count HEAD...@{upstream} 2>/dev/null || echo "0 0")
+    local ahead=$(echo "$ahead_behind" | awk '{print $1}')
+    local behind=$(echo "$ahead_behind" | awk '{print $2}')
+
+    local git_status=""
+    [[ $modified -gt 0 ]] && git_status="${git_status}~${modified}"
+    [[ $added -gt 0 ]] && git_status="${git_status}+${added}"
+    [[ $deleted -gt 0 ]] && git_status="${git_status}x${deleted}"
+    [[ $untracked -gt 0 ]] && git_status="${git_status}?${untracked}"
+    [[ $ahead -gt 0 ]] && git_status="${git_status}>${ahead}"
+    [[ $behind -gt 0 ]] && git_status="${git_status}<${behind}"
+
+    if [[ -n "$git_status" ]]; then
+        printf " %%F{green}git%%f %%F{yellow}%s%%f %%F{red}[%s]%%f" "$branch" "$git_status"
+    else
+        printf " %%F{green}git%%f %%F{yellow}%s%%f" "$branch"
+    fi
+}
+
+PROMPT='%F{cyan}%~%f$(_git_prompt_info)
 ❯ '

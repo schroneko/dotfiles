@@ -13,8 +13,7 @@ export CLAUDE_ENV_FILE="$HOME/.claude/env-loader.sh"
 export EDITOR=nvim
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew cleanup --prune=all && brew doctor'
-    alias rm='trash'
+    alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew doctor && brew cleanup'
 
     export PATH="$PATH:$HOME/.lmstudio/bin"
     export PATH="$HOME/.mint/bin:$PATH"
