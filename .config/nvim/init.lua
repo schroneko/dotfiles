@@ -37,7 +37,6 @@ require('lazy').setup({
         },
         highlight = {
           enable = true,
-          -- 従来の正規表現ベースのハイライトを無効化
           additional_vim_regex_highlighting = false,
         },
         indent = {
