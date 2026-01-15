@@ -12,6 +12,19 @@ export EDITOR=nvim
 if [[ "$(uname)" == "Darwin" ]]; then
     alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew doctor && brew cleanup'
 
+    _update_brewfile() {
+        brew bundle dump --file=~/.Brewfile --force 2>/dev/null
+    }
+
+    brew() {
+        command brew "$@"
+        local exit_code=$?
+        case "$1" in
+            install|uninstall|remove|untap) [[ $exit_code -eq 0 ]] && _update_brewfile ;;
+        esac
+        return $exit_code
+    }
+
     export PATH="$PATH:$HOME/.lmstudio/bin"
     export PATH="$HOME/.mint/bin:$PATH"
 
