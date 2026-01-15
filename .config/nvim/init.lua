@@ -17,31 +17,14 @@ vim.opt.rtp:prepend(lazypath)
 
 -- プラグイン設定
 require('lazy').setup({
-  -- Tree-sitter: AST ベースのシンタックスハイライト
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     config = function()
-      require('nvim-treesitter.configs').setup({
-        ensure_installed = {
-          'typescript',
-          'javascript',
-          'tsx',
-          'json',
-          'yaml',
-          'markdown',
-          'markdown_inline',
-          'lua',
-          'vim',
-          'vimdoc',
-        },
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-        indent = {
-          enable = true,
-        },
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
       })
     end,
   },
