@@ -1,4 +1,4 @@
-brew "cloudflared"
+brew "cloudflared", restart_service: :changed
 brew "cmake"
 brew "coreutils"
 brew "ffmpeg"
@@ -24,6 +24,7 @@ brew "poppler"
 brew "portaudio"
 brew "qpdf"
 brew "ripgrep"
+brew "rust"
 brew "ssh-copy-id"
 brew "stow"
 brew "syncthing", restart_service: :changed
