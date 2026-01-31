@@ -44,10 +44,14 @@ function! RunFormatAndFix()
     try
         call writefile(getline(1, '$'), l:tempfile)
 
-        let l:cmd_oxfmt = 'npm exec oxfmt -- ' . shellescape(l:tempfile)
+        let l:cmd_oxfmt = 'npx oxfmt ' . shellescape(l:tempfile)
         let l:oxfmt_output = system(l:cmd_oxfmt)
 
         if v:shell_error != 0
+            if l:oxfmt_output =~ 'Expected at least one target file'
+                echo "oxfmt: skipped (unsupported file type)"
+                return
+            endif
             echoerr "oxfmt failed! " . l:oxfmt_output
             return
         endif
