@@ -63,6 +63,12 @@ else
         | brew bundle --file=-
 fi
 
+if command -v volta &>/dev/null; then
+    echo "Installing global npm packages via Volta..."
+    volta install textlint
+    npm install -g textlint-rule-ja-space-between-half-and-full-width textlint-rule-no-space-between-full-width
+fi
+
 echo ""
 echo "=== Setup Complete ==="
 echo "Restart your terminal or run: exec zsh"
