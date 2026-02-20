@@ -8,3 +8,5 @@
 	email = schroneko@users.noreply.github.com
 [init]
 	defaultBranch = main
+[core]
+	excludesfile = /Users/username/.config/git/ignore
