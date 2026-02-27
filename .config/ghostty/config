@@ -11,3 +11,4 @@ keybind = ctrl+h=goto_split:left
 keybind = ctrl+l=goto_split:right
 window-inherit-working-directory = true
 scrollback-limit = 1000000000
+unfocused-split-opacity = 0.8
