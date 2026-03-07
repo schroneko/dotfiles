@@ -10,6 +10,14 @@ export CLAUDE_ENV_FILE="$HOME/.claude/env-loader.sh"
 export EDITOR=nvim
 export OP_SERVICE_ACCOUNT_TOKEN="$(security find-generic-password -a "$USER" -s "op-service-account" -w 2>/dev/null)"
 
+codex() {
+    command codex -m gpt-5.4 \
+      -c model_context_window=1000000 \
+      -c model_auto_compact_token_limit=955000 \
+      --enable fast_mode \
+      "$@"
+}
+
 if [[ "$(uname)" == "Darwin" ]]; then
     alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew doctor && brew cleanup'
 
