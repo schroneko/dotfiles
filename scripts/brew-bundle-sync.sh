@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cleanup=0
+cleanup=1
 dry_run=0
 
 for arg in "$@"; do
@@ -9,11 +9,14 @@ for arg in "$@"; do
         --cleanup)
             cleanup=1
             ;;
+        --no-cleanup)
+            cleanup=0
+            ;;
         --dry-run)
             dry_run=1
             ;;
         *)
-            echo "Usage: $0 [--cleanup] [--dry-run]" >&2
+            echo "Usage: $0 [--cleanup] [--no-cleanup] [--dry-run]" >&2
             exit 2
             ;;
     esac
@@ -24,28 +27,44 @@ if ! command -v brew >/dev/null 2>&1; then
     exit 0
 fi
 
-brewfile="${HOME}/.Brewfile"
-if [[ ! -f "${brewfile}" ]]; then
-    echo "Skipping brew bundle: ${brewfile} not found"
+repo_root="$(cd "$(dirname "$0")/.." && pwd)"
+shared_brewfile="${repo_root}/.Brewfile.shared"
+darwin_brewfile="${repo_root}/.Brewfile.darwin"
+linux_brewfile="${repo_root}/.Brewfile.linux"
+
+if [[ ! -f "${shared_brewfile}" ]]; then
+    echo "Skipping brew bundle: ${shared_brewfile} not found"
     exit 0
 fi
 
 os="$(uname -s)"
 
-linux_brewfile() {
-    grep -v '^cask ' "${brewfile}" \
-        | grep -v '"container"' \
-        | grep -v '"xcodegen"' \
-        | grep -v '"mint"'
+write_effective_brewfile() {
+    local target="$1"
+
+    case "${os}" in
+        Darwin)
+            cat "${shared_brewfile}" "${darwin_brewfile}" ;;
+        Linux)
+            cat "${shared_brewfile}" "${linux_brewfile}" ;;
+        *)
+            return 1 ;;
+    esac | grep -E '^(tap|brew|cask) ' > "${target}"
 }
 
 if [[ "${os}" == "Darwin" ]]; then
-    cmd=(brew bundle --global)
+    tmp_brewfile="$(mktemp)"
+    trap 'rm -f "${tmp_brewfile}"' EXIT
+    write_effective_brewfile "${tmp_brewfile}"
+
+    cmd=(brew bundle --file="${tmp_brewfile}")
     if (( cleanup )); then
         cmd+=(--cleanup)
     fi
 
     if (( dry_run )); then
+        cat "${tmp_brewfile}"
+        echo
         printf '+'
         printf ' %q' "${cmd[@]}"
         printf '\n'
@@ -57,16 +76,24 @@ if [[ "${os}" == "Darwin" ]]; then
 fi
 
 if [[ "${os}" == "Linux" ]]; then
-    if (( cleanup )); then
-        echo "Skipping cleanup on Linux: filtered Brewfile is not a complete package set"
-    fi
+    tmp_brewfile="$(mktemp)"
+    trap 'rm -f "${tmp_brewfile}"' EXIT
+    write_effective_brewfile "${tmp_brewfile}"
 
     if (( dry_run )); then
-        linux_brewfile
+        cat "${tmp_brewfile}"
+        echo
+        printf '+ brew bundle --file=%q\n' "${tmp_brewfile}"
+        if (( cleanup )); then
+            printf '+ brew bundle cleanup --force --formula --tap --file=%q\n' "${tmp_brewfile}"
+        fi
         exit 0
     fi
 
-    linux_brewfile | brew bundle --file=-
+    brew bundle --file="${tmp_brewfile}"
+    if (( cleanup )); then
+        brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
+    fi
     exit 0
 fi
 

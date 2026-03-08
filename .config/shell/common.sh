@@ -66,10 +66,36 @@ note() {
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
 # --------------------------------------------
+# Homebrew state sync
+# --------------------------------------------
+if command -v brew &> /dev/null; then
+    _dotfiles_refresh_brewfiles() {
+        local manager="$HOME/dotfiles/scripts/brewfile-manager.py"
+
+        [[ -x "$manager" ]] || return 0
+        BREWFILE_SYNC_DISABLE=1 "$manager" track -- "$@" >/dev/null || \
+            echo "Warning: Brewfile update failed" >&2
+    }
+
+    brew() {
+        command brew "$@"
+        local exit_code=$?
+
+        case "$1" in
+            install|uninstall|remove|reinstall|tap|untap)
+                if [[ $exit_code -eq 0 && -z "${BREWFILE_SYNC_DISABLE:-}" ]]; then
+                    _dotfiles_refresh_brewfiles "$@"
+                fi
+                ;;
+        esac
+
+        return $exit_code
+    }
+fi
+
+# --------------------------------------------
 # プロンプト
 # --------------------------------------------
-setopt prompt_subst
-
 _git_prompt_info() {
     git rev-parse --git-dir >/dev/null 2>&1 || return
 

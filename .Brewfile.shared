@@ -1,7 +1,6 @@
 # Managed by scripts/brewfile-manager.py.
-# Formulae and taps are shared by default. Darwin-only apps and overrides live in .Brewfile.darwin.
+# Shared formulae and taps applied on both macOS and Linux.
 
-# Shared packages
 tap "entireio/tap"
 tap "schroneko/tap"
 tap "xdevplatform/tap"
@@ -57,43 +56,3 @@ brew "yt-dlp"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
-
-# Darwin-only packages
-brew "container"
-brew "mint"
-brew "xcodegen"
-cask "1password"
-cask "1password-cli"
-cask "antigravity"
-cask "arc"
-cask "capcut"
-cask "chatgpt"
-cask "claude"
-cask "claude-code"
-cask "cleanshot"
-cask "codex"
-cask "codex-app"
-cask "comfyui"
-cask "cursor-cli"
-cask "discord"
-cask "docker-desktop"
-cask "entireio/tap/entire"
-cask "font-plemol-jp-nf"
-cask "ghostty"
-cask "google-chrome"
-cask "homerow"
-cask "iina"
-cask "keycastr"
-cask "lm-studio"
-cask "monitorcontrol"
-cask "ollama-app"
-cask "plaud"
-cask "rectangle"
-cask "schroneko/tap/nicevoice"
-cask "screen-studio"
-cask "slack"
-cask "typora"
-cask "xdevplatform/tap/xurl"
-cask "zoom"
-
-# Linux-only packages

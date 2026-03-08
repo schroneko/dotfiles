@@ -23,6 +23,12 @@ stow --no-folding .
 ./scripts/brew-bundle-sync.sh
 ```
 
+`./scripts/brew-bundle-sync.sh` は split Brewfile を正として同期し、Brewfile にない Homebrew パッケージは自動で削除します。削除を伴わずに同期したい場合だけ `--no-cleanup` を使います。
+
+`brew install` / `brew uninstall` / `brew tap` / `brew untap` を実行すると、Brewfile 群は自動更新されます。formula と tap は共有対象として `.Brewfile.shared` に入り、macOS 専用の cask と override は `.Brewfile.darwin` に入ります。Linux 専用 override が必要な場合は `.Brewfile.linux` を使います。
+
+`git pull` 後は `.githooks/post-merge` から `./scripts/brew-bundle-sync.sh` が自動実行され、そのマシン向けの package 状態が反映されます。トップレベルの `.Brewfile` は可読性のための合成ビューで、実際の source of truth は split Brewfile です。
+
 ## 管理しているファイル
 
 ### シェル & エディタ
@@ -44,7 +50,10 @@ stow --no-folding .
 
 ### パッケージ管理
 
-- `.Brewfile`
+- `.Brewfile` (generated view)
+- `.Brewfile.shared`
+- `.Brewfile.darwin`
+- `.Brewfile.linux`
 
 ## 設定ファイルの更新
 
