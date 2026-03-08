@@ -2,7 +2,7 @@
 set -e
 
 OS="$(uname -s)"
-REPO_URL="https://github.com/schroneko/dotfiles.git"
+REPO_URL="git@github.com:schroneko/dotfiles.git"
 DOTFILES_DIR="$HOME/dotfiles"
 
 echo "=== Dotfiles Setup ==="
