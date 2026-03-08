@@ -16,9 +16,11 @@ GNU Stow で管理している個人用 dotfiles（macOS / Linux 両対応）
 git clone git@github.com:schroneko/dotfiles.git ~/dotfiles
 
 cd ~/dotfiles
+git config core.hooksPath .githooks
+git config pull.autostash true
 stow --no-folding .
 
-brew bundle --global
+./scripts/brew-bundle-sync.sh
 ```
 
 ## 管理しているファイル

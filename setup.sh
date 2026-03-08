@@ -50,18 +50,14 @@ echo "Configuring git hooks..."
 cd "$DOTFILES_DIR"
 git config core.hooksPath .githooks
 
+echo "Configuring git pull..."
+git config pull.autostash true
+
 echo "Linking dotfiles with stow..."
 stow --no-folding .
 
 echo "Installing packages from Brewfile..."
-if [[ "$OS" == "Darwin" ]]; then
-    brew bundle --global
-else
-    grep -v "^cask " ~/.Brewfile \
-        | grep -v '"xcodegen"' \
-        | grep -v '"mint"' \
-        | brew bundle --file=-
-fi
+"$DOTFILES_DIR/scripts/brew-bundle-sync.sh"
 
 if command -v volta &>/dev/null; then
     echo "Installing global npm packages via Volta..."

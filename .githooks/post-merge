@@ -1,3 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -u
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+sync_script="${repo_root}/scripts/brew-bundle-sync.sh"
+
+if [[ ! -x "${sync_script}" ]]; then
+    echo "Skipping brew bundle: ${sync_script} is not executable"
+    exit 0
+fi
+
 echo "Running brew bundle..."
-brew bundle --global --cleanup
+if ! "${sync_script}" --cleanup; then
+    echo "Warning: brew bundle sync failed; git pull already succeeded"
+fi
