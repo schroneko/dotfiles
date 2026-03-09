@@ -23,8 +23,7 @@ fi
 # --------------------------------------------
 # 環境変数
 # --------------------------------------------
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$HOME/.local/bin:$HOME/.lmstudio/bin:$HOME/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.lmstudio/bin:$HOME/.antigravity/antigravity/bin:$PATH"
 
 export LANG=en_US.UTF-8
 export HISTSIZE=10000

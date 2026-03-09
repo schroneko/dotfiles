@@ -59,10 +59,8 @@ stow --no-folding .
 echo "Installing packages from Brewfile..."
 "$DOTFILES_DIR/scripts/brew-bundle-sync.sh"
 
-if command -v volta &>/dev/null; then
-    echo "Installing global npm packages via Volta..."
-    volta install textlint
-    npm install -g textlint-rule-ja-space-between-half-and-full-width textlint-rule-no-space-between-full-width
+if command -v mise &>/dev/null; then
+    echo "mise is installed. Use 'mise use -g node@<version>' to configure Node globally."
 fi
 
 echo ""

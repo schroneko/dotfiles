@@ -6,6 +6,11 @@
 # PATH 重複除去
 # --------------------------------------------
 typeset -U PATH path
+path=(${path:#$HOME/.volta/bin})
+
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+fi
 
 # --------------------------------------------
 # dotfiles: git hooks path
@@ -66,4 +71,3 @@ if [ -n "$HOMEBREW_PREFIX" ]; then
     [ -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
         source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
-
