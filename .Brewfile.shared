@@ -1,5 +1,5 @@
-# Managed by scripts/brewfile-manager.py.
-# Shared formulae and taps applied on both macOS and Linux.
+# Managed by scripts/brewfile-manager.sh.
+# Shared formulae, taps, and cross-platform casks applied on both macOS and Linux.
 
 tap "entireio/tap"
 tap "schroneko/tap"
@@ -54,3 +54,8 @@ brew "yt-dlp"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
+cask "1password-cli"
+cask "claude-code"
+cask "codex"
+cask "entireio/tap/entire"
+cask "xdevplatform/tap/xurl"
