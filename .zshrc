@@ -19,7 +19,7 @@ codex() {
 }
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    alias brewup='brew update && brew upgrade --greedy && brew autoremove && brew doctor && brew cleanup'
+    alias brewup="${${(%):-%x}:A:h}/scripts/brewup.sh"
 
     export PATH="$PATH:$HOME/.lmstudio/bin"
     export PATH="$HOME/.mint/bin:$PATH"
