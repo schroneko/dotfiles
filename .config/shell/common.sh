@@ -69,7 +69,14 @@ alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 # --------------------------------------------
 if command -v brew &> /dev/null; then
     _dotfiles_refresh_brewfiles() {
-        local manager="$HOME/dotfiles/scripts/brewfile-manager.sh"
+        local repo_path="github.com/schroneko/dotfiles"
+        local root
+        if command -v ghq &>/dev/null; then
+            root="$(ghq root)/$repo_path"
+        else
+            root="$HOME/ghq/$repo_path"
+        fi
+        local manager="$root/scripts/brewfile-manager.sh"
 
         [[ -x "$manager" ]] || return 0
         BREWFILE_SYNC_DISABLE=1 "$manager" track -- "$@" >/dev/null || \
