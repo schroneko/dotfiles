@@ -26,17 +26,20 @@ fi
 bind "set completion-ignore-case on"
 
 # --------------------------------------------
-# peco 履歴検索
+# fzf + ghq
 # --------------------------------------------
-function peco-select-history() {
-    local selected
-    selected=$(history | tac | awk '{$1=""; print substr($0,2)}' | awk '!a[$0]++' | peco --query "$READLINE_LINE")
-    READLINE_LINE="$selected"
-    READLINE_POINT=${#READLINE_LINE}
-}
+if command -v fzf &> /dev/null; then
+    eval "$(fzf --bash)"
 
-if command -v peco &> /dev/null; then
-    bind -x '"\C-r": peco-select-history'
+    if command -v ghq &> /dev/null; then
+        function ghq-fzf() {
+            local repo=$(ghq list -p | fzf)
+            if [[ -n "$repo" ]]; then
+                cd "$repo"
+            fi
+        }
+        bind -x '"\C-g": ghq-fzf'
+    fi
 fi
 
 # --------------------------------------------
