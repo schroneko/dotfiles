@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "ja-space-between-half-and-full-width": {
+      "space": "always",
+      "lintStyledNode": true
+    },
+    "no-space-between-full-width": true
+  }
+}
