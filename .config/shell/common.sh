@@ -69,7 +69,7 @@ alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 # --------------------------------------------
 if command -v brew &> /dev/null; then
     _dotfiles_refresh_brewfiles() {
-        local manager="$HOME/dotfiles/scripts/brewfile-manager.py"
+        local manager="$HOME/dotfiles/scripts/brewfile-manager.sh"
 
         [[ -x "$manager" ]] || return 0
         BREWFILE_SYNC_DISABLE=1 "$manager" track -- "$@" >/dev/null || \
