@@ -3,7 +3,13 @@ set -e
 
 OS="$(uname -s)"
 REPO_URL="git@github.com:schroneko/dotfiles.git"
-DOTFILES_DIR="$HOME/dotfiles"
+REPO_PATH="github.com/schroneko/dotfiles"
+
+if command -v ghq &>/dev/null; then
+    DOTFILES_DIR="$(ghq root)/$REPO_PATH"
+else
+    DOTFILES_DIR="$HOME/ghq/$REPO_PATH"
+fi
 
 echo "=== Dotfiles Setup ==="
 echo "OS: $OS"
@@ -38,8 +44,12 @@ if [[ "$OS" == "Linux" ]] && ! command -v zsh &>/dev/null; then
     brew install zsh
 fi
 
-if [[ ! -d "$DOTFILES_DIR" ]]; then
+if command -v ghq &>/dev/null; then
+    echo "Cloning dotfiles with ghq..."
+    ghq get "$REPO_URL"
+elif [[ ! -d "$DOTFILES_DIR" ]]; then
     echo "Cloning dotfiles..."
+    mkdir -p "$(dirname "$DOTFILES_DIR")"
     git clone "$REPO_URL" "$DOTFILES_DIR"
 else
     echo "Dotfiles directory already exists, pulling latest..."
@@ -54,7 +64,7 @@ echo "Configuring git pull..."
 git config pull.autostash true
 
 echo "Linking dotfiles with stow..."
-stow --no-folding .
+stow --no-folding --target="$HOME" .
 
 echo "Installing packages from Brewfile..."
 "$DOTFILES_DIR/scripts/brew-bundle-sync.sh"
