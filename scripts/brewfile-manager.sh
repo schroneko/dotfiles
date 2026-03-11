@@ -352,9 +352,9 @@ update_tracking() {
     extract_entries "${LINUX_PATH}" > "${linux_entries}"
 
     local explicit_kind=""
-    if [[ " ${flags[*]} " == *" --cask "* ]]; then
+    if [[ ${#flags[@]} -gt 0 && " ${flags[*]} " == *" --cask "* ]]; then
         explicit_kind="cask"
-    elif [[ " ${flags[*]} " == *" --formula "* ]]; then
+    elif [[ ${#flags[@]} -gt 0 && " ${flags[*]} " == *" --formula "* ]]; then
         explicit_kind="brew"
     elif [[ "${command}" == "tap" || "${command}" == "untap" ]]; then
         explicit_kind="tap"
@@ -378,7 +378,7 @@ update_tracking() {
         fi
 
         local cask_support="${TRACK_TMPDIR}/cask-support.tsv"
-        probe_cask_platform_support "${cask_support}" "${cask_tokens[@]}"
+        probe_cask_platform_support "${cask_support}" ${cask_tokens[@]+"${cask_tokens[@]}"}
 
         local name
         local detected
