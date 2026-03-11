@@ -36,6 +36,39 @@ nnoremap <Esc><Esc> :nohlsearch<Enter>
 nnoremap ;; :
 cnoreabbrev %y silent %y
 
+let s:dotfiles_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+let s:mise_shims = expand('~/.local/share/mise/shims')
+if isdirectory(s:mise_shims) && index(split($PATH, ':'), s:mise_shims) < 0
+    let $PATH = s:mise_shims . ':' . $PATH
+endif
+
+function! s:resolve_executable(name) abort
+    let l:candidates = [
+                \ exepath(a:name),
+                \ expand('~/.local/share/mise/shims/' . a:name),
+                \ expand('~/.volta/bin/' . a:name),
+                \ '/opt/homebrew/bin/' . a:name,
+                \ '/usr/local/bin/' . a:name,
+                \ ]
+
+    for l:candidate in l:candidates
+        if !empty(l:candidate) && executable(l:candidate)
+            return l:candidate
+        endif
+    endfor
+
+    return a:name
+endfunction
+
+let s:npx = s:resolve_executable('npx')
+let s:textlint_config = s:dotfiles_dir . '/.textlintrc.json'
+let s:textlint_cmd = shellescape(s:npx)
+            \ . ' --yes'
+            \ . ' --package textlint'
+            \ . ' --package textlint-rule-ja-space-between-half-and-full-width'
+            \ . ' --package textlint-rule-no-space-between-full-width'
+            \ . ' textlint'
+
 function! RunFormatAndFix()
     let l:view = winsaveview()
     let l:ext = expand('%:e')
@@ -44,7 +77,7 @@ function! RunFormatAndFix()
     try
         call writefile(getline(1, '$'), l:tempfile)
 
-        let l:cmd_oxfmt = 'npx oxfmt ' . shellescape(l:tempfile)
+        let l:cmd_oxfmt = shellescape(s:npx) . ' oxfmt ' . shellescape(l:tempfile)
         let l:oxfmt_output = system(l:cmd_oxfmt)
 
         if v:shell_error != 0
@@ -60,7 +93,10 @@ function! RunFormatAndFix()
 
         " textlint (markdown のみ)
         if &filetype == 'markdown'
-            let l:cmd_textlint = 'textlint --config ~/.claude/.textlintrc --fix ' . shellescape(l:tempfile)
+            let l:cmd_textlint = s:textlint_cmd
+                        \ . ' --config ' . shellescape(s:textlint_config)
+                        \ . ' --fix '
+                        \ . shellescape(l:tempfile)
             let l:textlint_output = system(l:cmd_textlint)
             let l:textlint_exit = v:shell_error
 
@@ -92,6 +128,6 @@ endfunction
 
 nnoremap <C-=> :call RunFormatAndFix()<CR>
 
-set makeprg=npx\ oxlint\ --type-aware\ %
+let &makeprg = fnameescape(s:npx) . ' oxlint --type-aware %'
 set errorformat=%f:%l:%c:\ %m
 command! Lint silent make | redraw! | copen
