@@ -20,6 +20,11 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
     . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 fi
 
+# mise
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
 # --------------------------------------------
 # 環境変数
 # --------------------------------------------
