@@ -70,7 +70,8 @@ echo "Installing packages from Brewfile..."
 "$DOTFILES_DIR/scripts/brew-bundle-sync.sh"
 
 if command -v mise &>/dev/null; then
-    echo "mise is installed. Use 'mise use -g node@<version>' to configure Node globally."
+    echo "Installing Node.js via mise..."
+    mise use -g node@lts
 fi
 
 echo ""
