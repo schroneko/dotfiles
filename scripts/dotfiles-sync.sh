@@ -72,7 +72,7 @@ apply_homebrew_state() {
     fi
 
     log "applying brew bundle"
-    BREWFILE_SYNC_DISABLE=1 "${REPO_ROOT}/scripts/brew-bundle-sync.sh" --cleanup
+    HOMEBREW_NO_AUTO_UPDATE=1 BREWFILE_SYNC_DISABLE=1 "${REPO_ROOT}/scripts/brew-bundle-sync.sh" --cleanup
 }
 
 clone_missing_repos() {

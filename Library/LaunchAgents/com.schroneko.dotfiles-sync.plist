@@ -7,9 +7,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/bin/zsh</string>
-        <string>-lc</string>
-        <string>repo_path="github.com/schroneko/dotfiles"; if command -v ghq &gt;/dev/null 2&gt;&amp;1; then root="$(ghq root)"; else root="$HOME/ghq"; fi; exec "$root/$repo_path/scripts/dotfiles-sync.sh"</string>
+        <string>/Users/username/ghq/github.com/schroneko/dotfiles/scripts/dotfiles-sync.sh</string>
     </array>
 
     <key>RunAtLoad</key>
