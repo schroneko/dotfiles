@@ -84,11 +84,6 @@ dotfiles_sync_now() {
 }
 alias sync-now='dotfiles_sync_now'
 
-function ssh-copy-id() {
-    echo "ssh-copy-id is disabled. Register the public key via ssh and ~/.ssh/authorized_keys." >&2
-    return 1
-}
-
 # --------------------------------------------
 # Homebrew state sync
 # --------------------------------------------
