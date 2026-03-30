@@ -75,10 +75,20 @@ stow --no-folding --target="$HOME" .
 if [[ "$OS" == "Darwin" ]]; then
     echo "Configuring LaunchAgent..."
     mkdir -p "$HOME/Library/LaunchAgents"
-    launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" 2>/dev/null || true
-    launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"
-    launchctl enable "gui/$(id -u)/com.schroneko.dotfiles-sync"
-    launchctl kickstart -k "gui/$(id -u)/com.schroneko.dotfiles-sync"
+    ln -sfn "$DOTFILES_DIR/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" \
+        "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"
+
+    if launchctl print "gui/$(id -u)" >/dev/null 2>&1; then
+        launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" 2>/dev/null || true
+        if launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"; then
+            launchctl enable "gui/$(id -u)/com.schroneko.dotfiles-sync"
+            launchctl kickstart -k "gui/$(id -u)/com.schroneko.dotfiles-sync"
+        else
+            echo "Warning: LaunchAgent bootstrap failed; run launchctl manually after login." >&2
+        fi
+    else
+        echo "Warning: no GUI launchd domain available; skipping LaunchAgent bootstrap." >&2
+    fi
 fi
 
 echo "Installing packages from Brewfile..."
