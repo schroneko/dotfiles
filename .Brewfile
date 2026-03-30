@@ -44,7 +44,6 @@ brew "presenterm"
 brew "qpdf"
 brew "ripgrep"
 brew "schroneko/tap/castkit"
-brew "ssh-copy-id"
 brew "stow"
 brew "syncthing", restart_service: :changed
 brew "tesseract-lang"
