@@ -1,9 +1,17 @@
 #!/bin/bash
 set -e
 
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$PATH"
+
 OS="$(uname -s)"
 REPO_URL="git@github.com:schroneko/dotfiles.git"
 REPO_PATH="github.com/schroneko/dotfiles"
+
+if [[ "$OS" == "Darwin" && -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
 
 if command -v ghq &>/dev/null; then
     DOTFILES_DIR="$(ghq root)/$REPO_PATH"
