@@ -2,6 +2,7 @@
 # Shared formulae, taps, and cross-platform casks applied on both macOS and Linux.
 
 tap "entireio/tap"
+tap "k1low/tap"
 tap "schroneko/tap"
 tap "xdevplatform/tap"
 brew "autoconf"

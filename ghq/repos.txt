@@ -1,6 +1,36 @@
 # Managed by scripts/dotfiles-sync.sh.
 # Repositories are added and updated automatically. Deletions are not propagated.
 
+github.com/schroneko/ailbreak
+github.com/schroneko/anytosummary
+github.com/schroneko/avexway
+github.com/schroneko/castkit
+github.com/schroneko/claude-code-changes
+github.com/schroneko/create-slides-app
+github.com/schroneko/determinant-co-jp
 github.com/schroneko/dotagents
 github.com/schroneko/dotfiles
+github.com/schroneko/egoquery
+github.com/schroneko/eyan-theme
+github.com/schroneko/feedgenerator
+github.com/schroneko/feedmanager
+github.com/schroneko/frontier-ai-jobs
+github.com/schroneko/fusionnica
+github.com/schroneko/gohan
+github.com/schroneko/homebrew-tap
+github.com/schroneko/icon-maker
+github.com/schroneko/inferkit
+github.com/schroneko/janitor
+github.com/schroneko/medllm
+github.com/schroneko/nfc-writer
+github.com/schroneko/nicevoice-app
+github.com/schroneko/nicevoice-web
+github.com/schroneko/nukosuku-com
+github.com/schroneko/playbackkeys
+github.com/schroneko/profilecard
+github.com/schroneko/pullscript
+github.com/schroneko/qruli
+github.com/schroneko/readme-translate
 github.com/schroneko/skills
+github.com/schroneko/yutahayashi-com
+github.com/schroneko/zenn

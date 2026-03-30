@@ -3,6 +3,7 @@
 
 # Shared packages
 tap "entireio/tap"
+tap "k1low/tap"
 tap "schroneko/tap"
 tap "xdevplatform/tap"
 brew "autoconf"
