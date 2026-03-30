@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.schroneko.dotfiles-sync</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-lc</string>
+        <string>repo_path="github.com/schroneko/dotfiles"; if command -v ghq &gt;/dev/null 2&gt;&amp;1; then root="$(ghq root)"; else root="$HOME/ghq"; fi; exec "$root/$repo_path/scripts/dotfiles-sync.sh"</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StartInterval</key>
+    <integer>300</integer>
+
+    <key>StandardOutPath</key>
+    <string>/Users/username/Library/Logs/dotfiles-sync.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/username/Library/Logs/dotfiles-sync.log</string>
+</dict>
+</plist>

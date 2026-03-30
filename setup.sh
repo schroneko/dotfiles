@@ -66,8 +66,16 @@ git config pull.autostash true
 echo "Linking dotfiles with stow..."
 stow --no-folding --target="$HOME" .
 
+if [[ "$OS" == "Darwin" ]]; then
+    echo "Configuring LaunchAgent..."
+    mkdir -p "$HOME/Library/LaunchAgents"
+    launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" 2>/dev/null || true
+    launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"
+    launchctl enable "gui/$(id -u)/com.schroneko.dotfiles-sync"
+fi
+
 echo "Installing packages from Brewfile..."
-"$DOTFILES_DIR/scripts/brew-bundle-sync.sh"
+"$DOTFILES_DIR/scripts/dotfiles-sync.sh"
 
 if command -v mise &>/dev/null; then
     echo "Installing Node.js via mise..."

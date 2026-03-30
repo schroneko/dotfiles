@@ -44,6 +44,16 @@ fi
 # --------------------------------------------
 # エイリアス
 # --------------------------------------------
+_dotfiles_root() {
+    local repo_path="github.com/schroneko/dotfiles"
+
+    if command -v ghq &>/dev/null; then
+        printf '%s/%s\n' "$(ghq root)" "${repo_path}"
+    else
+        printf '%s/%s\n' "$HOME/ghq" "${repo_path}"
+    fi
+}
+
 if command -v eza &> /dev/null; then
     alias ls='eza --group-directories-first'
     alias tree='eza --tree'
@@ -69,18 +79,17 @@ note() {
 }
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
+dotfiles_sync_now() {
+    "$(_dotfiles_root)/scripts/dotfiles-sync.sh" "$@"
+}
+alias sync-now='dotfiles_sync_now'
+
 # --------------------------------------------
 # Homebrew state sync
 # --------------------------------------------
 if command -v brew &> /dev/null; then
     _dotfiles_refresh_brewfiles() {
-        local repo_path="github.com/schroneko/dotfiles"
-        local root
-        if command -v ghq &>/dev/null; then
-            root="$(ghq root)/$repo_path"
-        else
-            root="$HOME/ghq/$repo_path"
-        fi
+        local root="$(_dotfiles_root)"
         local manager="$root/scripts/brewfile-manager.sh"
 
         [[ -x "$manager" ]] || return 0

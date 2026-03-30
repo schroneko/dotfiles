@@ -15,8 +15,12 @@ fi
 # --------------------------------------------
 # dotfiles: git hooks path
 # --------------------------------------------
-if [[ -d "$HOME/dotfiles/.githooks" ]]; then
-    git -C "$HOME/dotfiles" config core.hooksPath .githooks 2>/dev/null
+if typeset -f _dotfiles_root >/dev/null 2>&1; then
+    _dotfiles_repo="$(_dotfiles_root)"
+    if [[ -d "${_dotfiles_repo}/.githooks" ]]; then
+        git -C "${_dotfiles_repo}" config core.hooksPath .githooks 2>/dev/null
+    fi
+    unset _dotfiles_repo
 fi
 
 # --------------------------------------------

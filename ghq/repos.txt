@@ -1,0 +1,6 @@
+# Managed by scripts/dotfiles-sync.sh.
+# Repositories are added and updated automatically. Deletions are not propagated.
+
+github.com/schroneko/dotagents
+github.com/schroneko/dotfiles
+github.com/schroneko/skills

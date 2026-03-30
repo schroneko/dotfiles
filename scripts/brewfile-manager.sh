@@ -438,11 +438,79 @@ update_tracking() {
     render_combined
 }
 
+refresh_tracking() {
+    local os_name
+    os_name="$(uname -s)"
+    [[ "${os_name}" == "Darwin" || "${os_name}" == "Linux" ]] || return 0
+
+    TRACK_TMPDIR="$(mktemp -d)"
+
+    local current_brewfile="${TRACK_TMPDIR}/current.Brewfile"
+    local current_entries="${TRACK_TMPDIR}/current.entries"
+    local shared_entries="${TRACK_TMPDIR}/shared.entries"
+    local darwin_entries="${TRACK_TMPDIR}/darwin.entries"
+    local linux_entries="${TRACK_TMPDIR}/linux.entries"
+
+    dump_current_state "${os_name}" "${current_brewfile}"
+    extract_entries "${current_brewfile}" > "${current_entries}"
+
+    : > "${shared_entries}"
+    if [[ "${os_name}" == "Darwin" ]]; then
+        : > "${darwin_entries}"
+        extract_entries "${LINUX_PATH}" > "${linux_entries}"
+    else
+        : > "${linux_entries}"
+        extract_entries "${DARWIN_PATH}" > "${darwin_entries}"
+    fi
+
+    local cask_tokens=()
+    local line
+    local key
+    local kind
+    local entry_name
+    while IFS= read -r line; do
+        [[ -n "${line}" ]] || continue
+        key="$(entry_key "${line}")"
+        kind="${key%%$'\t'*}"
+        entry_name="${key#*$'\t'}"
+
+        if [[ "${kind}" == "cask" ]]; then
+            cask_tokens+=("${entry_name}")
+        fi
+    done < "${current_entries}"
+
+    local cask_support="${TRACK_TMPDIR}/cask-support.tsv"
+    probe_cask_platform_support "${cask_support}" ${cask_tokens[@]+"${cask_tokens[@]}"}
+
+    local target
+    while IFS= read -r line; do
+        [[ -n "${line}" ]] || continue
+        key="$(entry_key "${line}")"
+        kind="${key%%$'\t'*}"
+        entry_name="${key#*$'\t'}"
+        target="$(classify_target "${os_name}" "${kind}" "${entry_name}" "${cask_support}")"
+
+        case "${target}" in
+            shared) add_or_replace_entry "${shared_entries}" "${line}" ;;
+            darwin) add_or_replace_entry "${darwin_entries}" "${line}" ;;
+            linux) add_or_replace_entry "${linux_entries}" "${line}" ;;
+        esac
+    done < "${current_entries}"
+
+    write_component "${SHARED_PATH}" "Shared formulae, taps, and cross-platform casks applied on both macOS and Linux." "${shared_entries}"
+    write_component "${DARWIN_PATH}" "Darwin-only packages, including casks and formula overrides." "${darwin_entries}"
+    write_component "${LINUX_PATH}" "Linux-only package overrides." "${linux_entries}"
+    render_combined
+}
+
 main() {
     local command="${1:-}"
     case "${command}" in
         render)
             render_combined
+            ;;
+        refresh)
+            refresh_tracking
             ;;
         track)
             shift
@@ -452,7 +520,7 @@ main() {
             update_tracking "$@"
             ;;
         *)
-            echo "Usage: $0 {render|track -- <brew args>}" >&2
+            echo "Usage: $0 {render|refresh|track -- <brew args>}" >&2
             return 1
             ;;
     esac
