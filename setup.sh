@@ -77,18 +77,22 @@ git config core.hooksPath .githooks
 echo "Configuring git pull..."
 git config pull.autostash true
 
+launch_agent_path="$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"
+if [[ -L "$launch_agent_path" ]]; then
+    rm -f "$launch_agent_path"
+fi
+
 echo "Linking dotfiles with stow..."
 stow --no-folding --target="$HOME" .
 
 if [[ "$OS" == "Darwin" ]]; then
     echo "Configuring LaunchAgent..."
     mkdir -p "$HOME/Library/LaunchAgents"
-    ln -sfn "$DOTFILES_DIR/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" \
-        "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"
+    ln -sfn "$DOTFILES_DIR/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" "$launch_agent_path"
 
     if launchctl print "gui/$(id -u)" >/dev/null 2>&1; then
-        launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" 2>/dev/null || true
-        if launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"; then
+        launchctl bootout "gui/$(id -u)" "$launch_agent_path" 2>/dev/null || true
+        if launchctl bootstrap "gui/$(id -u)" "$launch_agent_path"; then
             launchctl enable "gui/$(id -u)/com.schroneko.dotfiles-sync"
             launchctl kickstart -k "gui/$(id -u)/com.schroneko.dotfiles-sync"
         else
