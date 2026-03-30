@@ -39,6 +39,12 @@ if ! command -v stow &>/dev/null; then
     brew install stow
 fi
 
+if ! command -v ghq &>/dev/null; then
+    echo "Installing ghq..."
+    brew install ghq
+    DOTFILES_DIR="$(ghq root)/$REPO_PATH"
+fi
+
 if [[ "$OS" == "Linux" ]] && ! command -v zsh &>/dev/null; then
     echo "Installing zsh..."
     brew install zsh
@@ -72,6 +78,7 @@ if [[ "$OS" == "Darwin" ]]; then
     launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist" 2>/dev/null || true
     launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.schroneko.dotfiles-sync.plist"
     launchctl enable "gui/$(id -u)/com.schroneko.dotfiles-sync"
+    launchctl kickstart -k "gui/$(id -u)/com.schroneko.dotfiles-sync"
 fi
 
 echo "Installing packages from Brewfile..."
