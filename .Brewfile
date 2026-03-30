@@ -47,7 +47,6 @@ brew "schroneko/tap/castkit"
 brew "ssh-copy-id"
 brew "stow"
 brew "syncthing", restart_service: :changed
-brew "tailscale"
 brew "tesseract-lang"
 brew "timg"
 brew "tmux"
@@ -87,6 +86,7 @@ cask "ollama-app"
 cask "rectangle"
 cask "screen-studio"
 cask "slack"
+cask "tailscale-app"
 cask "zoom"
 
 # Linux-only packages

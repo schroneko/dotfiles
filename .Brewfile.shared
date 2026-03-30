@@ -46,7 +46,6 @@ brew "schroneko/tap/castkit"
 brew "ssh-copy-id"
 brew "stow"
 brew "syncthing", restart_service: :changed
-brew "tailscale"
 brew "tesseract-lang"
 brew "timg"
 brew "tmux"
