@@ -1,7 +1,6 @@
 # Managed by scripts/dotfiles-sync.sh.
 # Repositories are added and updated automatically. Deletions are not propagated.
 
-github.com/instructkr/claw-code
 github.com/schroneko/ailbreak
 github.com/schroneko/anytosummary
 github.com/schroneko/avexway
