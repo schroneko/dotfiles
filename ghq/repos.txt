@@ -2,6 +2,7 @@
 # Repositories are added and updated automatically. Deletions are not propagated.
 
 github.com/schroneko/ailbreak
+github.com/schroneko/ailbreak-cli
 github.com/schroneko/anytosummary
 github.com/schroneko/avexway
 github.com/schroneko/castkit
