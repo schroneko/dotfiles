@@ -28,6 +28,7 @@ github.com/schroneko/nfc-writer
 github.com/schroneko/nicevoice-app
 github.com/schroneko/nicevoice-web
 github.com/schroneko/nukosuku-com
+github.com/schroneko/oyayubi-kirikae
 github.com/schroneko/playbackkeys
 github.com/schroneko/profilecard
 github.com/schroneko/pullscript
