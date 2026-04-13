@@ -58,6 +58,7 @@ brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 cask "1password-cli"
 cask "codex"
+cask "copilot-cli"
 
 # Darwin-only packages
 brew "container"
