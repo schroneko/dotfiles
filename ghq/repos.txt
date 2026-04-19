@@ -1,6 +1,7 @@
 # Managed by scripts/dotfiles-sync.sh.
 # Repositories are added and updated automatically. Deletions are not propagated.
 
+github.com/NousResearch/hermes-agent
 github.com/iMasanari/cmd-eikana
 github.com/schroneko/ailbreak
 github.com/schroneko/ailbreak-cli
