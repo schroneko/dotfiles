@@ -9,6 +9,7 @@ github.com/schroneko/anytosummary
 github.com/schroneko/avexway
 github.com/schroneko/castkit
 github.com/schroneko/claude-code-changes
+github.com/schroneko/cliptotabs
 github.com/schroneko/create-slides-app
 github.com/schroneko/determinant-co-jp
 github.com/schroneko/dotagents
