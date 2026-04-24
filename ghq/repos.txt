@@ -2,7 +2,6 @@
 # Repositories are added and updated automatically. Deletions are not propagated.
 
 github.com/NousResearch/hermes-agent
-github.com/anthnykr/codex-voice
 github.com/iMasanari/cmd-eikana
 github.com/schroneko/ailbreak
 github.com/schroneko/ailbreak-cli
