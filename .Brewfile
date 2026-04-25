@@ -56,7 +56,7 @@ brew "yt-dlp"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
-cask "1password-cli"
+cask "1password-cli@beta"
 cask "codex"
 cask "copilot-cli"
 
