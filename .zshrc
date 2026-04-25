@@ -27,7 +27,6 @@ fi
 export PATH="$HOME/.local/bin:$HOME/.lmstudio/bin:$HOME/.antigravity/antigravity/bin:$PATH"
 export CLAUDE_ENV_FILE="$HOME/.claude/env-loader.sh"
 export EDITOR=nvim
-export OP_SERVICE_ACCOUNT_TOKEN="$(security find-generic-password -a "$USER" -s "op-service-account" -w 2>/dev/null)"
 export LANG=en_US.UTF-8
 export HISTSIZE=10000
 export SAVEHIST=10000
@@ -81,9 +80,6 @@ codex() {
 if [[ "$(uname)" == "Darwin" ]]; then
     alias brewup="${${(%):-%x}:A:h}/scripts/homebrew-auto-upgrade.sh"
     export PATH="$HOME/.mint/bin:$PATH"
-
-    alias claude-or='ANTHROPIC_BASE_URL="https://openrouter.ai/api" ANTHROPIC_AUTH_TOKEN="$(op read "op://Personal/OPENROUTER_API_KEY/credential")" ANTHROPIC_API_KEY="" MAX_THINKING_TOKENS="0" claude'
-    alias claude-mm='ANTHROPIC_BASE_URL="https://api.minimax.io/anthropic" ANTHROPIC_AUTH_TOKEN="$(op read "op://Personal/MINIMAX_API_KEY/credential")" ANTHROPIC_MODEL="MiniMax-M2.1" claude'
 fi
 
 if command -v eza &> /dev/null; then
