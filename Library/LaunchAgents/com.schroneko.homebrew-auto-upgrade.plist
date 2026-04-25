@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.schroneko.homebrew-auto-upgrade</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/username/ghq/github.com/schroneko/dotfiles/scripts/homebrew-auto-upgrade.sh</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StartInterval</key>
+    <integer>21600</integer>
+
+    <key>StandardOutPath</key>
+    <string>/Users/username/Library/Logs/homebrew-auto-upgrade.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/username/Library/Logs/homebrew-auto-upgrade.log</string>
+</dict>
+</plist>

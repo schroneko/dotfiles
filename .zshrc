@@ -79,7 +79,7 @@ codex() {
 }
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    alias brewup="${${(%):-%x}:A:h}/scripts/brewup.sh"
+    alias brewup="${${(%):-%x}:A:h}/scripts/homebrew-auto-upgrade.sh"
     export PATH="$HOME/.mint/bin:$PATH"
 
     alias claude-or='ANTHROPIC_BASE_URL="https://openrouter.ai/api" ANTHROPIC_AUTH_TOKEN="$(op read "op://Personal/OPENROUTER_API_KEY/credential")" ANTHROPIC_API_KEY="" MAX_THINKING_TOKENS="0" claude'
