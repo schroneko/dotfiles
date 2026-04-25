@@ -39,5 +39,6 @@ github.com/schroneko/qruli
 github.com/schroneko/readme-translate
 github.com/schroneko/skills
 github.com/schroneko/welcometox
+github.com/schroneko/x-subscriber-exporter
 github.com/schroneko/yutahayashi-com
 github.com/schroneko/zenn
