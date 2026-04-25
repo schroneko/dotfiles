@@ -29,6 +29,7 @@ github.com/schroneko/medllm
 github.com/schroneko/nfc-writer
 github.com/schroneko/nicevoice-app
 github.com/schroneko/nicevoice-web
+github.com/schroneko/nitteichousei
 github.com/schroneko/nukosuku-com
 github.com/schroneko/oyakey
 github.com/schroneko/playbackkeys
