@@ -86,6 +86,7 @@ cask "rectangle"
 cask "screen-studio"
 cask "slack"
 cask "tailscale-app"
+cask "telegram"
 cask "zoom"
 
 # Linux-only packages
