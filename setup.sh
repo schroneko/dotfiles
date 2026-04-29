@@ -101,6 +101,9 @@ if [[ "$OS" == "Darwin" ]]; then
     else
         echo "Warning: no GUI launchd domain available; skipping LaunchAgent bootstrap." >&2
     fi
+
+    echo "Applying macOS defaults..."
+    "$DOTFILES_DIR/scripts/macos-defaults.sh"
 fi
 
 echo "Installing packages from Brewfile..."
