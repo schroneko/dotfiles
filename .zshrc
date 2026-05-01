@@ -3,31 +3,8 @@
 # ============================================
 
 # --------------------------------------------
-# パッケージマネージャー初期化
-# --------------------------------------------
-if [ -x /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-if [ -d /home/linuxbrew/.linuxbrew/bin ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
-if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
-    . "$HOME/.nix-profile/etc/profile.d/nix.sh"
-fi
-
-if command -v mise &> /dev/null; then
-    eval "$(mise activate zsh)"
-fi
-
-# --------------------------------------------
 # 環境変数
 # --------------------------------------------
-export PATH="$HOME/.local/bin:$HOME/.lmstudio/bin:$HOME/.antigravity/antigravity/bin:$PATH"
-export CLAUDE_ENV_FILE="$HOME/.claude/env-loader.sh"
-export EDITOR=nvim
-export LANG=en_US.UTF-8
 export HISTSIZE=10000
 export SAVEHIST=10000
 
@@ -36,9 +13,6 @@ if command -v nvim &> /dev/null; then
 else
     export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
 fi
-
-typeset -U PATH path
-path=(${path:#$HOME/.volta/bin})
 
 _dotfiles_root() {
     local repo_path="github.com/schroneko/dotfiles"
@@ -80,7 +54,6 @@ codex() {
 
 if [[ "$(uname)" == "Darwin" ]]; then
     alias brewup="${${(%):-%x}:A:h}/scripts/homebrew-auto-upgrade.sh"
-    export PATH="$HOME/.mint/bin:$PATH"
 fi
 
 if command -v eza &> /dev/null; then
