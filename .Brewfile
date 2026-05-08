@@ -56,6 +56,7 @@ brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 cask "1password-cli@beta"
+cask "gcloud-cli"
 
 # Darwin-only packages
 brew "container"
