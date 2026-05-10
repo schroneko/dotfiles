@@ -4,7 +4,7 @@
 # Shared packages
 tap "k1low/tap"
 tap "schroneko/tap"
-brew "agent-browser", link: false
+brew "agent-browser"
 brew "autoconf"
 brew "autoconf-archive"
 brew "automake"
