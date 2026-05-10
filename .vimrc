@@ -127,6 +127,9 @@ function! RunFormatAndFix()
 endfunction
 
 nnoremap <C-=> :call RunFormatAndFix()<CR>
+inoremap <C-=> <C-o>:call RunFormatAndFix()<CR>
+nnoremap [61;5u :call RunFormatAndFix()<CR>
+inoremap [61;5u <C-o>:call RunFormatAndFix()<CR>
 
 let &makeprg = fnameescape(s:npx) . ' oxlint --type-aware %'
 set errorformat=%f:%l:%c:\ %m

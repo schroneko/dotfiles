@@ -44,14 +44,6 @@ bindkey -e
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
-codex() {
-    command codex -m gpt-5.4 \
-      -c model_context_window=1000000 \
-      -c model_auto_compact_token_limit=955000 \
-      --enable fast_mode \
-      "$@"
-}
-
 if [[ "$(uname)" == "Darwin" ]]; then
     alias brewup="${${(%):-%x}:A:h}/scripts/homebrew-auto-upgrade.sh"
 fi
