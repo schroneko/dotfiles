@@ -72,6 +72,9 @@ let s:textlint_cmd = shellescape(s:npx)
 function! RunFormatAndFix()
     let l:view = winsaveview()
     let l:ext = expand('%:e')
+    if empty(l:ext) && &filetype ==# 'markdown'
+        let l:ext = 'md'
+    endif
     let l:tempfile = tempname() . '.' . l:ext
 
     try
