@@ -1,0 +1,12 @@
+.git
+node_modules
+.build
+dist
+build
+coverage
+vendor
+**/.build/**
+**/dist/**
+**/build/**
+**/coverage/**
+**/vendor/**

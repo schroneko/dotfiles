@@ -1,0 +1,12 @@
+{
+  "name": "dotfiles",
+  "private": true,
+  "scripts": {
+    "lint:text": "textlint \"**/*.md\"",
+    "lint:text:fix": "textlint --fix \"**/*.md\""
+  },
+  "devDependencies": {
+    "textlint": "^15.5.1",
+    "textlint-rule-preset-ja-spacing": "^2.4.3"
+  }
+}
