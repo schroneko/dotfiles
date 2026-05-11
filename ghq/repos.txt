@@ -44,5 +44,6 @@ github.com/schroneko/skills
 github.com/schroneko/stackchan-nukoevi
 github.com/schroneko/welcometox
 github.com/schroneko/x-subscriber-exporter
+github.com/schroneko/x-watch-feed
 github.com/schroneko/yutahayashi-com
 github.com/schroneko/zenn
