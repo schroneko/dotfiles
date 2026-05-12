@@ -4,6 +4,7 @@
 github.com/NousResearch/hermes-agent
 github.com/espressif/esp-idf
 github.com/iMasanari/cmd-eikana
+github.com/openclaw/openclaw
 github.com/schroneko/ailbreak
 github.com/schroneko/ailbreak-cli
 github.com/schroneko/anytosummary
