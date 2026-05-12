@@ -7,6 +7,7 @@ github.com/iMasanari/cmd-eikana
 github.com/openclaw/openclaw
 github.com/schroneko/ailbreak
 github.com/schroneko/ailbreak-cli
+github.com/schroneko/ant-bug-bounty
 github.com/schroneko/anytosummary
 github.com/schroneko/avexway
 github.com/schroneko/castkit
