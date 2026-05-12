@@ -27,8 +27,10 @@ github.com/schroneko/gohan
 github.com/schroneko/homebrew-tap
 github.com/schroneko/icon-maker
 github.com/schroneko/inferkit
+github.com/schroneko/interview-with-anthropic
 github.com/schroneko/janitor
 github.com/schroneko/medllm
+github.com/schroneko/mistral-hackathon-2026
 github.com/schroneko/nfc-writer
 github.com/schroneko/nicevoice-app
 github.com/schroneko/nicevoice-web
@@ -40,7 +42,9 @@ github.com/schroneko/profilecard
 github.com/schroneko/pullscript
 github.com/schroneko/qruli
 github.com/schroneko/readme-translate
+github.com/schroneko/singapore-ai-safety-red-teaming-challenge-2026
 github.com/schroneko/skills
+github.com/schroneko/slides
 github.com/schroneko/stackchan-nukoevi
 github.com/schroneko/welcometox
 github.com/schroneko/x-subscriber-exporter
