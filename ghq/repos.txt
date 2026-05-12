@@ -6,6 +6,7 @@ github.com/NousResearch/hermes-agent
 github.com/espressif/esp-idf
 github.com/iMasanari/cmd-eikana
 github.com/openclaw/openclaw
+github.com/robo8080/AI_StackChan2
 github.com/schroneko/ailbreak
 github.com/schroneko/ailbreak-cli
 github.com/schroneko/ant-bug-bounty
