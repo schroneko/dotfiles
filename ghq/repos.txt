@@ -59,3 +59,15 @@ github.com/schroneko/x-subscriber-exporter
 github.com/schroneko/x-watch-feed
 github.com/schroneko/yutahayashi-com
 github.com/schroneko/zenn
+huggingface.co/schroneko/ELYZA-japanese-Llama-2-13b-fast-instruct-gguf
+huggingface.co/schroneko/Qwen3-0.6B-MLX-4bit
+huggingface.co/schroneko/Qwen3-0.6B-MLX-8bit
+huggingface.co/schroneko/Voxtral-Mini-4B-Realtime-2602-MLX-4bit
+huggingface.co/schroneko/gpt-oss-20b-finetuned
+huggingface.co/schroneko/llm-jp-3-13b-SFT-LoRA
+huggingface.co/schroneko/llm-jp-3-13b-finetune-2
+huggingface.co/schroneko/llm-jp-3-172b-instruct3-Q4-mlx
+huggingface.co/schroneko/llm-jp-3-3.7b-finetuned
+huggingface.co/schroneko/nanoGPT-10M
+huggingface.co/schroneko/phi-4-Q4_K_M-GGUF
+huggingface.co/schroneko/safetensors_elyza_ELYZA-japanese-Llama-2-13b-fast-instruct
