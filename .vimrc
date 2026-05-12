@@ -65,8 +65,7 @@ let s:textlint_config = s:dotfiles_dir . '/.textlintrc.json'
 let s:textlint_cmd = shellescape(s:npx)
             \ . ' --yes'
             \ . ' --package textlint'
-            \ . ' --package textlint-rule-ja-space-between-half-and-full-width'
-            \ . ' --package textlint-rule-no-space-between-full-width'
+            \ . ' --package textlint-rule-preset-ja-spacing'
             \ . ' textlint'
 
 function! RunFormatAndFix()
