@@ -31,6 +31,7 @@ github.com/schroneko/icon-maker
 github.com/schroneko/inferkit
 github.com/schroneko/interview-with-anthropic
 github.com/schroneko/janitor
+github.com/schroneko/llm2025
 github.com/schroneko/medllm
 github.com/schroneko/mistral-hackathon-2026
 github.com/schroneko/nfc-writer
@@ -49,6 +50,7 @@ github.com/schroneko/singapore-ai-safety-red-teaming-challenge-2026
 github.com/schroneko/skills
 github.com/schroneko/slides
 github.com/schroneko/stackchan-nukoevi
+github.com/schroneko/vibecoding-by-saldra
 github.com/schroneko/welcometox
 github.com/schroneko/x-subscriber-exporter
 github.com/schroneko/x-watch-feed
