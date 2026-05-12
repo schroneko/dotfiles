@@ -1,6 +1,7 @@
 # Managed by scripts/dotfiles-sync.sh.
 # Repositories are added and updated automatically. Deletions are not propagated.
 
+github.com/Aratako/Irodori-TTS
 github.com/NousResearch/hermes-agent
 github.com/espressif/esp-idf
 github.com/iMasanari/cmd-eikana

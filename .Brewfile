@@ -47,7 +47,7 @@ brew "qpdf"
 brew "ripgrep"
 brew "schroneko/tap/castkit"
 brew "stow"
-brew "syncthing", restart_service: :changed
+brew "syncthing"
 brew "tesseract-lang"
 brew "timg"
 brew "tmux"
