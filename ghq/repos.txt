@@ -5,6 +5,7 @@ github.com/Aratako/Irodori-TTS
 github.com/NousResearch/hermes-agent
 github.com/espressif/esp-idf
 github.com/iMasanari/cmd-eikana
+github.com/m5stack/M5Unified
 github.com/m5stack/StackChan
 github.com/openclaw/openclaw
 github.com/robo8080/AI_StackChan2
