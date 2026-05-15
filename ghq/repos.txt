@@ -24,6 +24,7 @@ github.com/schroneko/determinant-co-jp
 github.com/schroneko/dotagents
 github.com/schroneko/dotfiles
 github.com/schroneko/egoquery
+github.com/schroneko/event-yutahayashi-com
 github.com/schroneko/evictl
 github.com/schroneko/eyan-theme
 github.com/schroneko/feedgenerator
