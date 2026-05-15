@@ -13,6 +13,7 @@ github.com/schroneko/ailbreak
 github.com/schroneko/ailbreak-cli
 github.com/schroneko/ant-bug-bounty
 github.com/schroneko/anytosummary
+github.com/schroneko/anytosummary-cli
 github.com/schroneko/avexway
 github.com/schroneko/castkit
 github.com/schroneko/claude-code-changes
