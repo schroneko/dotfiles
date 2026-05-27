@@ -70,7 +70,7 @@ terminal_plist="$HOME/Library/Preferences/com.apple.Terminal.plist"
 terminal_profile="$(defaults read com.apple.Terminal 'Default Window Settings' 2>/dev/null || printf 'Basic')"
 terminal_keymap_path=":\"Window Settings\":\"${terminal_profile}\":keyMapBoundKeys"
 terminal_ctrl_equal_sequence="$(printf '\033[61;5u')"
-terminal_ctrl_equal_keys=('^003d' '$^002d' '^$002d' '^005f' '$^005f' '^=' '$^-' '^$-' '^_' '$^_')
+terminal_ctrl_equal_keys=('^003d' '^003D' '^3d' '^3D' '^0018' '^001B' '^001b' '^001D' '^001d' '$^002d' '$^002D' '^$002d' '^$002D' '$^2d' '$^2D' '^$2d' '^$2D' '$^001B' '$^001b' '^$001B' '^$001b' '^005f' '^005F' '$^005f' '$^005F' '^=' '$^-' '^$-' '^_' '$^_')
 
 if (( dry_run )); then
     printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path} dict" "$terminal_plist"
