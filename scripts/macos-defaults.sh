@@ -70,17 +70,22 @@ terminal_plist="$HOME/Library/Preferences/com.apple.Terminal.plist"
 terminal_profile="$(defaults read com.apple.Terminal 'Default Window Settings' 2>/dev/null || printf 'Basic')"
 terminal_keymap_path=":\"Window Settings\":\"${terminal_profile}\":keyMapBoundKeys"
 terminal_ctrl_equal_sequence="$(printf '\033[61;5u')"
+terminal_ctrl_equal_keys=('^003d' '$^002d' '^$002d' '^005f' '$^005f' '^=' '$^-' '^$-' '^_' '$^_')
 
 if (( dry_run )); then
     printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path} dict" "$terminal_plist"
-    printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Delete ${terminal_keymap_path}:^=" "$terminal_plist"
-    printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path}:^= string ${terminal_ctrl_equal_sequence}" "$terminal_plist"
+    for terminal_ctrl_equal_key in "${terminal_ctrl_equal_keys[@]}"; do
+        printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Delete ${terminal_keymap_path}:${terminal_ctrl_equal_key}" "$terminal_plist"
+        printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path}:${terminal_ctrl_equal_key} string ${terminal_ctrl_equal_sequence}" "$terminal_plist"
+    done
 else
     if ! /usr/libexec/PlistBuddy -c "Print ${terminal_keymap_path}" "$terminal_plist" >/dev/null 2>&1; then
         /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path} dict" "$terminal_plist"
     fi
-    /usr/libexec/PlistBuddy -c "Delete ${terminal_keymap_path}:^=" "$terminal_plist" >/dev/null 2>&1 || true
-    /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path}:^= string ${terminal_ctrl_equal_sequence}" "$terminal_plist"
+    for terminal_ctrl_equal_key in "${terminal_ctrl_equal_keys[@]}"; do
+        /usr/libexec/PlistBuddy -c "Delete ${terminal_keymap_path}:${terminal_ctrl_equal_key}" "$terminal_plist" >/dev/null 2>&1 || true
+        /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path}:${terminal_ctrl_equal_key} string ${terminal_ctrl_equal_sequence}" "$terminal_plist"
+    done
     defaults import com.apple.Terminal "$terminal_plist"
     killall cfprefsd >/dev/null 2>&1 || true
 fi
