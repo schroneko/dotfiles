@@ -7,6 +7,7 @@
 # --------------------------------------------
 export HISTSIZE=10000
 export SAVEHIST=10000
+export FEEDMANAGER_OP_ENVIRONMENT_ID="t5qgdtth4uuykjqduetc7y37rq"
 
 if command -v nvim &> /dev/null; then
     export MANPAGER="nvim +Man!"
@@ -184,3 +185,9 @@ pdfview() {
   timg -W "$tmp_dir"/page*.png
   rm -rf "$tmp_dir"
 }
+
+export PATH="/Users/username/.antigravity/antigravity/bin:$PATH"
+
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
