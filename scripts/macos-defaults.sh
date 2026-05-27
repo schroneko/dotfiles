@@ -66,30 +66,6 @@ run defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 run defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 
-terminal_plist="$HOME/Library/Preferences/com.apple.Terminal.plist"
-terminal_profile="$(defaults read com.apple.Terminal 'Default Window Settings' 2>/dev/null || printf 'Basic')"
-terminal_keymap_path=":\"Window Settings\":\"${terminal_profile}\":keyMapBoundKeys"
-terminal_ctrl_equal_sequence="$(printf '\033[61;5u')"
-terminal_ctrl_equal_keys=('^003d' '^003D' '^3d' '^3D' '^0018' '^001B' '^001b' '^001D' '^001d' '$^002d' '$^002D' '^$002d' '^$002D' '$^2d' '$^2D' '^$2d' '^$2D' '$^001B' '$^001b' '^$001B' '^$001b' '^005f' '^005F' '$^005f' '$^005F' '^=' '$^-' '^$-' '^_' '$^_')
-
-if (( dry_run )); then
-    printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path} dict" "$terminal_plist"
-    for terminal_ctrl_equal_key in "${terminal_ctrl_equal_keys[@]}"; do
-        printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Delete ${terminal_keymap_path}:${terminal_ctrl_equal_key}" "$terminal_plist"
-        printf '+ %q %q %q %q\n' /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path}:${terminal_ctrl_equal_key} string ${terminal_ctrl_equal_sequence}" "$terminal_plist"
-    done
-else
-    if ! /usr/libexec/PlistBuddy -c "Print ${terminal_keymap_path}" "$terminal_plist" >/dev/null 2>&1; then
-        /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path} dict" "$terminal_plist"
-    fi
-    for terminal_ctrl_equal_key in "${terminal_ctrl_equal_keys[@]}"; do
-        /usr/libexec/PlistBuddy -c "Delete ${terminal_keymap_path}:${terminal_ctrl_equal_key}" "$terminal_plist" >/dev/null 2>&1 || true
-        /usr/libexec/PlistBuddy -c "Add ${terminal_keymap_path}:${terminal_ctrl_equal_key} string ${terminal_ctrl_equal_sequence}" "$terminal_plist"
-    done
-    defaults import com.apple.Terminal "$terminal_plist"
-    killall cfprefsd >/dev/null 2>&1 || true
-fi
-
 if ! (( dry_run )); then
     killall Dock >/dev/null 2>&1 || true
     killall Finder >/dev/null 2>&1 || true
