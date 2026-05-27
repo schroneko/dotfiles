@@ -42,6 +42,19 @@ if isdirectory(s:mise_shims) && index(split($PATH, ':'), s:mise_shims) < 0
     let $PATH = s:mise_shims . ':' . $PATH
 endif
 
+let s:required_path_entries = ['/opt/homebrew/bin', '/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
+let s:stable_path_entries = split($PATH, ':')
+for s:path_entry in s:required_path_entries
+    if isdirectory(s:path_entry) && index(s:stable_path_entries, s:path_entry) < 0
+        call add(s:stable_path_entries, s:path_entry)
+    endif
+endfor
+let s:stable_path = join(s:stable_path_entries, ':')
+
+function! s:with_stable_path(command) abort
+    return '/usr/bin/env PATH=' . shellescape(s:stable_path) . ' ' . a:command
+endfunction
+
 function! s:resolve_executable(name) abort
     let l:candidates = [
                 \ exepath(a:name),
@@ -62,11 +75,11 @@ endfunction
 
 let s:npx = s:resolve_executable('npx')
 let s:textlint_config = s:dotfiles_dir . '/.textlintrc.json'
-let s:textlint_cmd = shellescape(s:npx)
+let s:textlint_cmd = s:with_stable_path(shellescape(s:npx)
             \ . ' --yes'
             \ . ' --package textlint'
             \ . ' --package textlint-rule-preset-ja-spacing'
-            \ . ' textlint'
+            \ . ' textlint')
 
 function! RunFormatAndFix()
     let l:view = winsaveview()
@@ -79,7 +92,7 @@ function! RunFormatAndFix()
     try
         call writefile(getline(1, '$'), l:tempfile)
 
-        let l:cmd_oxfmt = shellescape(s:npx) . ' oxfmt ' . shellescape(l:tempfile)
+        let l:cmd_oxfmt = s:with_stable_path(shellescape(s:npx) . ' --yes oxfmt ' . shellescape(l:tempfile))
         let l:oxfmt_output = system(l:cmd_oxfmt)
 
         if v:shell_error != 0
@@ -130,8 +143,16 @@ endfunction
 
 nnoremap <C-=> :call RunFormatAndFix()<CR>
 inoremap <C-=> <C-o>:call RunFormatAndFix()<CR>
+nnoremap <Esc>[61;5u :call RunFormatAndFix()<CR>
+inoremap <Esc>[61;5u <C-o>:call RunFormatAndFix()<CR>
 nnoremap [61;5u :call RunFormatAndFix()<CR>
 inoremap [61;5u <C-o>:call RunFormatAndFix()<CR>
+
+augroup TerminalAppCtrlEqual
+    autocmd!
+    autocmd FileType markdown nnoremap <buffer> <C-]> :call RunFormatAndFix()<CR>
+    autocmd FileType markdown inoremap <buffer> <C-]> <C-o>:call RunFormatAndFix()<CR>
+augroup END
 
 let &makeprg = fnameescape(s:npx) . ' oxlint --type-aware %'
 set errorformat=%f:%l:%c:\ %m
