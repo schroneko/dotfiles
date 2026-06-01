@@ -65,21 +65,20 @@ if [[ "${os}" == "Darwin" ]]; then
     trap 'rm -f "${tmp_brewfile}"' EXIT
     write_effective_brewfile "${tmp_brewfile}"
 
-    cmd=(brew bundle --file="${tmp_brewfile}")
-    if (( cleanup )); then
-        cmd+=(--cleanup)
-    fi
-
     if (( dry_run )); then
         cat "${tmp_brewfile}"
         echo
-        printf '+'
-        printf ' %q' "${cmd[@]}"
-        printf '\n'
+        printf '+ brew bundle --file=%q\n' "${tmp_brewfile}"
+        if (( cleanup )); then
+            printf '+ brew bundle cleanup --force --formula --tap --file=%q\n' "${tmp_brewfile}"
+        fi
         exit 0
     fi
 
-    "${cmd[@]}"
+    brew bundle --file="${tmp_brewfile}"
+    if (( cleanup )); then
+        brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
+    fi
     exit 0
 fi
 
