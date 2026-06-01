@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 REPO_SLUG="github.com/schroneko/dotfiles"
 HUGGINGFACE_DATASET_MAX_KIB=102400
+GHQ_REPOS_POLICY="GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded."
 MANAGED_FILES=(
     ".Brewfile"
     ".Brewfile.shared"
@@ -100,7 +101,7 @@ refresh_manifests() {
     mkdir -p "${REPO_ROOT}/ghq"
     {
         echo "# Managed by scripts/dotfiles-sync.sh."
-        echo "# Repositories are added and updated automatically. Hugging Face model repos are excluded."
+        echo "# ${GHQ_REPOS_POLICY}"
         echo
         if command -v ghq >/dev/null 2>&1; then
             local ghq_root_dir

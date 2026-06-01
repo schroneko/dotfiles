@@ -38,7 +38,7 @@ stow --no-folding --target="$HOME" .
 
 `brew install` / `brew uninstall` / `brew tap` / `brew untap` を実行すると、Brewfile 群は自動更新されます。formula・tap・macOS/Linux 両対応 cask は Homebrew の cask variation 情報から自動判定して `.Brewfile.shared` に入り、macOS 専用の cask と override は `.Brewfile.darwin` に入ります。Linux 専用 override が必要な場合は `.Brewfile.linux` を使います。`ghq/repos.txt` は `scripts/dotfiles-sync.sh` が更新します。
 
-`scripts/dotfiles-sync.sh` は dotfiles repo を pull し、Homebrew を反映し、`ghq/repos.txt` の missing repo を clone し、clean な repo だけ `git pull --ff-only` で更新します。Hugging Face は Spaces と 100MiB 未満の dataset repo だけ同期対象にし、model repo は容量事故を避けるため除外します。差分があれば managed state だけ commit/push します。LaunchAgent `com.schroneko.dotfiles-sync` が login 時と 5 分おきにこれを実行します。トップレベルの `.Brewfile` は可読性のための合成ビューで、実際の source of truth は split Brewfile です。
+`scripts/dotfiles-sync.sh` は dotfiles repo を pull し、Homebrew を反映し、`ghq/repos.txt` の missing repo を clone し、clean な repo だけ `git pull --ff-only` で更新します。`ghq/repos.txt` には GitHub repo、Hugging Face Spaces、100MiB 未満の Hugging Face dataset repo を自動記録し、Hugging Face model repo は容量事故を避けるため除外します。差分があれば managed state だけ commit/push します。LaunchAgent `com.schroneko.dotfiles-sync` が login 時と 5 分おきにこれを実行します。トップレベルの `.Brewfile` は可読性のための合成ビューで、実際の source of truth は split Brewfile です。
 
 macOS 本体設定は `scripts/macos-defaults.sh` で管理します。Dock、Finder、キーボード、スクリーンショットなどの `defaults write` 設定を一括適用します。内容確認だけなら `./scripts/macos-defaults.sh --dry-run` を使います。
 
