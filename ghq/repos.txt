@@ -65,9 +65,6 @@ github.com/schroneko/x-watch-feed
 github.com/schroneko/yutahayashi-com
 github.com/schroneko/zenn
 github.com/worldcoin/agentkit-shopify-demo
-huggingface.co/datasets/schroneko/dataset-for-annotation-v2-annotated-test-schroneko
-huggingface.co/datasets/schroneko/model-compatibility
-huggingface.co/datasets/schroneko/progress-test-schroneko
 huggingface.co/spaces/schroneko/AIdeaLab-VideoJP
 huggingface.co/spaces/schroneko/DALL-E_3_Image_Generation
 huggingface.co/spaces/schroneko/Demo-Llama-Guard-3-1B

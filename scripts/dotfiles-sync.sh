@@ -45,6 +45,22 @@ ghq_root() {
     fi
 }
 
+should_sync_ghq_repo() {
+    local repo="$1"
+
+    case "${repo}" in
+        huggingface.co/spaces/*)
+            return 0
+            ;;
+        huggingface.co/*)
+            return 1
+            ;;
+        *)
+            return 0
+            ;;
+    esac
+}
+
 refresh_manifests() {
     if command -v brew >/dev/null 2>&1; then
         BREWFILE_SYNC_DISABLE=1 "${REPO_ROOT}/scripts/brewfile-manager.sh" refresh
@@ -56,7 +72,10 @@ refresh_manifests() {
         echo "# Repositories are added and updated automatically. Deletions are not propagated."
         echo
         if command -v ghq >/dev/null 2>&1; then
-            ghq list | LC_ALL=C sort
+            ghq list | while IFS= read -r repo; do
+                should_sync_ghq_repo "${repo}" || continue
+                printf '%s\n' "${repo}"
+            done | LC_ALL=C sort
         fi
     } > "${REPO_ROOT}/ghq/repos.txt"
 }
@@ -87,6 +106,7 @@ clone_missing_repos() {
     local repo
     while IFS= read -r repo; do
         [[ -n "${repo}" && "${repo}" != \#* ]] || continue
+        should_sync_ghq_repo "${repo}" || continue
 
         if [[ -d "${ghq_root_dir}/${repo}/.git" ]]; then
             continue
@@ -110,6 +130,7 @@ pull_clean_repos() {
 
     while IFS= read -r repo; do
         [[ -n "${repo}" && "${repo}" != \#* ]] || continue
+        should_sync_ghq_repo "${repo}" || continue
         [[ "${repo}" == "${REPO_SLUG}" ]] && continue
 
         repo_path="${ghq_root_dir}/${repo}"
