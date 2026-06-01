@@ -1,5 +1,5 @@
 # Managed by scripts/dotfiles-sync.sh.
-# Repositories are added and updated automatically. Deletions are not propagated.
+# Repositories are added and updated automatically. Hugging Face model repos are excluded.
 
 github.com/Aratako/Irodori-TTS
 github.com/NousResearch/hermes-agent
@@ -66,6 +66,10 @@ github.com/schroneko/yutahayashi-com
 github.com/schroneko/zenn
 github.com/worldcoin/agentkit-shopify-demo
 github.com/xai-org/x-algorithm
+huggingface.co/datasets/schroneko/dataset-for-annotation-v2-annotated-test-schroneko
+huggingface.co/datasets/schroneko/model-compatibility
+huggingface.co/datasets/schroneko/progress-test-schroneko
+huggingface.co/datasets/schroneko/test-upload-dataset
 huggingface.co/spaces/schroneko/AIdeaLab-VideoJP
 huggingface.co/spaces/schroneko/DALL-E_3_Image_Generation
 huggingface.co/spaces/schroneko/Demo-Llama-Guard-3-1B

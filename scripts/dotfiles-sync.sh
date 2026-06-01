@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 REPO_SLUG="github.com/schroneko/dotfiles"
+HUGGINGFACE_DATASET_MAX_KIB=102400
 MANAGED_FILES=(
     ".Brewfile"
     ".Brewfile.shared"
@@ -52,8 +53,38 @@ should_sync_ghq_repo() {
         huggingface.co/spaces/*)
             return 0
             ;;
+        huggingface.co/datasets/*)
+            return 0
+            ;;
         huggingface.co/*)
             return 1
+            ;;
+        *)
+            return 0
+            ;;
+    esac
+}
+
+repo_size_kib() {
+    local path="$1"
+
+    du -sk "${path}" 2>/dev/null | awk '{print $1}'
+}
+
+should_record_ghq_repo() {
+    local repo="$1"
+    local ghq_root_dir="$2"
+    local repo_path
+    local size_kib
+
+    should_sync_ghq_repo "${repo}" || return 1
+
+    case "${repo}" in
+        huggingface.co/datasets/*)
+            repo_path="${ghq_root_dir}/${repo}"
+            [[ -d "${repo_path}" ]] || return 1
+            size_kib="$(repo_size_kib "${repo_path}")"
+            [[ -n "${size_kib}" && "${size_kib}" -le "${HUGGINGFACE_DATASET_MAX_KIB}" ]]
             ;;
         *)
             return 0
@@ -69,11 +100,13 @@ refresh_manifests() {
     mkdir -p "${REPO_ROOT}/ghq"
     {
         echo "# Managed by scripts/dotfiles-sync.sh."
-        echo "# Repositories are added and updated automatically. Deletions are not propagated."
+        echo "# Repositories are added and updated automatically. Hugging Face model repos are excluded."
         echo
         if command -v ghq >/dev/null 2>&1; then
+            local ghq_root_dir
+            ghq_root_dir="$(ghq_root)"
             ghq list | while IFS= read -r repo; do
-                should_sync_ghq_repo "${repo}" || continue
+                should_record_ghq_repo "${repo}" "${ghq_root_dir}" || continue
                 printf '%s\n' "${repo}"
             done | LC_ALL=C sort
         fi
@@ -113,7 +146,7 @@ clone_missing_repos() {
         fi
 
         log "cloning ${repo}"
-        ghq get "${repo}" || log "failed to clone ${repo}"
+        ghq get --partial blobless --no-recursive "${repo}" || log "failed to clone ${repo}"
     done < "${REPO_ROOT}/ghq/repos.txt"
 }
 
