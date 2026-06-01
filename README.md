@@ -2,7 +2,7 @@
 
 GNU Stow で管理している個人用 dotfiles（macOS / Linux 両対応）
 
-現在の実体は `~/ghq/github.com/schroneko/dotfiles` で、`~/.zshrc` や `~/.config/...` はそこへのシンボリックリンクです。Homebrew と `ghq` の状態はこの repo を唯一の source of truth として macOS 間で定期同期します。
+現在の実体は `~/ghq/github.com/schroneko/dotfiles` で、`~/.zshrc` や `~/.config/...` はそこへのシンボリックリンクです。Homebrew と容量制御済みの `ghq` repo list は、この repo を source of truth として macOS 間で定期同期します。
 
 新しい Mac で最初にやることは 1 つだけです。
 
