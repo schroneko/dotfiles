@@ -2,9 +2,11 @@
 # GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded.
 
 github.com/Aratako/Irodori-TTS
+github.com/Bizuayeu/Plugins-Weave
 github.com/NousResearch/hermes-agent
 github.com/espressif/esp-idf
 github.com/iMasanari/cmd-eikana
+github.com/ideogram-oss/ideogram4
 github.com/m5stack/M5Unified
 github.com/m5stack/StackChan
 github.com/openclaw/openclaw

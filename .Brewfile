@@ -4,7 +4,7 @@
 # Shared packages
 tap "k1low/tap"
 tap "schroneko/tap"
-brew "agent-browser"
+brew "agent-browser", link: false
 brew "autoconf"
 brew "autoconf-archive"
 brew "automake"
@@ -71,6 +71,7 @@ cask "google-chrome"
 cask "google-drive"
 cask "homerow"
 cask "keycastr"
+cask "lm-studio"
 cask "monitorcontrol"
 cask "rectangle"
 cask "slack"
