@@ -9,6 +9,7 @@ github.com/iMasanari/cmd-eikana
 github.com/ideogram-oss/ideogram4
 github.com/m5stack/M5Unified
 github.com/m5stack/StackChan
+github.com/oikon48/claude-code-recipe
 github.com/openclaw/openclaw
 github.com/robo8080/AI_StackChan2
 github.com/schroneko/ailbreak
