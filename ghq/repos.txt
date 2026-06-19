@@ -1,16 +1,7 @@
 # Managed by scripts/dotfiles-sync.sh.
 # GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded.
 
-github.com/Aratako/Irodori-TTS
-github.com/Bizuayeu/Plugins-Weave
-github.com/NousResearch/hermes-agent
-github.com/espressif/esp-idf
-github.com/iMasanari/cmd-eikana
-github.com/ideogram-oss/ideogram4
-github.com/m5stack/M5Unified
-github.com/m5stack/StackChan
 github.com/oikon48/claude-code-recipe
-github.com/openclaw/openclaw
 github.com/robo8080/AI_StackChan2
 github.com/schroneko/ailbreak
 github.com/schroneko/ailbreak-cli
@@ -68,8 +59,6 @@ github.com/schroneko/x-subscriber-exporter
 github.com/schroneko/x-watch-feed
 github.com/schroneko/yutahayashi-com
 github.com/schroneko/zenn
-github.com/worldcoin/agentkit-shopify-demo
-github.com/xai-org/x-algorithm
 huggingface.co/datasets/schroneko/dataset-for-annotation-v2-annotated-test-schroneko
 huggingface.co/datasets/schroneko/model-compatibility
 huggingface.co/datasets/schroneko/progress-test-schroneko
