@@ -52,6 +52,7 @@ github.com/schroneko/skills
 github.com/schroneko/slides
 github.com/schroneko/stackchan-nukoevi
 github.com/schroneko/stackchan-stock-feed
+github.com/schroneko/url-simplifier
 github.com/schroneko/vibecoding-by-saldra
 github.com/schroneko/welcometox
 github.com/schroneko/x-search-tool
