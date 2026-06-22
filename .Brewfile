@@ -2,8 +2,6 @@
 # Formulae, taps, and cross-platform casks are shared by default. Darwin-only apps and overrides live in .Brewfile.darwin.
 
 # Shared packages
-tap "k1low/tap", "https://github.com/k1LoW/homebrew-tap"
-tap "schroneko/tap"
 brew "autoconf"
 brew "autoconf-archive"
 brew "automake"

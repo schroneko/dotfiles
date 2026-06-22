@@ -1,8 +1,6 @@
 # Managed by scripts/brewfile-manager.sh.
 # Shared formulae, taps, and cross-platform casks applied on both macOS and Linux.
 
-tap "k1low/tap", "https://github.com/k1LoW/homebrew-tap"
-tap "schroneko/tap"
 brew "autoconf"
 brew "autoconf-archive"
 brew "automake"
