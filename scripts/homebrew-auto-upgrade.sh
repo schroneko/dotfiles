@@ -121,13 +121,13 @@ while pgrep -qf "brew (bundle|fetch|install|upgrade)"; do
 done
 
 if run_step "brew update" brew update; then
-    run_step "brew upgrade formulae" brew upgrade --formula
+    run_step "brew upgrade formulae" brew upgrade --formula --yes
 
     if outdated_casks="$(brew outdated --cask --greedy 2>&1)"; then
         if [[ -n "${outdated_casks}" ]]; then
             while IFS= read -r cask; do
                 [[ -z "${cask}" ]] && continue
-                run_step "brew upgrade cask ${cask}" brew upgrade --cask --greedy "${cask}"
+                run_step "brew upgrade cask ${cask}" brew upgrade --cask --greedy --yes "${cask}"
             done <<< "${outdated_casks}"
         else
             log "No outdated casks"
