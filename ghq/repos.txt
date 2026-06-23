@@ -1,6 +1,7 @@
 # Managed by scripts/dotfiles-sync.sh.
 # GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded.
 
+github.com/MonitorControl/MonitorControl
 github.com/oikon48/claude-code-recipe
 github.com/robo8080/AI_StackChan2
 github.com/schroneko/ailbreak
