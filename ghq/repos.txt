@@ -2,6 +2,7 @@
 # GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded.
 
 github.com/MonitorControl/MonitorControl
+github.com/espressif/esp-idf
 github.com/oikon48/claude-code-recipe
 github.com/robo8080/AI_StackChan2
 github.com/schroneko/ailbreak
@@ -9,12 +10,14 @@ github.com/schroneko/ailbreak-cli
 github.com/schroneko/ant-bug-bounty
 github.com/schroneko/anytosummary
 github.com/schroneko/anytosummary-cli
+github.com/schroneko/auto-click-cdp-popup
 github.com/schroneko/avexway
 github.com/schroneko/castkit
 github.com/schroneko/claude-code-changes
 github.com/schroneko/cliptotabs
 github.com/schroneko/codex-computer-use
 github.com/schroneko/codex-pets
+github.com/schroneko/cotton-vote
 github.com/schroneko/create-slides-app
 github.com/schroneko/determinant-co-jp
 github.com/schroneko/dotagents
@@ -22,6 +25,7 @@ github.com/schroneko/dotfiles
 github.com/schroneko/egoquery
 github.com/schroneko/event-yutahayashi-com
 github.com/schroneko/evictl
+github.com/schroneko/external-brightness
 github.com/schroneko/eyan-theme
 github.com/schroneko/feedgenerator
 github.com/schroneko/feedmanager
@@ -42,6 +46,7 @@ github.com/schroneko/nicevoice-web
 github.com/schroneko/nitteichousei
 github.com/schroneko/nukosuku-com
 github.com/schroneko/oyakey
+github.com/schroneko/photo-with-nuko
 github.com/schroneko/playbackkeys
 github.com/schroneko/profilecard
 github.com/schroneko/pullscript
