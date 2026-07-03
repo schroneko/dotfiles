@@ -14,6 +14,7 @@ github.com/schroneko/auto-click-cdp-popup
 github.com/schroneko/avexway
 github.com/schroneko/castkit
 github.com/schroneko/claude-code-changes
+github.com/schroneko/claude-code-updater
 github.com/schroneko/cliptotabs
 github.com/schroneko/codex-computer-use
 github.com/schroneko/codex-pets
@@ -31,7 +32,11 @@ github.com/schroneko/feedmanager
 github.com/schroneko/frontier-ai-jobs
 github.com/schroneko/fusionnica
 github.com/schroneko/gohan
-github.com/schroneko/homebrew-tap
+github.com/schroneko/homebrew-cdpclick
+github.com/schroneko/homebrew-exbright
+github.com/schroneko/homebrew-hithint
+github.com/schroneko/homebrew-nicevoice
+github.com/schroneko/homerow-refactor
 github.com/schroneko/icon-maker
 github.com/schroneko/inferkit
 github.com/schroneko/interview-with-anthropic
@@ -52,10 +57,12 @@ github.com/schroneko/pullscript
 github.com/schroneko/qruli
 github.com/schroneko/readme-translate
 github.com/schroneko/red-teaming
+github.com/schroneko/silent-snap-ios
 github.com/schroneko/singapore-ai-safety-red-teaming-challenge-2026
 github.com/schroneko/skills
 github.com/schroneko/slides
 github.com/schroneko/stackchan-nukoevi
+github.com/schroneko/total
 github.com/schroneko/url-simplifier
 github.com/schroneko/vibecoding-by-saldra
 github.com/schroneko/welcometox
