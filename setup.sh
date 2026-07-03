@@ -110,8 +110,8 @@ echo "Installing packages from Brewfile..."
 "$DOTFILES_DIR/scripts/dotfiles-sync.sh"
 
 if command -v mise &>/dev/null; then
-    echo "Installing Node.js via mise..."
-    mise use -g node@lts
+    echo "Installing tools via mise..."
+    mise install
 fi
 
 echo ""

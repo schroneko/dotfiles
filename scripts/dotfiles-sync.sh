@@ -129,6 +129,16 @@ apply_homebrew_state() {
     HOMEBREW_NO_AUTO_UPDATE=1 BREWFILE_SYNC_DISABLE=1 "${REPO_ROOT}/scripts/brew-bundle-sync.sh" --cleanup
 }
 
+apply_mise_state() {
+    if ! command -v mise >/dev/null 2>&1; then
+        log "mise not found; skipping mise tool sync"
+        return 0
+    fi
+
+    log "installing mise tools"
+    mise install
+}
+
 clone_missing_repos() {
     if ! command -v ghq >/dev/null 2>&1; then
         log "ghq not found; skipping repo sync"
@@ -228,6 +238,7 @@ main() {
 
     sync_dotfiles_repo
     apply_homebrew_state
+    apply_mise_state
     clone_missing_repos
     pull_clean_repos
     refresh_manifests

@@ -1,0 +1,3 @@
+[tools]
+fzf = "latest"
+node = "lts"
