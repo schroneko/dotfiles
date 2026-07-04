@@ -1,10 +1,10 @@
 # Managed by scripts/brewfile-manager.sh.
 # Shared formulae, taps, and cross-platform casks applied on both macOS and Linux.
 
-tap "schroneko/cdpclick"
-tap "schroneko/exbright"
-tap "schroneko/hithint"
-tap "schroneko/nicevoice-app", "https://github.com/schroneko/homebrew-nicevoice.git"
+tap "schroneko/cdpclick", trusted: true
+tap "schroneko/exbright", trusted: true
+tap "schroneko/hithint", trusted: true
+tap "schroneko/nicevoice-app", "https://github.com/schroneko/homebrew-nicevoice.git", trusted: true
 tap "steipete/tap"
 brew "autoconf"
 brew "autoconf-archive"

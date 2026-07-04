@@ -2,10 +2,10 @@
 # Formulae, taps, and cross-platform casks are shared by default. Darwin-only apps and overrides live in .Brewfile.darwin.
 
 # Shared packages
-tap "schroneko/cdpclick"
-tap "schroneko/exbright"
-tap "schroneko/hithint"
-tap "schroneko/nicevoice-app", "https://github.com/schroneko/homebrew-nicevoice.git"
+tap "schroneko/cdpclick", trusted: true
+tap "schroneko/exbright", trusted: true
+tap "schroneko/hithint", trusted: true
+tap "schroneko/nicevoice-app", "https://github.com/schroneko/homebrew-nicevoice.git", trusted: true
 tap "steipete/tap"
 brew "autoconf"
 brew "autoconf-archive"
