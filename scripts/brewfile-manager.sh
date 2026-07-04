@@ -245,7 +245,7 @@ probe_cask_platform_support() {
 
     local probe_lines
     if ! probe_lines="$(
-        HOMEBREW_NO_AUTO_UPDATE=1 brew info --json=v2 --variations --cask "${tokens[@]}" \
+        HOMEBREW_NO_AUTO_UPDATE=1 brew info --json=v2 --variations --cask "${tokens[@]}" 2>/dev/null \
             | jq -r '
                 .casks[]
                 | [
