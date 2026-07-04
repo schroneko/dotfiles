@@ -198,3 +198,5 @@ export PATH="/Users/username/.antigravity/antigravity/bin:$PATH"
 export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
+
+export PATH="$HOME/.local/bin:$PATH"
