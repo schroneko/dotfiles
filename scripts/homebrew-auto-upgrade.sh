@@ -5,6 +5,12 @@ failures=0
 waited=0
 wait_interval=5
 max_wait=1800
+trusted_taps=(
+    "schroneko/cdpclick"
+    "schroneko/exbright"
+    "schroneko/hithint"
+    "schroneko/nicevoice-app"
+)
 
 timestamp() {
     date "+%Y-%m-%dT%H:%M:%S%z"
@@ -67,6 +73,19 @@ repair_unlinked_formulae() {
     return "${repair_failures}"
 }
 
+trust_managed_taps() {
+    local tap
+    local trust_failures=0
+
+    for tap in "${trusted_taps[@]}"; do
+        if brew tap | grep -Fxq "${tap}"; then
+            run_step "brew trust tap ${tap}" brew trust --tap "${tap}" || trust_failures=1
+        fi
+    done
+
+    return "${trust_failures}"
+}
+
 run_brew_doctor() {
     local doctor_output
     local formulae
@@ -84,6 +103,7 @@ run_brew_doctor() {
 
     log "FAIL brew doctor status=${status}"
     log "Attempting repair after brew doctor failure"
+    trust_managed_taps || true
     formulae="$(printf "%s\n" "${doctor_output}" | extract_unlinked_formulae)"
 
     if repair_unlinked_formulae "${formulae}"; then
@@ -121,6 +141,7 @@ while pgrep -qf "brew (bundle|fetch|install|upgrade)"; do
 done
 
 if run_step "brew update" brew update; then
+    trust_managed_taps || true
     run_step "brew upgrade formulae" brew upgrade --formula --yes
 
     if outdated_casks="$(brew outdated --cask --greedy 2>&1)"; then
