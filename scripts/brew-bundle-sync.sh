@@ -11,6 +11,12 @@ fi
 
 cleanup=1
 dry_run=0
+trusted_taps=(
+    "schroneko/cdpclick"
+    "schroneko/exbright"
+    "schroneko/hithint"
+    "schroneko/nicevoice-app"
+)
 
 for arg in "$@"; do
     case "$arg" in
@@ -34,6 +40,16 @@ if ! command -v brew >/dev/null 2>&1; then
     echo "Skipping brew bundle: brew not found"
     exit 0
 fi
+
+trust_managed_taps() {
+    local tap
+
+    for tap in "${trusted_taps[@]}"; do
+        if brew tap | grep -Fxq "${tap}"; then
+            brew trust --tap "${tap}"
+        fi
+    done
+}
 
 repo_root="$(cd "$(dirname "$0")/.." && pwd)"
 shared_brewfile="${repo_root}/.Brewfile.shared"
@@ -75,10 +91,12 @@ if [[ "${os}" == "Darwin" ]]; then
         exit 0
     fi
 
+    trust_managed_taps
     brew bundle --file="${tmp_brewfile}"
     if (( cleanup )); then
         brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
     fi
+    trust_managed_taps
     exit 0
 fi
 
@@ -97,10 +115,12 @@ if [[ "${os}" == "Linux" ]]; then
         exit 0
     fi
 
+    trust_managed_taps
     brew bundle --file="${tmp_brewfile}"
     if (( cleanup )); then
         brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
     fi
+    trust_managed_taps
     exit 0
 fi
 
