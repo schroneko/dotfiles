@@ -58,6 +58,7 @@ github.com/schroneko/pullscript
 github.com/schroneko/qruli
 github.com/schroneko/readme-translate
 github.com/schroneko/red-teaming
+github.com/schroneko/scraper-relay
 github.com/schroneko/silent-snap-ios
 github.com/schroneko/singapore-ai-safety-red-teaming-challenge-2026
 github.com/schroneko/skills
