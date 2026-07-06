@@ -21,6 +21,7 @@ github.com/schroneko/codex-computer-use
 github.com/schroneko/codex-pets
 github.com/schroneko/cotton-vote
 github.com/schroneko/create-slides-app
+github.com/schroneko/create-x-post-url
 github.com/schroneko/determinant-co-jp
 github.com/schroneko/dotagents
 github.com/schroneko/dotfiles
