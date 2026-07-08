@@ -69,7 +69,7 @@ github.com/schroneko/total
 github.com/schroneko/url-simplifier
 github.com/schroneko/vibecoding-by-saldra
 github.com/schroneko/welcometox
-github.com/schroneko/x-mutual-block-list
+github.com/schroneko/x-blocked-by-list
 github.com/schroneko/x-search-tool
 github.com/schroneko/x-subscriber-exporter
 github.com/schroneko/x-watch-feed
