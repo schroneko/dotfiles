@@ -13,6 +13,7 @@ cleanup=1
 dry_run=0
 trusted_taps=(
     "schroneko/cdpclick"
+    "schroneko/claude-code-updater"
     "schroneko/exbright"
     "schroneko/hithint"
     "schroneko/nicevoice-app"

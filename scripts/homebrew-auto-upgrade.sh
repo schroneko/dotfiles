@@ -7,6 +7,7 @@ wait_interval=5
 max_wait=1800
 trusted_taps=(
     "schroneko/cdpclick"
+    "schroneko/claude-code-updater"
     "schroneko/exbright"
     "schroneko/hithint"
     "schroneko/nicevoice-app"

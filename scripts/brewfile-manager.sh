@@ -6,7 +6,7 @@ SHARED_PATH="${REPO_ROOT}/.Brewfile.shared"
 DARWIN_PATH="${REPO_ROOT}/.Brewfile.darwin"
 LINUX_PATH="${REPO_ROOT}/.Brewfile.linux"
 COMBINED_PATH="${REPO_ROOT}/.Brewfile"
-DARWIN_ONLY_FORMULAE=("container" "mint" "xcodegen")
+DARWIN_ONLY_FORMULAE=("container" "mint" "xcodegen" "schroneko/claude-code-updater/claude-code-updater")
 MACOS_VARIATION_PATTERN='(^|[[:space:]])(arm64_|x86_64_|intel_)?(tahoe|sequoia|sonoma|ventura|monterey|big_sur|catalina)([[:space:]]|$)'
 TRACK_TMPDIR=""
 
