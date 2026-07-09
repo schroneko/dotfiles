@@ -3,6 +3,7 @@
 
 # Shared packages
 tap "schroneko/cdpclick", trusted: true
+tap "schroneko/claude-code-updater", "https://github.com/schroneko/claude-code-updater", trusted: true
 tap "schroneko/exbright", trusted: true
 tap "schroneko/hithint", trusted: true
 tap "schroneko/nicevoice-app", "https://github.com/schroneko/homebrew-nicevoice.git", trusted: true
@@ -56,6 +57,7 @@ brew "zsh-syntax-highlighting"
 # Darwin-only packages
 brew "container"
 brew "mint"
+brew "schroneko/claude-code-updater/claude-code-updater"
 brew "xcodegen"
 cask "1password"
 cask "1password-cli@beta"
