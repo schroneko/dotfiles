@@ -18,6 +18,9 @@ trusted_taps=(
     "schroneko/hithint"
     "schroneko/nicevoice-app"
 )
+pinned_casks=(
+    "google-chrome"
+)
 
 for arg in "$@"; do
     case "$arg" in
@@ -49,6 +52,23 @@ trust_managed_taps() {
         if brew tap | grep -Fxq "${tap}"; then
             brew trust --tap "${tap}"
         fi
+    done
+}
+
+pin_managed_casks() {
+    local cask
+    local currently_pinned
+
+    currently_pinned="$(brew list --cask --pinned 2>/dev/null || true)"
+
+    for cask in "${pinned_casks[@]}"; do
+        if ! brew list --cask "${cask}" >/dev/null 2>&1; then
+            continue
+        fi
+        if grep -Fxq "${cask}" <<< "${currently_pinned}"; then
+            continue
+        fi
+        brew pin --cask "${cask}"
     done
 }
 
@@ -93,6 +113,7 @@ if [[ "${os}" == "Darwin" ]]; then
     fi
 
     trust_managed_taps
+    pin_managed_casks
     brew bundle --file="${tmp_brewfile}"
     if (( cleanup )); then
         brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
@@ -117,6 +138,7 @@ if [[ "${os}" == "Linux" ]]; then
     fi
 
     trust_managed_taps
+    pin_managed_casks
     brew bundle --file="${tmp_brewfile}"
     if (( cleanup )); then
         brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
