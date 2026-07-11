@@ -1,0 +1,6 @@
+[Unit]
+Description=Apply dotfiles managed state
+
+[Service]
+Type=oneshot
+ExecStart=%h/ghq/github.com/schroneko/dotfiles/scripts/dotfiles-sync.sh --apply-only
