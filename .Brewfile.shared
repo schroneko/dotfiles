@@ -42,7 +42,6 @@ brew "poppler"
 brew "portaudio"
 brew "qpdf"
 brew "ripgrep"
-brew "steipete/tap/oracle", trusted: true
 brew "stow"
 brew "tesseract-lang"
 brew "timg"

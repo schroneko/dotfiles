@@ -4,6 +4,7 @@
 brew "container"
 brew "mint"
 brew "schroneko/claude-code-updater/claude-code-updater"
+brew "steipete/tap/oracle", trusted: true
 brew "xcodegen"
 cask "1password"
 cask "1password-cli@beta"
