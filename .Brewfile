@@ -7,7 +7,6 @@ tap "schroneko/claude-code-updater", "https://github.com/schroneko/claude-code-u
 tap "schroneko/exbright", trusted: true
 tap "schroneko/hithint", trusted: true
 tap "schroneko/nicevoice-app", "https://github.com/schroneko/homebrew-nicevoice.git", trusted: true
-tap "steipete/tap"
 brew "autoconf"
 brew "autoconf-archive"
 brew "automake"
@@ -57,7 +56,6 @@ brew "zsh-syntax-highlighting"
 brew "container"
 brew "mint"
 brew "schroneko/claude-code-updater/claude-code-updater"
-brew "steipete/tap/oracle", trusted: true
 brew "xcodegen"
 cask "1password"
 cask "1password-cli@beta"
