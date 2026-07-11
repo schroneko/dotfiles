@@ -17,6 +17,19 @@ MANAGED_FILES=(
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$PATH"
 export GIT_LFS_SKIP_SMUDGE=1
 
+APPLY_ONLY=0
+for arg in "$@"; do
+    case "${arg}" in
+        --apply-only)
+            APPLY_ONLY=1
+            ;;
+        *)
+            echo "Usage: $0 [--apply-only]" >&2
+            exit 2
+            ;;
+    esac
+done
+
 if [[ -x /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [[ -x /usr/local/bin/brew ]]; then
@@ -239,6 +252,12 @@ main() {
     sync_dotfiles_repo
     apply_homebrew_state
     apply_mise_state
+
+    if (( APPLY_ONLY )); then
+        log "sync complete (apply-only)"
+        return 0
+    fi
+
     clone_missing_repos
     pull_clean_repos
     refresh_manifests
