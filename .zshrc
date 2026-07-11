@@ -8,6 +8,10 @@
 export HISTSIZE=10000
 export SAVEHIST=10000
 export PATH="$HOME/.local/bin:$PATH"
+
+if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 export FEEDMANAGER_OP_ENVIRONMENT_ID="t5qgdtth4uuykjqduetc7y37rq"
 
 if command -v nvim &> /dev/null; then
