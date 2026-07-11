@@ -281,11 +281,63 @@ probe_cask_platform_support() {
     done <<< "${probe_lines}"
 }
 
+FORMULA_SUPPORT_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/brewfile-manager/formula-linux-support.tsv"
+FORMULA_SUPPORT_TTL=$((7 * 24 * 3600))
+
+probe_formula_linux_support() {
+    local output_file="$1"
+    shift
+    local tokens=("$@")
+
+    : > "${output_file}"
+    [[ ${#tokens[@]} -gt 0 ]] || return 0
+
+    mkdir -p "$(dirname "${FORMULA_SUPPORT_CACHE}")"
+    touch "${FORMULA_SUPPORT_CACHE}"
+
+    local now
+    now="$(date +%s)"
+
+    local token
+    local cached
+    local flag
+    local cache_tmp
+    for token in "${tokens[@]}"; do
+        if [[ "${token}" == */* ]]; then
+            printf '%s\t0\n' "${token}" >> "${output_file}"
+            continue
+        fi
+
+        cached="$(awk -F'\t' -v name="${token}" -v now="${now}" -v ttl="${FORMULA_SUPPORT_TTL}" \
+            '$1 == name && (now - $3) < ttl { print $2; exit }' "${FORMULA_SUPPORT_CACHE}")"
+        if [[ "${cached}" == "0" || "${cached}" == "1" ]]; then
+            printf '%s\t%s\n' "${token}" "${cached}" >> "${output_file}"
+            continue
+        fi
+
+        flag="$(curl -fsS --max-time 10 "https://formulae.brew.sh/api/formula/${token}.json" 2>/dev/null \
+            | jq -r '
+                if ((.bottle.stable.files // {}) | keys | map(ascii_downcase)
+                    | any(. == "all" or . == "arm64_linux")) then "1" else "0" end
+            ' 2>/dev/null || true)"
+        if [[ "${flag}" != "0" && "${flag}" != "1" ]]; then
+            continue
+        fi
+
+        printf '%s\t%s\n' "${token}" "${flag}" >> "${output_file}"
+        cache_tmp="${FORMULA_SUPPORT_CACHE}.tmp"
+        awk -F'\t' -v name="${token}" '$1 != name' "${FORMULA_SUPPORT_CACHE}" > "${cache_tmp}"
+        printf '%s\t%s\t%s\n' "${token}" "${flag}" "${now}" >> "${cache_tmp}"
+        mv "${cache_tmp}" "${FORMULA_SUPPORT_CACHE}"
+    done
+}
+
 classify_target() {
     local os_name="$1"
     local kind="$2"
     local name="$3"
     local support_file="$4"
+    local formula_support_file="${5:-}"
 
     if [[ "${kind}" == "cask" ]]; then
         local support
@@ -316,6 +368,15 @@ classify_target() {
                 return 0
             fi
         done
+
+        if [[ -n "${formula_support_file}" && -s "${formula_support_file}" ]]; then
+            local linux_bottle
+            linux_bottle="$(awk -F'\t' -v name="${name}" '$1 == name { print $2; exit }' "${formula_support_file}")"
+            if [[ "${linux_bottle}" == "0" ]]; then
+                printf 'darwin\n'
+                return 0
+            fi
+        fi
     fi
 
     printf 'shared\n'
@@ -366,6 +427,7 @@ update_tracking() {
         extract_entries "${TRACK_TMPDIR}/current.Brewfile" > "${current_state}"
 
         local cask_tokens=()
+        local brew_tokens=()
         if [[ -z "${explicit_kind}" || "${explicit_kind}" == "cask" ]]; then
             local name
             local detected_line
@@ -376,9 +438,21 @@ update_tracking() {
                 fi
             done
         fi
+        if [[ -z "${explicit_kind}" || "${explicit_kind}" == "brew" ]]; then
+            local name
+            local detected_line
+            for name in "${names[@]}"; do
+                detected_line="$(detect_installed_entry "${current_state}" "${name}" "brew" || true)"
+                if [[ -n "${detected_line}" ]]; then
+                    brew_tokens+=("$(entry_key "${detected_line}" | cut -f2)")
+                fi
+            done
+        fi
 
         local cask_support="${TRACK_TMPDIR}/cask-support.tsv"
         probe_cask_platform_support "${cask_support}" ${cask_tokens[@]+"${cask_tokens[@]}"}
+        local formula_support="${TRACK_TMPDIR}/formula-support.tsv"
+        probe_formula_linux_support "${formula_support}" ${brew_tokens[@]+"${brew_tokens[@]}"}
 
         local name
         local detected
@@ -409,7 +483,7 @@ update_tracking() {
                 continue
             fi
 
-            target="$(classify_target "${os_name}" "${kind}" "${entry_name}" "${cask_support}")"
+            target="$(classify_target "${os_name}" "${kind}" "${entry_name}" "${cask_support}" "${formula_support}")"
             case "${target}" in
                 shared) add_or_replace_entry "${shared_entries}" "${line}" ;;
                 darwin) add_or_replace_entry "${darwin_entries}" "${line}" ;;
@@ -464,6 +538,7 @@ refresh_tracking() {
     fi
 
     local cask_tokens=()
+    local brew_tokens=()
     local line
     local key
     local kind
@@ -476,11 +551,15 @@ refresh_tracking() {
 
         if [[ "${kind}" == "cask" ]]; then
             cask_tokens+=("${entry_name}")
+        elif [[ "${kind}" == "brew" ]]; then
+            brew_tokens+=("${entry_name}")
         fi
     done < "${current_entries}"
 
     local cask_support="${TRACK_TMPDIR}/cask-support.tsv"
     probe_cask_platform_support "${cask_support}" ${cask_tokens[@]+"${cask_tokens[@]}"}
+    local formula_support="${TRACK_TMPDIR}/formula-support.tsv"
+    probe_formula_linux_support "${formula_support}" ${brew_tokens[@]+"${brew_tokens[@]}"}
 
     local target
     while IFS= read -r line; do
@@ -488,7 +567,7 @@ refresh_tracking() {
         key="$(entry_key "${line}")"
         kind="${key%%$'\t'*}"
         entry_name="${key#*$'\t'}"
-        target="$(classify_target "${os_name}" "${kind}" "${entry_name}" "${cask_support}")"
+        target="$(classify_target "${os_name}" "${kind}" "${entry_name}" "${cask_support}" "${formula_support}")"
 
         case "${target}" in
             shared) add_or_replace_entry "${shared_entries}" "${line}" ;;
