@@ -1,6 +1,6 @@
 [tools]
-bun = "1.3.13"
+bun = "latest"
 fzf = "latest"
 node = "lts"
-uv = "0.11.1"
+uv = "latest"
 "npm:wrangler" = "latest"
