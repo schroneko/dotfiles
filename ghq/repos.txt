@@ -46,7 +46,6 @@ github.com/schroneko/inferkit
 github.com/schroneko/interview-with-anthropic
 github.com/schroneko/janitor
 github.com/schroneko/llm2025
-github.com/schroneko/local-voice-recorder
 github.com/schroneko/medllm
 github.com/schroneko/mistral-hackathon-2026
 github.com/schroneko/nfc-writer
@@ -71,6 +70,7 @@ github.com/schroneko/slides
 github.com/schroneko/stackchan-nukoevi
 github.com/schroneko/total
 github.com/schroneko/url-simplifier
+github.com/schroneko/utta
 github.com/schroneko/vibecoding-by-saldra
 github.com/schroneko/welcometox
 github.com/schroneko/x-blocked-by-list
