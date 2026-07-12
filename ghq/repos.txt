@@ -46,7 +46,6 @@ github.com/schroneko/inferkit
 github.com/schroneko/interview-with-anthropic
 github.com/schroneko/janitor
 github.com/schroneko/llm2025
-github.com/schroneko/local-voice-recorder
 github.com/schroneko/medllm
 github.com/schroneko/mistral-hackathon-2026
 github.com/schroneko/nfc-writer
@@ -62,6 +61,7 @@ github.com/schroneko/profilecard
 github.com/schroneko/pullscript
 github.com/schroneko/qruli
 github.com/schroneko/readme-translate
+github.com/schroneko/recmo
 github.com/schroneko/red-teaming
 github.com/schroneko/scraper-relay
 github.com/schroneko/silent-snap-ios
