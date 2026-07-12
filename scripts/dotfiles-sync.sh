@@ -152,6 +152,9 @@ apply_mise_state() {
 
     log "installing mise tools"
     mise install
+
+    log "upgrading mise tools"
+    mise upgrade
 }
 
 clone_missing_repos() {
