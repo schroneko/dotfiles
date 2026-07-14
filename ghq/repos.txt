@@ -54,6 +54,7 @@ github.com/schroneko/nicevoice-web
 github.com/schroneko/nitteichousei
 github.com/schroneko/nukosuku-com
 github.com/schroneko/openrouter-free-models
+github.com/schroneko/otemachi-quest
 github.com/schroneko/oyakey
 github.com/schroneko/photo-with-nuko
 github.com/schroneko/playbackkeys
