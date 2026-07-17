@@ -78,6 +78,7 @@ github.com/schroneko/welcometox
 github.com/schroneko/x-blocked-by-list
 github.com/schroneko/x-search-tool
 github.com/schroneko/x-subscriber-exporter
+github.com/schroneko/x-subscriber-tracker
 github.com/schroneko/x-subscribers
 github.com/schroneko/x-watch-feed
 github.com/schroneko/yutahayashi-com
