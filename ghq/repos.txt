@@ -3,6 +3,7 @@
 
 github.com/MonitorControl/MonitorControl
 github.com/espressif/esp-idf
+github.com/mylee04/code-notify
 github.com/oikon48/claude-code-recipe
 github.com/openai/codex
 github.com/robo8080/AI_StackChan2
@@ -83,6 +84,8 @@ github.com/schroneko/x-subscribers
 github.com/schroneko/x-watch-feed
 github.com/schroneko/yutahayashi-com
 github.com/schroneko/zenn
+github.com/steipete/CodexBar
+github.com/tddworks/ClaudeBar
 huggingface.co/datasets/schroneko/dataset-for-annotation-v2-annotated-test-schroneko
 huggingface.co/datasets/schroneko/model-compatibility
 huggingface.co/datasets/schroneko/progress-test-schroneko
