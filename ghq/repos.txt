@@ -1,6 +1,7 @@
 # Managed by scripts/dotfiles-sync.sh.
 # GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded.
 
+github.com/Kuberwastaken/megaphone
 github.com/MonitorControl/MonitorControl
 github.com/espressif/esp-idf
 github.com/mylee04/code-notify
