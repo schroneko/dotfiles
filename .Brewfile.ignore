@@ -1,0 +1,4 @@
+# Packages that must never be written into the Brewfiles, even if a machine has
+# them installed. One name per line, matched against the entry name and its
+# basename. Removing a line makes the package trackable again.
+zoom

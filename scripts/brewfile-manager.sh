@@ -6,6 +6,7 @@ SHARED_PATH="${REPO_ROOT}/.Brewfile.shared"
 DARWIN_PATH="${REPO_ROOT}/.Brewfile.darwin"
 LINUX_PATH="${REPO_ROOT}/.Brewfile.linux"
 COMBINED_PATH="${REPO_ROOT}/.Brewfile"
+IGNORE_PATH="${REPO_ROOT}/.Brewfile.ignore"
 DARWIN_ONLY_FORMULAE=("container" "mint" "xcodegen" "schroneko/claude-code-updater/claude-code-updater")
 MACOS_VARIATION_PATTERN='(^|[[:space:]])(arm64_|x86_64_|intel_)?(tahoe|sequoia|sonoma|ventura|monterey|big_sur|catalina)([[:space:]]|$)'
 TRACK_TMPDIR=""
@@ -27,10 +28,24 @@ sorted_entries_from_file() {
     local path="$1"
     [[ -f "${path}" ]] || return 0
 
-    awk -F'"' '
+    awk -F'"' -v ignore_file="${IGNORE_PATH}" '
+        function base(name, copy) {
+            copy = name
+            sub(/^.*\//, "", copy)
+            return copy
+        }
+        BEGIN {
+            while ((getline line < ignore_file) > 0) {
+                sub(/#.*$/, "", line)
+                gsub(/^[[:space:]]+|[[:space:]]+$/, "", line)
+                if (line != "") ignored[line] = 1
+            }
+            close(ignore_file)
+        }
         /^(tap|brew|cask) "/ {
             split($1, parts, " ")
             kind = parts[1]
+            if ($2 in ignored || base($2) in ignored) next
             order = (kind == "tap" ? 0 : (kind == "brew" ? 1 : 2))
             printf "%d\t%s\t%s\n", order, $2, $0
         }

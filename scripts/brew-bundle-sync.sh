@@ -78,6 +78,29 @@ repo_root="$(cd "$(dirname "$0")/.." && pwd)"
 shared_brewfile="${repo_root}/.Brewfile.shared"
 darwin_brewfile="${repo_root}/.Brewfile.darwin"
 linux_brewfile="${repo_root}/.Brewfile.linux"
+ignore_file="${repo_root}/.Brewfile.ignore"
+
+filter_ignored() {
+    awk -F'"' -v ignore_file="${ignore_file}" '
+        function base(name, copy) {
+            copy = name
+            sub(/^.*\//, "", copy)
+            return copy
+        }
+        BEGIN {
+            while ((getline line < ignore_file) > 0) {
+                sub(/#.*$/, "", line)
+                gsub(/^[[:space:]]+|[[:space:]]+$/, "", line)
+                if (line != "") ignored[line] = 1
+            }
+            close(ignore_file)
+        }
+        /^(tap|brew|cask) "/ {
+            if ($2 in ignored || base($2) in ignored) next
+        }
+        { print }
+    '
+}
 
 if [[ ! -f "${shared_brewfile}" ]]; then
     echo "Skipping brew bundle: ${shared_brewfile} not found"
@@ -96,7 +119,7 @@ write_effective_brewfile() {
             cat "${shared_brewfile}" "${linux_brewfile}" ;;
         *)
             return 1 ;;
-    esac | grep -E '^(tap|brew|cask) ' > "${target}"
+    esac | grep -E '^(tap|brew|cask) ' | filter_ignored > "${target}"
 }
 
 if [[ "${os}" == "Darwin" ]]; then
