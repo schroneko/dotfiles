@@ -4,6 +4,7 @@
 github.com/Kuberwastaken/megaphone
 github.com/MonitorControl/MonitorControl
 github.com/espressif/esp-idf
+github.com/freee/freee-mcp
 github.com/mylee04/code-notify
 github.com/oikon48/claude-code-recipe
 github.com/openai/codex
