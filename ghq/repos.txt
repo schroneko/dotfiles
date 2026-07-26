@@ -39,7 +39,6 @@ github.com/schroneko/feedgenerator
 github.com/schroneko/feedmanager
 github.com/schroneko/frontier-ai-jobs
 github.com/schroneko/fusionnica
-github.com/schroneko/gohan
 github.com/schroneko/homebrew-cdpclick
 github.com/schroneko/homebrew-exbright
 github.com/schroneko/homebrew-hithint
@@ -55,6 +54,7 @@ github.com/schroneko/janitor
 github.com/schroneko/llm2025
 github.com/schroneko/medllm
 github.com/schroneko/mistral-hackathon-2026
+github.com/schroneko/mytable
 github.com/schroneko/nfc-writer
 github.com/schroneko/nicevoice-app
 github.com/schroneko/nicevoice-web
