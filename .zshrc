@@ -34,6 +34,13 @@ if [[ -d "$(_dotfiles_root)/.githooks" ]]; then
     git -C "$(_dotfiles_root)" config core.hooksPath .githooks 2>/dev/null
 fi
 
+_dotagents_repo="${GHQ_ROOT:-$HOME/ghq}/github.com/schroneko/dotagents"
+if [[ -d "${_dotagents_repo}/.git" ]] && ! git -C "${_dotagents_repo}" config --get filter.claude-model.clean &>/dev/null; then
+    git -C "${_dotagents_repo}" config filter.claude-model.clean "jq 'del(.model)'" 2>/dev/null
+    git -C "${_dotagents_repo}" config filter.codex-threads.clean "awk -f scripts/strip-codex-thread-projects.awk" 2>/dev/null
+fi
+unset _dotagents_repo
+
 # --------------------------------------------
 # Zsh オプション
 # --------------------------------------------
