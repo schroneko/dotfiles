@@ -83,5 +83,6 @@ cask "schroneko/nicevoice-app/nicevoice"
 cask "slack"
 cask "tailscale-app"
 cask "telegram"
+cask "zoom"
 
 # Linux-only packages
