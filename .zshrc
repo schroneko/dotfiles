@@ -77,6 +77,16 @@ note() {
 }
 alias dl='yt-dlp -o "%(title)s.%(ext)s"'
 
+claude() {
+    if [[ "$PWD" == "$HOME" || "$PWD" == "/" ]]; then
+        local scratch="$HOME/Documents/ClaudeCode/$(date +%Y-%m-%d)"
+        mkdir -p "$scratch" || return 1
+        (cd "$scratch" && command claude "$@")
+    else
+        command claude "$@"
+    fi
+}
+
 dotfiles_sync_now() {
     "$(_dotfiles_root)/scripts/dotfiles-sync.sh" "$@"
 }
