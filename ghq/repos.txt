@@ -41,6 +41,7 @@ github.com/schroneko/feedmanager
 github.com/schroneko/frontier-ai-jobs
 github.com/schroneko/fusionnica
 github.com/schroneko/gohan
+github.com/schroneko/hackathon-judge-simulator
 github.com/schroneko/homebrew-cdpclick
 github.com/schroneko/homebrew-exbright
 github.com/schroneko/homebrew-hithint
