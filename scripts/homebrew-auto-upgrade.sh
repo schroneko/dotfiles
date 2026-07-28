@@ -13,27 +13,22 @@ trusted_taps=(
     "schroneko/nicevoice-app"
 )
 
-timestamp() {
-    date "+%Y-%m-%dT%H:%M:%S%z"
-}
-
-log() {
-    printf "[%s] %s\n" "$(timestamp)" "$*"
+fail() {
+    printf "%s\n" "$*" >&2
+    failures=$((failures + 1))
 }
 
 run_step() {
     local name="$1"
     shift
 
-    log "START ${name}"
-    "$@"
-    local status=$?
+    local output status
+    output="$("$@" 2>&1)"
+    status=$?
 
-    if [[ "${status}" -eq 0 ]]; then
-        log "OK ${name}"
-    else
-        log "FAIL ${name} status=${status}"
-        failures=$((failures + 1))
+    if [[ "${status}" -ne 0 ]]; then
+        fail "FAIL ${name} status=${status}"
+        printf "%s\n" "${output}" >&2
     fi
 
     return "${status}"
@@ -62,7 +57,6 @@ repair_unlinked_formulae() {
     local repair_failures=0
 
     if [[ -z "${formulae}" ]]; then
-        log "No unlinked formulae to repair"
         return 1
     fi
 
@@ -92,51 +86,40 @@ run_brew_doctor() {
     local formulae
     local status
 
-    log "START brew doctor"
     doctor_output="$(brew doctor 2>&1)"
     status=$?
-    printf "%s\n" "${doctor_output}"
 
     if [[ "${status}" -eq 0 ]]; then
-        log "OK brew doctor"
         return 0
     fi
 
-    log "FAIL brew doctor status=${status}"
-    log "Attempting repair after brew doctor failure"
+    printf "%s\n" "${doctor_output}" >&2
     trust_managed_taps || true
     formulae="$(printf "%s\n" "${doctor_output}" | extract_unlinked_formulae)"
 
     if repair_unlinked_formulae "${formulae}"; then
-        log "START brew doctor after repair"
         doctor_output="$(brew doctor 2>&1)"
         status=$?
-        printf "%s\n" "${doctor_output}"
 
         if [[ "${status}" -eq 0 ]]; then
-            log "OK brew doctor after repair"
             return 0
         fi
 
-        log "FAIL brew doctor after repair status=${status}"
-        failures=$((failures + 1))
+        printf "%s\n" "${doctor_output}" >&2
+        fail "FAIL brew doctor status=${status}"
         return "${status}"
     fi
 
-    log "FAIL repair after brew doctor failure"
-    failures=$((failures + 1))
+    fail "FAIL repair after brew doctor failure"
     return 1
 }
 
-log "homebrew-auto-upgrade started"
-
 while pgrep -qf "brew (bundle|fetch|install|upgrade)"; do
     if [[ "${waited}" -ge "${max_wait}" ]]; then
-        log "FAIL waiting for another brew process timed out after ${max_wait}s"
+        fail "FAIL waiting for another brew process timed out after ${max_wait}s"
         exit 75
     fi
 
-    log "Waiting for another brew process to finish..."
     sleep "${wait_interval}"
     waited=$((waited + wait_interval))
 done
@@ -151,19 +134,15 @@ if run_step "brew update" brew update; then
             while IFS= read -r cask; do
                 [[ -z "${cask}" ]] && continue
                 if [[ -n "${pinned_casks}" ]] && grep -Fxq "${cask}" <<< "${pinned_casks}"; then
-                    log "SKIP pinned cask ${cask}"
                     continue
                 fi
                 run_step "brew upgrade cask ${cask}" brew upgrade --cask --greedy --yes "${cask}"
             done <<< "${outdated_casks}"
-        else
-            log "No outdated casks"
         fi
     else
         status=$?
-        log "FAIL brew outdated casks status=${status}"
-        printf "%s\n" "${outdated_casks}"
-        failures=$((failures + 1))
+        fail "FAIL brew outdated casks status=${status}"
+        printf "%s\n" "${outdated_casks}" >&2
     fi
 
     run_step "brew autoremove" brew autoremove
@@ -173,10 +152,8 @@ else
     run_step "brew cleanup after failed update" brew cleanup
 fi
 
-if [[ "${failures}" -eq 0 ]]; then
-    log "homebrew-auto-upgrade finished successfully"
-    exit 0
+if [[ "${failures}" -ne 0 ]]; then
+    exit 1
 fi
 
-log "homebrew-auto-upgrade finished with ${failures} failure(s)"
-exit 1
+exit 0
