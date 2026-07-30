@@ -101,4 +101,5 @@ stow -D .
 
 ## 参考
 
+- [Mac Studio リモートアクセス構成](docs/mac-studio-remote-access.md)
 - [GNU Stow](https://www.gnu.org/software/stow/)
