@@ -47,6 +47,7 @@ github.com/schroneko/homebrew-cdpclick
 github.com/schroneko/homebrew-exbright
 github.com/schroneko/homebrew-hithint
 github.com/schroneko/homebrew-nicevoice
+github.com/schroneko/homebrew-tap
 github.com/schroneko/homerow-refactor
 github.com/schroneko/icon-maker
 github.com/schroneko/inferkit
