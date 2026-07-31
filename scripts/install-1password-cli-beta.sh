@@ -10,26 +10,33 @@ local_bin="$HOME/.local/bin/op"
 marker="$HOME/.config/op/managed-cli-beta-version"
 homebrew_op=""
 
+supports_environments() {
+    local executable="$1"
+    local run_help
+
+    if ! "$executable" environment --help >/dev/null 2>&1; then
+        return 1
+    fi
+
+    run_help="$("$executable" run --help 2>&1)"
+    [[ "$run_help" == *"--environment"* ]]
+}
+
 if [[ -x /opt/homebrew/bin/op ]]; then
     homebrew_op="/opt/homebrew/bin/op"
 elif [[ -x /usr/local/bin/op ]]; then
     homebrew_op="/usr/local/bin/op"
 fi
 
-if [[ -n "$homebrew_op" ]] && "$homebrew_op" environment --help >/dev/null 2>&1; then
+if [[ -n "$homebrew_op" ]] && supports_environments "$homebrew_op"; then
     if [[ -f "$marker" ]]; then
         if [[ -x "$local_bin" ]]; then
             rm "$local_bin"
         fi
         rm "$marker"
-    fi
-    exit 0
-fi
-
-if [[ -x "$local_bin" ]] && "$local_bin" environment --help >/dev/null 2>&1; then
-    if [[ "$("$local_bin" --version)" == "$version" ]]; then
-        mkdir -p "$(dirname "$marker")"
-        printf '%s\n' "$version" > "$marker"
+    elif [[ -e "$local_bin" ]]; then
+        printf 'Refusing to remove unmanaged executable: %s\n' "$local_bin" >&2
+        exit 1
     fi
     exit 0
 fi
@@ -37,6 +44,14 @@ fi
 if [[ -e "$local_bin" && ! -f "$marker" ]]; then
     printf 'Refusing to replace unmanaged executable: %s\n' "$local_bin" >&2
     exit 1
+fi
+
+if [[ -x "$local_bin" ]] && supports_environments "$local_bin"; then
+    if [[ "$("$local_bin" --version)" == "$version" ]]; then
+        mkdir -p "$(dirname "$marker")"
+        printf '%s\n' "$version" > "$marker"
+        exit 0
+    fi
 fi
 
 case "$(uname -m)" in
@@ -69,12 +84,14 @@ fi
 
 ditto -x -k "$archive" "$extracted_dir"
 codesign --verify --deep --strict "$extracted_dir/op"
+signature_details="$(codesign -dv --verbose=4 "$extracted_dir/op" 2>&1)"
+[[ "$signature_details" == *"Authority=Developer ID Application: AgileBits Inc. (2BUA8C4S2C)"* ]]
 mkdir -p "$(dirname "$local_bin")"
 install -m 0755 "$extracted_dir/op" "$local_bin"
 mkdir -p "$(dirname "$marker")"
 printf '%s\n' "$version" > "$marker"
 "$local_bin" environment --help >/dev/null
-"$local_bin" run --help >/dev/null
+supports_environments "$local_bin"
 rm "$archive"
 rm "$extracted_dir/op"
 rm "$extracted_dir/op.sig"
