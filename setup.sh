@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 OS="$(uname -s)"
 REPO_URL="git@github.com:schroneko/dotfiles.git"

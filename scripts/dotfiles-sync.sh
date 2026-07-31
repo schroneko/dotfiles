@@ -14,7 +14,7 @@ MANAGED_FILES=(
     "ghq/repos.txt"
 )
 
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 export GIT_LFS_SKIP_SMUDGE=1
 
 APPLY_ONLY=0
@@ -256,6 +256,7 @@ main() {
 
     sync_dotfiles_repo
     apply_homebrew_state
+    "${REPO_ROOT}/scripts/install-1password-cli-beta.sh"
     apply_mise_state
 
     if (( APPLY_ONLY )); then
