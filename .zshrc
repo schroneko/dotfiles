@@ -108,6 +108,15 @@ if command -v brew &> /dev/null; then
             echo "Warning: Brewfile update failed" >&2
     }
 
+    _dotfiles_approve_nested_homebrew_apps() {
+        [[ "$(uname)" == "Darwin" ]] || return 0
+
+        local helper="$(_dotfiles_root)/scripts/homebrew-approve-nested-apps.sh"
+
+        [[ -x "$helper" ]] || return 1
+        "$helper" --all
+    }
+
     brew() {
         command brew "$@"
         local exit_code=$?
@@ -116,6 +125,14 @@ if command -v brew &> /dev/null; then
             install|uninstall|remove|reinstall|tap|untap)
                 if [[ $exit_code -eq 0 && -z "${BREWFILE_SYNC_DISABLE:-}" ]]; then
                     _dotfiles_refresh_brewfiles "$@"
+                fi
+                ;;
+        esac
+
+        case "$1" in
+            install|reinstall|upgrade|bundle)
+                if ! _dotfiles_approve_nested_homebrew_apps; then
+                    echo "Warning: nested Homebrew app approval failed" >&2
                 fi
                 ;;
         esac

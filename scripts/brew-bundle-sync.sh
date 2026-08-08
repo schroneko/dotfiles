@@ -79,6 +79,7 @@ shared_brewfile="${repo_root}/.Brewfile.shared"
 darwin_brewfile="${repo_root}/.Brewfile.darwin"
 linux_brewfile="${repo_root}/.Brewfile.linux"
 ignore_file="${repo_root}/.Brewfile.ignore"
+nested_app_approval="${repo_root}/scripts/homebrew-approve-nested-apps.sh"
 
 filter_ignored() {
     awk -F'"' -v ignore_file="${ignore_file}" '
@@ -134,12 +135,22 @@ if [[ "${os}" == "Darwin" ]]; then
         if (( cleanup )); then
             printf '+ brew bundle cleanup --force --formula --tap --file=%q\n' "${tmp_brewfile}"
         fi
+        printf '+ %q --all\n' "${nested_app_approval}"
         exit 0
     fi
 
     trust_managed_taps
     pin_managed_casks
-    brew bundle --file="${tmp_brewfile}"
+    bundle_status=0
+    approval_status=0
+    brew bundle --file="${tmp_brewfile}" || bundle_status=$?
+    "${nested_app_approval}" --all || approval_status=$?
+    if (( bundle_status != 0 )); then
+        exit "${bundle_status}"
+    fi
+    if (( approval_status != 0 )); then
+        exit "${approval_status}"
+    fi
     if (( cleanup )); then
         brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
     fi

@@ -5,6 +5,8 @@ failures=0
 waited=0
 wait_interval=5
 max_wait=1800
+repo_root="$(cd "$(dirname "$0")/.." && pwd)"
+nested_app_approval="${repo_root}/scripts/homebrew-approve-nested-apps.sh"
 trusted_taps=(
     "schroneko/cdpclick"
     "schroneko/claude-code-updater"
@@ -143,6 +145,14 @@ if run_step "brew update" brew update; then
         status=$?
         fail "FAIL brew outdated casks status=${status}"
         printf "%s\n" "${outdated_casks}" >&2
+    fi
+
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        if [[ -x "${nested_app_approval}" ]]; then
+            run_step "approve nested Homebrew apps" "${nested_app_approval}" --all
+        else
+            fail "FAIL nested Homebrew app approval helper unavailable"
+        fi
     fi
 
     run_step "brew autoremove" brew autoremove

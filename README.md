@@ -36,6 +36,10 @@ stow --no-folding --target="$HOME" .
 
 `./scripts/brew-bundle-sync.sh` は split Brewfile を正として同期し、Brewfile にない Homebrew パッケージは自動で削除します。削除を伴わずに同期したい場合だけ `--no-cleanup` を使います。
 
+macOS の cask 更新後は `scripts/homebrew-approve-nested-apps.sh` が非常駐で実行されます。Homebrew の `app` artifact が示すトップレベルアプリには触れず、その配下にある埋め込み `.app` のうち、Gatekeeper が `Notarized Developer ID` と判定したものだけに既存の quarantine 承認 bit を追加します。quarantine の出所情報やその他の拡張属性は削除しません。毎回実体を確認するため、Homebrew を介さない自己更新も次の同期時に検出します。
+
+トップレベルアプリの承認は、署名要件が一致する通常の `brew upgrade` なら Homebrew 自身が引き継ぎます。通常更新では `brew reinstall --cask` を使わず、`brew upgrade` または `brewup` を使います。
+
 `brew install` / `brew uninstall` / `brew tap` / `brew untap` を実行すると、Brewfile 群は自動更新されます。formula・tap・macOS/Linux 両対応 cask は Homebrew の cask variation 情報から自動判定して `.Brewfile.shared` に入り、macOS 専用の cask と override は `.Brewfile.darwin` に入ります。Linux 専用 override が必要な場合は `.Brewfile.linux` を使います。`ghq/repos.txt` は `scripts/dotfiles-sync.sh` が更新します。
 
 `scripts/dotfiles-sync.sh` は dotfiles repo を pull し、Homebrew を反映し、`ghq/repos.txt` の missing repo を clone し、clean な repo だけ `git pull --ff-only` で更新します。`ghq/repos.txt` には GitHub repo、Hugging Face Spaces、100MiB 未満の Hugging Face dataset repo を自動記録し、Hugging Face model repo は容量事故を避けるため除外します。差分があれば managed state だけ commit/push します。LaunchAgent `com.schroneko.dotfiles-sync` が login 時と 5 分おきにこれを実行します。トップレベルの `.Brewfile` は可読性のための合成ビューで、実際の source of truth は split Brewfile です。
