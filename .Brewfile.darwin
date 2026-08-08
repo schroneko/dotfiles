@@ -21,7 +21,7 @@ cask "homerow"
 cask "lm-studio"
 cask "monitorcontrol"
 cask "rectangle"
-cask "schroneko/cdpclick/cdpclick"
+cask "schroneko/cdpclick/cdpclick", trusted: true
 cask "schroneko/exbright/exbright"
 cask "schroneko/hithint/hithint"
 cask "schroneko/nicevoice-app/nicevoice"
