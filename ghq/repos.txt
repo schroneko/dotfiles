@@ -2,6 +2,7 @@
 # GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded.
 
 github.com/Blaizzy/mlx-audio-swift
+github.com/Comfy-Org/ComfyUI
 github.com/Kuberwastaken/megaphone
 github.com/MachineCase/blutter-macos
 github.com/MonitorControl/MonitorControl
