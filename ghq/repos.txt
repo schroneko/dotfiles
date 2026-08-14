@@ -3,7 +3,6 @@
 
 github.com/Blaizzy/mlx-audio-swift
 github.com/Comfy-Org/ComfyUI
-github.com/Comfy-Org/workflow_templates
 github.com/Kuberwastaken/megaphone
 github.com/MachineCase/blutter-macos
 github.com/MonitorControl/MonitorControl
