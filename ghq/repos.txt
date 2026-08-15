@@ -66,6 +66,7 @@ github.com/schroneko/nice-notes
 github.com/schroneko/nicevoice-app
 github.com/schroneko/nicevoice-web
 github.com/schroneko/nitteichousei
+github.com/schroneko/nukoevi-store
 github.com/schroneko/nukosuku-com
 github.com/schroneko/openrouter-free-models
 github.com/schroneko/otemachi-quest
