@@ -102,6 +102,7 @@ github.com/steipete/CodexBar
 github.com/tddworks/ClaudeBar
 github.com/worawit/blutter
 github.com/xdevplatform/chat-xdk
+github.com/yc-software/qm
 huggingface.co/datasets/schroneko/dataset-for-annotation-v2-annotated-test-schroneko
 huggingface.co/datasets/schroneko/model-compatibility
 huggingface.co/datasets/schroneko/progress-test-schroneko
