@@ -130,7 +130,7 @@ if run_step "brew update" brew update; then
     trust_managed_taps || true
     run_step "brew upgrade formulae" brew upgrade --formula --yes
 
-    if outdated_casks="$(brew outdated --cask --greedy 2>&1)"; then
+    if outdated_casks="$(brew outdated --cask --greedy-latest 2>&1)"; then
         pinned_casks="$(brew list --cask --pinned 2>/dev/null || true)"
         if [[ -n "${outdated_casks}" ]]; then
             while IFS= read -r cask; do
@@ -138,7 +138,7 @@ if run_step "brew update" brew update; then
                 if [[ -n "${pinned_casks}" ]] && grep -Fxq "${cask}" <<< "${pinned_casks}"; then
                     continue
                 fi
-                run_step "brew upgrade cask ${cask}" brew upgrade --cask --greedy --yes "${cask}"
+                run_step "brew upgrade cask ${cask}" brew upgrade --cask --greedy-latest --yes "${cask}"
             done <<< "${outdated_casks}"
         fi
     else
