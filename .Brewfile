@@ -81,7 +81,6 @@ cask "schroneko/exbright/exbright"
 cask "schroneko/hithint/hithint"
 cask "schroneko/nicevoice-app/nicevoice"
 cask "slack"
-cask "tailscale-app"
 cask "telegram"
 
 # Linux-only packages
