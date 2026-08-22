@@ -8,6 +8,7 @@ github.com/MachineCase/blutter-macos
 github.com/MonitorControl/MonitorControl
 github.com/espressif/esp-idf
 github.com/freee/freee-mcp
+github.com/hapx2yuki/Tachikoma
 github.com/mautrix/twitter
 github.com/mylee04/code-notify
 github.com/oikon48/claude-code-recipe
