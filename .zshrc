@@ -9,7 +9,9 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 export PATH="$HOME/.local/bin:$PATH"
 
-if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
