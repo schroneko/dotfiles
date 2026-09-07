@@ -130,7 +130,7 @@ if run_step "brew update" brew update; then
     trust_managed_taps || true
     run_step "brew upgrade formulae" brew upgrade --formula --yes
 
-    if outdated_casks="$(brew outdated --cask --greedy-latest 2>&1)"; then
+    if outdated_casks="$(brew outdated --cask --greedy-latest)"; then
         pinned_casks="$(brew list --cask --pinned 2>/dev/null || true)"
         if [[ -n "${outdated_casks}" ]]; then
             while IFS= read -r cask; do
@@ -144,7 +144,6 @@ if run_step "brew update" brew update; then
     else
         status=$?
         fail "FAIL brew outdated casks status=${status}"
-        printf "%s\n" "${outdated_casks}" >&2
     fi
 
     if [[ "$(uname -s)" == "Darwin" ]]; then
