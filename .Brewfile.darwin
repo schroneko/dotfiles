@@ -17,6 +17,7 @@ cask "fayazara/tap/screendrop", trusted: true
 cask "font-plemol-jp-nf"
 cask "google-chrome"
 cask "google-drive"
+cask "grok-bot"
 cask "homerow"
 cask "keepassxc"
 cask "lm-studio"
