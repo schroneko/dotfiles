@@ -239,3 +239,5 @@ fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 
 export PATH="$HOME/.local/bin:$PATH"
+
+export PATH="/Users/username/.kimi-code/bin:$PATH"
