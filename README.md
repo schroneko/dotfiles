@@ -36,6 +36,8 @@ stow --no-folding --target="$HOME" .
 
 `./scripts/brew-bundle-sync.sh` は split Brewfile を正として同期し、Brewfile にない Homebrew パッケージは自動で削除します。削除を伴わずに同期したい場合だけ `--no-cleanup` を使います。
 
+同期前には、前回の成功した同期時点から削除されたパッケージを `${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/brew-installed.tsv` から検出し、該当する Brewfile の項目を除外へ移します。これにより、Homebrew 以外の手順で削除したパッケージも次回同期で再インストールされません。新しく Brewfile へ追加された項目は、状態ファイルにないため通常どおり導入されます。
+
 macOS の cask 更新後は `scripts/homebrew-approve-nested-apps.sh` が非常駐で実行されます。Homebrew の `app` artifact が示すトップレベルアプリには触れず、その配下にある埋め込み `.app` のうち、Gatekeeper が `Notarized Developer ID` と判定したものだけに既存の quarantine 承認 bit を追加します。quarantine の出所情報やその他の拡張属性は削除しません。毎回実体を確認するため、Homebrew を介さない自己更新も次の同期時に検出します。
 
 トップレベルアプリの承認は、署名要件が一致する通常の `brew upgrade` なら Homebrew 自身が引き継ぎます。通常更新では `brew reinstall --cask` を使わず、`brew upgrade` または `brewup` を使います。

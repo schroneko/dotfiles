@@ -80,6 +80,7 @@ darwin_brewfile="${repo_root}/.Brewfile.darwin"
 linux_brewfile="${repo_root}/.Brewfile.linux"
 ignore_file="${repo_root}/.Brewfile.ignore"
 nested_app_approval="${repo_root}/scripts/homebrew-approve-nested-apps.sh"
+brewfile_manager="${repo_root}/scripts/brewfile-manager.sh"
 
 filter_ignored() {
     awk -F'"' -v ignore_file="${ignore_file}" '
@@ -109,6 +110,20 @@ if [[ ! -f "${shared_brewfile}" ]]; then
 fi
 
 os="$(uname -s)"
+
+reconcile_brewfile_state() {
+    [[ -x "${brewfile_manager}" ]] || return 0
+    BREWFILE_MANAGER_ROOT="${repo_root}" BREWFILE_SYNC_DISABLE=1 "${brewfile_manager}" reconcile
+}
+
+snapshot_brewfile_state() {
+    [[ -x "${brewfile_manager}" ]] || return 0
+    BREWFILE_MANAGER_ROOT="${repo_root}" BREWFILE_SYNC_DISABLE=1 "${brewfile_manager}" snapshot
+}
+
+if (( ! dry_run )); then
+    reconcile_brewfile_state
+fi
 
 write_effective_brewfile() {
     local target="$1"
@@ -155,6 +170,7 @@ if [[ "${os}" == "Darwin" ]]; then
         brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
     fi
     trust_managed_taps
+    snapshot_brewfile_state
     exit 0
 fi
 
@@ -180,6 +196,7 @@ if [[ "${os}" == "Linux" ]]; then
         brew bundle cleanup --force --formula --tap --file="${tmp_brewfile}"
     fi
     trust_managed_taps
+    snapshot_brewfile_state
     exit 0
 fi
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="${BREWFILE_MANAGER_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 SHARED_PATH="${REPO_ROOT}/.Brewfile.shared"
 DARWIN_PATH="${REPO_ROOT}/.Brewfile.darwin"
 LINUX_PATH="${REPO_ROOT}/.Brewfile.linux"
 COMBINED_PATH="${REPO_ROOT}/.Brewfile"
 IGNORE_PATH="${REPO_ROOT}/.Brewfile.ignore"
+STATE_PATH="${BREWFILE_MANAGER_STATE_PATH:-${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/brew-installed.tsv}"
 DARWIN_ONLY_FORMULAE=("container" "mint" "xcodegen" "schroneko/claude-code-updater/claude-code-updater")
 MACOS_VARIATION_PATTERN='(^|[[:space:]])(arm64_|x86_64_|intel_)?(tahoe|sequoia|sonoma|ventura|monterey|big_sur|catalina)([[:space:]]|$)'
 TRACK_TMPDIR=""
@@ -22,6 +23,48 @@ extract_entries() {
     if [[ -f "${path}" ]]; then
         grep -E '^(tap|brew|cask) ' "${path}" || true
     fi
+}
+
+entry_keys_from_file() {
+    local path="$1"
+    [[ -f "${path}" ]] || return 0
+
+    awk -F'"' '
+        /^(tap|brew|cask) "/ {
+            split($1, parts, " ")
+            printf "%s\t%s\n", parts[1], $2
+        }
+    ' "${path}" | LC_ALL=C sort -u
+}
+
+write_state() {
+    local entries_file="$1"
+    local state_dir
+    local tmp
+
+    state_dir="$(dirname "${STATE_PATH}")"
+    mkdir -p "${state_dir}"
+    tmp="${STATE_PATH}.tmp"
+    LC_ALL=C sort -u "${entries_file}" > "${tmp}"
+    mv "${tmp}" "${STATE_PATH}"
+}
+
+append_ignore_entry() {
+    local name="$1"
+
+    [[ -n "${name}" ]] || return 0
+    if [[ ! -f "${IGNORE_PATH}" ]] || ! grep -Fxq "${name}" "${IGNORE_PATH}"; then
+        printf '%s\n' "${name}" >> "${IGNORE_PATH}"
+    fi
+}
+
+remove_ignore_entry() {
+    local name="$1"
+    local tmp="${IGNORE_PATH}.tmp"
+
+    [[ -f "${IGNORE_PATH}" ]] || return 0
+    awk -v name="${name}" '$0 != name { print }' "${IGNORE_PATH}" > "${tmp}"
+    mv "${tmp}" "${IGNORE_PATH}"
 }
 
 sorted_entries_from_file() {
@@ -235,6 +278,84 @@ remove_named_entries() {
     done
 }
 
+tracked_entry_exists() {
+    local kind="$1"
+    local name="$2"
+    local file
+
+    for file in "${SHARED_PATH}" "${DARWIN_PATH}" "${LINUX_PATH}"; do
+        if [[ -f "${file}" ]] && entry_exists_exact "${file}" "${kind}" "${name}"; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+reconcile_removed() {
+    local os_name
+    local current_brewfile
+    local current_keys
+    local removed_keys
+    local kind
+    local name
+    local file
+    local changed=0
+
+    os_name="$(uname -s)"
+    [[ "${os_name}" == "Darwin" || "${os_name}" == "Linux" ]] || return 0
+
+    TRACK_TMPDIR="$(mktemp -d)"
+    current_brewfile="${TRACK_TMPDIR}/current.Brewfile"
+    current_keys="${TRACK_TMPDIR}/current.keys"
+    removed_keys="${TRACK_TMPDIR}/removed.keys"
+
+    dump_current_state "${os_name}" "${current_brewfile}"
+    entry_keys_from_file "${current_brewfile}" > "${current_keys}"
+
+    if [[ ! -f "${STATE_PATH}" ]]; then
+        write_state "${current_keys}"
+        return 0
+    fi
+
+    comm -23 "${STATE_PATH}" "${current_keys}" > "${removed_keys}"
+    while IFS=$'\t' read -r kind name; do
+        [[ -n "${kind}" && -n "${name}" ]] || continue
+        if ! tracked_entry_exists "${kind}" "${name}"; then
+            continue
+        fi
+
+        for file in "${SHARED_PATH}" "${DARWIN_PATH}" "${LINUX_PATH}"; do
+            [[ -f "${file}" ]] || continue
+            remove_named_entries "${file}" "${name}" "${kind}"
+        done
+        append_ignore_entry "${name}"
+        changed=1
+        printf 'Removed missing Homebrew package from Brewfiles: %s "%s"\n' "${kind}" "${name}" >&2
+    done < "${removed_keys}"
+
+    if (( changed )); then
+        render_combined
+    fi
+}
+
+snapshot_state() {
+    local os_name
+    local current_brewfile
+    local current_keys
+
+    os_name="$(uname -s)"
+    [[ "${os_name}" == "Darwin" || "${os_name}" == "Linux" ]] || return 0
+
+    TRACK_TMPDIR="$(mktemp -d)"
+    current_brewfile="${TRACK_TMPDIR}/current.Brewfile"
+    current_keys="${TRACK_TMPDIR}/current.keys"
+
+    dump_current_state "${os_name}" "${current_brewfile}"
+    entry_keys_from_file "${current_brewfile}" > "${current_keys}"
+    write_state "${current_keys}"
+}
+
 add_or_replace_entry() {
     local file="$1"
     local line="$2"
@@ -438,6 +559,10 @@ update_tracking() {
 
     if [[ "${command}" == "install" || "${command}" == "reinstall" ]]; then
         local current_state="${TRACK_TMPDIR}/current.entries"
+        local name
+        for name in "${names[@]}"; do
+            remove_ignore_entry "${name}"
+        done
         dump_current_state "${os_name}" "${TRACK_TMPDIR}/current.Brewfile"
         extract_entries "${TRACK_TMPDIR}/current.Brewfile" > "${current_state}"
 
@@ -469,7 +594,6 @@ update_tracking() {
         local formula_support="${TRACK_TMPDIR}/formula-support.tsv"
         probe_formula_linux_support "${formula_support}" ${brew_tokens[@]+"${brew_tokens[@]}"}
 
-        local name
         local detected
         local key
         local kind
@@ -511,6 +635,7 @@ update_tracking() {
             remove_named_entries "${shared_entries}" "${name}" "${explicit_kind}"
             remove_named_entries "${darwin_entries}" "${name}" "${explicit_kind}"
             remove_named_entries "${linux_entries}" "${name}" "${explicit_kind}"
+            append_ignore_entry "${name}"
         done
     elif [[ "${command}" == "tap" ]]; then
         local name
@@ -606,6 +731,12 @@ main() {
         refresh)
             refresh_tracking
             ;;
+        reconcile)
+            reconcile_removed
+            ;;
+        snapshot)
+            snapshot_state
+            ;;
         track)
             shift
             if [[ "${1:-}" == "--" ]]; then
@@ -614,7 +745,7 @@ main() {
             update_tracking "$@"
             ;;
         *)
-            echo "Usage: $0 {render|refresh|track -- <brew args>}" >&2
+            echo "Usage: $0 {render|refresh|reconcile|snapshot|track -- <brew args>}" >&2
             return 1
             ;;
     esac
