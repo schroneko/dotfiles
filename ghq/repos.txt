@@ -40,6 +40,7 @@ github.com/schroneko/automated-hachathon-judge
 github.com/schroneko/avexway
 github.com/schroneko/bettermatchui
 github.com/schroneko/blackbeard-extension-japanese
+github.com/schroneko/bloodline
 github.com/schroneko/blueskyapi
 github.com/schroneko/boosts
 github.com/schroneko/brain-waves
@@ -86,6 +87,7 @@ github.com/schroneko/eeg-analysis-electron
 github.com/schroneko/egoquery
 github.com/schroneko/electron-flask
 github.com/schroneko/electron-test
+github.com/schroneko/ember-vault
 github.com/schroneko/eslint-handson-myao
 github.com/schroneko/evaluate_llm2024_competition
 github.com/schroneko/event-yutahayashi-com
@@ -97,6 +99,7 @@ github.com/schroneko/feedextractor
 github.com/schroneko/feedgenerator
 github.com/schroneko/feedmanager
 github.com/schroneko/findedfs
+github.com/schroneko/firmguess
 github.com/schroneko/frontier-ai-jobs
 github.com/schroneko/fun-modern-webapp
 github.com/schroneko/fusion-device-encyclopedia
@@ -123,6 +126,7 @@ github.com/schroneko/influ-quest
 github.com/schroneko/influenza-quest
 github.com/schroneko/interview-with-anthropic
 github.com/schroneko/janitor
+github.com/schroneko/jev-wordle
 github.com/schroneko/job-interview-master
 github.com/schroneko/kanzenshoku
 github.com/schroneko/kanzenshoku-archive
@@ -225,6 +229,7 @@ github.com/schroneko/trmng
 github.com/schroneko/ts-handson-udemy
 github.com/schroneko/tts-extension
 github.com/schroneko/url-simplifier
+github.com/schroneko/venture-office
 github.com/schroneko/vibecoding-by-saldra
 github.com/schroneko/voicebot-test
 github.com/schroneko/voltagent
@@ -232,6 +237,7 @@ github.com/schroneko/web_crawler_with_firecrawl
 github.com/schroneko/webpacker
 github.com/schroneko/welcometox
 github.com/schroneko/wifiqrcode
+github.com/schroneko/wordplay-arcade
 github.com/schroneko/x-blocked-by-list
 github.com/schroneko/x-search-tool
 github.com/schroneko/x-subscriber-exporter
@@ -256,6 +262,12 @@ huggingface.co/datasets/schroneko/test-upload-dataset
 huggingface.co/spaces/schroneko/irodori-tts-stackchan-api
 huggingface.co/spaces/schroneko/irodori-tts-zerogpu
 huggingface.co/spaces/schroneko/transparent-background
+jev-arena
+jev-showcase/boss-battle
+jev-showcase/final-cut
+jev-showcase/meme-oracle
+jev-showcase/plot-twist
+jev-showcase/vibe-court
 worktrees/anytosummary-first-party-before-jina
 worktrees/anytosummary-first-party-integration
 worktrees/anytosummary-free-optimization
@@ -263,3 +275,4 @@ worktrees/anytosummary-live-contract-audit
 worktrees/anytosummary-semantic-boundary
 worktrees/anytosummary-summary-input-cost
 worktrees/anytosummary-yahoo-pagination
+worktrees/feedmanager-capacity-baseline-20260927
