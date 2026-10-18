@@ -128,6 +128,7 @@ github.com/schroneko/interview-with-anthropic
 github.com/schroneko/janitor
 github.com/schroneko/jev-wordle
 github.com/schroneko/job-interview-master
+github.com/schroneko/judge-injection-playground
 github.com/schroneko/kanzenshoku
 github.com/schroneko/kanzenshoku-archive
 github.com/schroneko/kindletomd
