@@ -1,0 +1,388 @@
+# Managed by dependabot-automation/rollout.sh. Do not edit per repository.
+# Dependabot PR: least-privilege validation (pull_request, contents: read, no secrets)
+# -> separate merge job (write) only after validation succeeds.
+# Never uses pull_request_target; PR code is never executed with a write token.
+name: Dependabot auto-merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  schedule:
+    - cron: 23 */6 * * *
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.pull_request.number || 'sweep' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # security: merge only PRs whose dependency has an open Dependabot alert (any severity).
+  # all: merge every Dependabot PR that passes validation (includes version updates).
+  MERGE_SCOPE: security
+  WORKFLOW_PATH: .github/workflows/dependabot-auto-merge.yml
+  LEGACY_WORKFLOW_PATH: .github/workflows/dependabot-safe-auto-merge.yml
+
+jobs:
+  verify:
+    name: verify
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.base.ref == github.event.repository.default_branch &&
+      !startsWith(github.event.pull_request.head.ref, 'dependabot/github_actions/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout PR merge commit (no credentials kept)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Detect ecosystems
+        id: detect
+        shell: bash
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          find_dirs() { # $1..: file names; prints unique dirs (max 6), root first
+            local args=() n
+            for n in "$@"; do args+=(-o -name "$n"); done
+            find . -maxdepth 6 \( -path '*/node_modules' -o -path '*/.git' -o -path '*/.venv' -o -path '*/vendor' \) -prune \
+              -o -type f \( "${args[@]:1}" \) -exec dirname {} \; 2>/dev/null \
+              | sort -u | awk '{print length, $0}' | sort -n | cut -d' ' -f2- | head -6 | paste -sd' ' -
+          }
+          node_dirs=$(find_dirs package-lock.json npm-shrinkwrap.json pnpm-lock.yaml yarn.lock bun.lock bun.lockb)
+          py_dirs=$(find_dirs uv.lock poetry.lock requirements.txt pyproject.toml)
+          go_dirs=$(find_dirs go.mod)
+          cargo_dirs=$(find_dirs Cargo.lock)
+          if [ -z "$node_dirs" ] && [ -f package.json ]; then
+            # no lockfile: an npm update cannot be validated from a lockfile, other ecosystems still can
+            case "$HEAD_REF" in
+              dependabot/npm_and_yarn/*) node_dirs=. ;;
+              *) echo "::warning::package.json without a lockfile; skipping Node validation for a non-npm update" ;;
+            esac
+          fi
+          {
+            echo "node_dirs=$node_dirs"
+            echo "py_dirs=$py_dirs"
+            echo "go_dirs=$go_dirs"
+            echo "cargo_dirs=$cargo_dirs"
+            echo "pnpm=$(find . -maxdepth 6 -name pnpm-lock.yaml -not -path '*/node_modules/*' | grep -q . && echo true || echo false)"
+            echo "bun=$(find . -maxdepth 6 \( -name bun.lock -o -name bun.lockb \) -not -path '*/node_modules/*' | grep -q . && echo true || echo false)"
+            echo "uv=$(find . -maxdepth 6 -name uv.lock -not -path '*/.venv/*' | grep -q . && echo true || echo false)"
+            pm=$(jq -r '.packageManager // ""' package.json 2>/dev/null || true)
+            echo "pnpm_pinned=$(case "$pm" in pnpm@*) echo true ;; *) echo false ;; esac)"
+            if [ -f .nvmrc ]; then echo "node_version_file=.nvmrc"
+            elif [ -f .node-version ]; then echo "node_version_file=.node-version"
+            elif jq -e '.engines.node' package.json >/dev/null 2>&1; then echo "node_version_file=package.json"
+            else echo "node_version_file="; fi
+            echo "go_version_file=${go_dirs%% *}/go.mod"
+            if [ -f .python-version ]; then echo "python_version_file=.python-version"; else echo "python_version_file="; fi
+          } >> "$GITHUB_OUTPUT"
+          echo "node=[$node_dirs] python=[$py_dirs] go=[$go_dirs] cargo=[$cargo_dirs]"
+          if [ -z "$node_dirs$py_dirs$go_dirs$cargo_dirs" ]; then
+            echo "::error::No supported dependency manifest found; refusing to auto-merge."
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        if: steps.detect.outputs.node_dirs != ''
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: ${{ steps.detect.outputs.node_version_file }}
+          node-version: ${{ steps.detect.outputs.node_version_file == '' && 'lts/*' || '' }}
+          package-manager-cache: false
+      - name: Setup pnpm (version from packageManager)
+        if: steps.detect.outputs.pnpm == 'true' && steps.detect.outputs.pnpm_pinned == 'true'
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - name: Setup pnpm (default version)
+        if: steps.detect.outputs.pnpm == 'true' && steps.detect.outputs.pnpm_pinned != 'true'
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          version: 10
+      - name: Setup Bun
+        if: steps.detect.outputs.bun == 'true'
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          no-cache: true
+      # no .python-version: use a mature release (the newest one often lacks wheels)
+      - name: Setup Python
+        if: steps.detect.outputs.py_dirs != ''
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version-file: ${{ steps.detect.outputs.python_version_file }}
+          python-version: ${{ steps.detect.outputs.python_version_file == '' && '3.13' || '' }}
+      - name: Setup uv
+        if: steps.detect.outputs.uv == 'true'
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        with:
+          enable-cache: false
+      - name: Setup Go
+        if: steps.detect.outputs.go_dirs != ''
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: ${{ steps.detect.outputs.go_version_file }}
+          cache: false
+
+      - name: Install from lockfile and run checks
+        shell: bash
+        env:
+          NODE_DIRS: ${{ steps.detect.outputs.node_dirs }}
+          PY_DIRS: ${{ steps.detect.outputs.py_dirs }}
+          GO_DIRS: ${{ steps.detect.outputs.go_dirs }}
+          CARGO_DIRS: ${{ steps.detect.outputs.cargo_dirs }}
+          CI: true
+        run: |
+          set -euo pipefail
+          root=$PWD
+          log() { echo "::group::$*"; }
+          end() { echo "::endgroup::"; }
+
+          for d in $NODE_DIRS; do
+            cd "$root/$d"
+            if [ -f pnpm-lock.yaml ]; then pm=pnpm; log "pnpm install ($d)"; pnpm install --frozen-lockfile
+            elif [ -f bun.lock ] || [ -f bun.lockb ]; then pm=bun; log "bun install ($d)"; bun install --frozen-lockfile
+            elif [ -f yarn.lock ]; then
+              pm=yarn; corepack enable
+              if [ -f .yarnrc.yml ]; then log "yarn install --immutable ($d)"; yarn install --immutable
+              else log "yarn install --frozen-lockfile ($d)"; yarn install --frozen-lockfile; fi
+            elif [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then pm=npm; log "npm ci ($d)"; npm ci
+            else
+              # package.json without a lockfile in a workspace member: covered by the root install
+              [ "$d" = "." ] || continue
+              echo "::error::package.json without a lockfile at repository root; clean install from lockfile impossible"; exit 1
+            fi
+            end
+            ran=0
+            for s in typecheck lint test build; do
+              cmd=$(jq -r --arg s "$s" '.scripts[$s] // ""' package.json)
+              [ -n "$cmd" ] || continue
+              case "$cmd" in *"no test specified"*) continue ;; esac
+              log "$pm run $s ($d)"; "$pm" run "$s"; end
+              ran=1
+            done
+            if [ "$ran" = 0 ] && [ -f tsconfig.json ] && [ -x node_modules/.bin/tsc ]; then
+              log "tsc --noEmit ($d)"; node_modules/.bin/tsc --noEmit; end
+            elif [ "$ran" = 0 ]; then
+              echo "::warning::$d: no typecheck/lint/test/build script; validation = clean install only"
+            fi
+          done
+
+          for d in $PY_DIRS; do
+            cd "$root/$d"
+            if [ -f uv.lock ]; then
+              log "uv sync --locked ($d)"; uv sync --locked --all-extras; end
+              run=(uv run --locked --no-sync)
+            elif [ -f poetry.lock ]; then
+              log "poetry install ($d)"; pipx install poetry >/dev/null; poetry check --lock; poetry install --no-interaction; end
+              run=(poetry run)
+            elif [ -f requirements.txt ]; then
+              log "pip install -r requirements.txt ($d)"
+              python -m venv .ci-venv; .ci-venv/bin/pip install --upgrade pip >/dev/null
+              .ci-venv/bin/pip install -r requirements.txt
+              for f in requirements-dev.txt dev-requirements.txt requirements-test.txt; do
+                if [ -f "$f" ]; then .ci-venv/bin/pip install -r "$f"; fi
+              done
+              .ci-venv/bin/pip check; end
+              run=(.ci-venv/bin/)
+            elif [ -f pyproject.toml ]; then
+              # pyproject.toml in a uv/poetry workspace member is covered by the root install
+              [ "$d" = "." ] || continue
+              log "pip install . ($d)"
+              python -m venv .ci-venv; .ci-venv/bin/pip install . ; .ci-venv/bin/pip check; end
+              run=(.ci-venv/bin/)
+            else
+              continue
+            fi
+            if [ "${run[0]}" = ".ci-venv/bin/" ]; then py=(.ci-venv/bin/python); else py=("${run[@]}" python); fi
+            log "compileall ($d)"
+            "${py[@]}" -m compileall -q -x '(^|/)(\.venv|\.ci-venv|node_modules)/' . ; end
+            # import check for the declared package if it is importable from the tree
+            name=$("${py[@]}" -c 'import tomllib,sys;print(tomllib.load(open("pyproject.toml","rb")).get("project",{}).get("name",""))' 2>/dev/null || true)
+            mod=${name//-/_}
+            if [ -n "$mod" ] && { [ -d "$mod" ] || [ -d "src/$mod" ] || [ -f "$mod.py" ]; }; then
+              log "import $mod ($d)"; "${py[@]}" -c "import $mod"; end
+            fi
+            if "${py[@]}" -c 'import pytest' 2>/dev/null && { [ -d tests ] || [ -d test ] || ls test_*.py >/dev/null 2>&1; }; then
+              log "pytest ($d)"; "${py[@]}" -m pytest -q; end
+            fi
+          done
+
+          for d in $GO_DIRS; do
+            cd "$root/$d"
+            log "go build/test ($d)"
+            go mod download && go mod verify && go build ./... && go test ./...
+            end
+          done
+
+          for d in $CARGO_DIRS; do
+            cd "$root/$d"
+            log "cargo build/test ($d)"
+            cargo build --locked --all-targets && cargo test --locked
+            end
+          done
+          echo "validation passed"
+
+  merge:
+    name: merge
+    needs: verify
+    # PR mode: only after verify succeeded. Sweep mode (schedule/dispatch): verify is skipped
+    # and the job only merges PRs whose current head already passed verify.
+    if: >-
+      always() &&
+      ((github.event_name == 'pull_request' && needs.verify.result == 'success') ||
+       github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+      statuses: read
+      actions: read
+      vulnerability-alerts: read
+    steps:
+      - name: Dependabot metadata (validates author and commit signatures)
+        id: meta
+        if: github.event_name == 'pull_request'
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ github.token }}
+      - name: Merge after all other checks pass
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          MODE: ${{ github.event_name == 'pull_request' && 'pr' || 'sweep' }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          DEP_NAMES: ${{ steps.meta.outputs.dependency-names }}
+          ECOSYSTEM: ${{ steps.meta.outputs.package-ecosystem }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+        run: |
+          set -euo pipefail
+          WAIT_SECONDS=${WAIT_SECONDS:-1800}
+
+          own_suites() { # check suites of this workflow and of the removed legacy auto-merge workflow
+            gh api "repos/$REPO/actions/runs?head_sha=$1&per_page=100" \
+              --jq "[.workflow_runs[] | select(.path == \"$WORKFLOW_PATH\" or .path == \"$LEGACY_WORKFLOW_PATH\") | .check_suite_id]"
+          }
+          checks_state() { # prints: success | pending | failure:<names>
+            local sha=$1 suites runs st
+            suites=$(own_suites "$sha")
+            runs=$(gh api --paginate "repos/$REPO/commits/$sha/check-runs?per_page=100" --jq '.check_runs[]' \
+              | jq -s --argjson own "$suites" '[.[] | select((.check_suite.id as $s | $own | index($s)) | not)]')
+            st=$(gh api "repos/$REPO/commits/$sha/status" --jq '{state, total_count}')
+            jq -rn --argjson r "$runs" --argjson s "$st" '
+              ($r | map(select(.status != "completed")) | length) as $pend
+              | ($r | map(select(.status == "completed" and ((.conclusion // "") | IN("success","neutral","skipped") | not)) | .name)) as $bad
+              | if ($bad | length) > 0 then "failure:" + ($bad | join(","))
+                elif ($s.total_count > 0 and ($s.state == "failure" or $s.state == "error")) then "failure:commit-status"
+                elif $pend > 0 or ($s.total_count > 0 and $s.state == "pending") then "pending"
+                else "success" end'
+          }
+          alert_names() { # open Dependabot alert package names for an ecosystem
+            gh api --paginate "repos/$REPO/dependabot/alerts?state=open&ecosystem=$1&per_page=100" \
+              --jq '.[].dependency.package.name' | tr '[:upper:]' '[:lower:]' | sort -u
+          }
+          alert_ecosystem() {
+            case "$1" in
+              npm_and_yarn|npm|bun) echo npm ;; pip|uv|poetry|pipenv) echo pip ;; go_modules|gomod) echo go ;;
+              cargo) echo rust ;; bundler) echo rubygems ;; composer) echo composer ;; maven|gradle) echo maven ;;
+              nuget) echo nuget ;; pub) echo pub ;; mix|hex) echo erlang ;; swift) echo swift ;; *) echo "" ;;
+            esac
+          }
+          is_security() { # $1 ecosystem(branch form), $2 comma-separated names
+            [ "$MERGE_SCOPE" = all ] && return 0
+            local eco names n dep_list
+            eco=$(alert_ecosystem "$1"); [ -n "$eco" ] || return 1
+            if ! names=$(alert_names "$eco"); then
+              echo "::error::Cannot read Dependabot alerts (vulnerability-alerts permission); refusing to merge"; return 1
+            fi
+            IFS=',' read -ra dep_list <<<"$2"
+            for n in "${dep_list[@]}"; do
+              n=$(echo "$n" | xargs | tr '[:upper:]' '[:lower:]')
+              [ -n "$n" ] && grep -Fxq "$n" <<<"$names" && return 0
+            done
+            return 1
+          }
+          try_merge() { # $1 pr number, $2 head sha, $3 ecosystem, $4 dep names, $5 wait seconds
+            local pr=$1 sha=$2 eco=$3 deps=$4 wait=$5 start state pinfo
+            if ! is_security "$eco" "$deps"; then
+              echo "PR #$pr ($deps): no open Dependabot alert for this dependency; not a security update, skipping"; return 0
+            fi
+            start=$(date +%s)
+            while :; do
+              state=$(checks_state "$sha")
+              [ "$state" != pending ] && break
+              if [ $(( $(date +%s) - start )) -ge "$wait" ]; then
+                echo "PR #$pr: other checks still pending; leaving for the scheduled sweep"; return 0
+              fi
+              sleep 30
+            done
+            if [ "$state" != success ]; then
+              echo "::error::PR #$pr: other checks did not pass ($state); not merging"; return 1
+            fi
+            # mergeable is computed asynchronously and resets whenever the base branch moves
+            for _ in $(seq 1 18); do
+              pinfo=$(gh api "repos/$REPO/pulls/$pr" --jq '{state, draft, mergeable, mergeable_state, sha: .head.sha}')
+              [ "$(jq -r .mergeable <<<"$pinfo")" != null ] && break
+              sleep 10
+            done
+            echo "PR #$pr: $pinfo"
+            if [ "$(jq -r .state <<<"$pinfo")" != open ] || [ "$(jq -r .draft <<<"$pinfo")" = true ] \
+               || [ "$(jq -r .sha <<<"$pinfo")" != "$sha" ] || [ "$(jq -r .mergeable <<<"$pinfo")" != true ]; then
+              echo "PR #$pr: not mergeable now (closed/draft/head moved/conflict); skipping"; return 0
+            fi
+            # another merge can move the base between the mergeable check and the merge call;
+            # retry only that race. --match-head-commit still pins the validated head commit.
+            local out attempt
+            for attempt in 1 2 3 4; do
+              if out=$(gh pr merge "$pr" --repo "$REPO" --squash --delete-branch --match-head-commit "$sha" 2>&1); then
+                echo "$out"; echo "PR #$pr merged ($deps, ${UPDATE_TYPE:-unknown})"; return 0
+              fi
+              echo "$out"
+              grep -q 'Base branch was modified' <<<"$out" || return 1
+              echo "PR #$pr: base moved (attempt $attempt); retrying in 20s"; sleep 20
+            done
+            return 1
+          }
+
+          if [ "$MODE" = pr ]; then
+            [ -n "$DEP_NAMES" ] || { echo "::error::fetch-metadata returned no dependencies"; exit 1; }
+            try_merge "$PR_NUMBER" "$HEAD_SHA" "$ECOSYSTEM" "$DEP_NAMES" "$WAIT_SECONDS"
+            exit $?
+          fi
+
+          # MODE=sweep: never runs PR code. Merges open Dependabot PRs whose current head
+          # already passed the `verify` job of this workflow, re-checking everything else.
+          default_branch=$(gh api "repos/$REPO" --jq .default_branch)
+          fails=0
+          while IFS=$'\t' read -r pr sha ref; do
+              eco=$(cut -d/ -f2 <<<"$ref")
+              if [ "$eco" = github_actions ]; then echo "PR #$pr: github_actions update, skipped (needs workflows permission)"; continue; fi
+              bad=$(gh api --paginate "repos/$REPO/pulls/$pr/commits?per_page=100" \
+                --jq '.[] | select(.author.login != "dependabot[bot]" or (.commit.verification.verified | not)) | .sha')
+              if [ -n "$bad" ]; then echo "PR #$pr: contains non-Dependabot or unverified commits; skipping"; continue; fi
+              verified=$(gh api "repos/$REPO/actions/runs?head_sha=$sha&event=pull_request&status=completed&per_page=100" \
+                --jq "[.workflow_runs[] | select(.path == \"$WORKFLOW_PATH\") | .id] | .[]" \
+                | while read -r run; do
+                    gh api "repos/$REPO/actions/runs/$run/jobs" --jq '.jobs[] | select(.name == "verify" and .conclusion == "success") | .id'
+                  done | head -1)
+              if [ -z "$verified" ]; then
+                echo "PR #$pr: no successful verify run for head $sha (comment '@dependabot rebase' to trigger one)"; continue
+              fi
+              msg=$(gh api "repos/$REPO/commits/$sha" --jq .commit.message)
+              deps=$(sed -n 's/^- dependency-name: //p' <<<"$msg" | paste -sd, -)
+              UPDATE_TYPE=$(sed -n 's/^ *update-type: //p' <<<"$msg" | head -1)
+              [ -n "$deps" ] || { echo "PR #$pr: cannot parse updated-dependencies; skipping"; continue; }
+              try_merge "$pr" "$sha" "$eco" "$deps" 0 || fails=$((fails + 1))
+            done < <(gh api --paginate "repos/$REPO/pulls?state=open&base=$default_branch&per_page=100" \
+              --jq '.[] | select(.user.login == "dependabot[bot]" and (.draft | not)) | [.number, .head.sha, .head.ref] | @tsv')
+          exit "$fails"
