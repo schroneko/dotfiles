@@ -58,6 +58,12 @@ jobs:
               | sort -u | awk '{print length, $0}' | sort -n | cut -d' ' -f2- | head -6 | paste -sd' ' -
           }
           node_dirs=$(find_dirs package-lock.json npm-shrinkwrap.json pnpm-lock.yaml yarn.lock bun.lock bun.lockb)
+          # a lockfile without package.json next to it cannot be installed: drop it
+          kept=""
+          for d in $node_dirs; do
+            if [ -f "$d/package.json" ]; then kept="$kept $d"; else echo "::warning::$d: lockfile without package.json; skipping"; fi
+          done
+          node_dirs=${kept# }
           py_dirs=$(find_dirs uv.lock poetry.lock requirements.txt pyproject.toml)
           go_dirs=$(find_dirs go.mod)
           cargo_dirs=$(find_dirs Cargo.lock)
