@@ -2,7 +2,7 @@
 # Formulae, taps, and cross-platform casks are shared by default. Darwin-only apps and overrides live in .Brewfile.darwin.
 
 # Shared packages
-tap "fayazara/tap", trusted: { casks: ["screendrop"] }
+tap "fayazara/tap"
 tap "schroneko/cdpclick", trusted: true
 tap "schroneko/claude-code-updater", "https://github.com/schroneko/claude-code-updater", trusted: true
 tap "schroneko/exbright", trusted: true
@@ -61,11 +61,16 @@ brew "container"
 brew "mint"
 brew "schroneko/claude-code-updater/claude-code-updater"
 brew "xcodegen"
+cask "1password"
 cask "1password-cli@beta"
+cask "beeper"
 cask "blender"
+cask "chatgpt"
 cask "claude"
 cask "cleanshot"
 cask "copilot-cli"
+cask "discord"
+cask "fayazara/tap/screendrop", trusted: true
 cask "font-plemol-jp-nf"
 cask "google-chrome"
 cask "google-drive"
@@ -78,5 +83,7 @@ cask "schroneko/cdpclick/cdpclick", trusted: true
 cask "schroneko/exbright/exbright"
 cask "schroneko/hithint/hithint"
 cask "schroneko/nicevoice-app/nicevoice"
+cask "slack"
+cask "telegram"
 
 # Linux-only packages
