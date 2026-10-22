@@ -74,6 +74,25 @@ pin_managed_casks() {
     done
 }
 
+non_self_updating_casks() {
+    brew info --json=v2 --installed --cask | jq -r '.casks[] | select(.auto_updates != true) | .token'
+}
+
+upgrade_non_self_updating_casks() {
+    local -a casks=()
+    local cask
+
+    while IFS= read -r cask; do
+        [[ -n "${cask}" ]] && casks+=("${cask}")
+    done < <(non_self_updating_casks)
+
+    if (( ${#casks[@]} == 0 )); then
+        return 0
+    fi
+
+    brew upgrade --cask "${casks[@]}"
+}
+
 repo_root="$(cd "$(dirname "$0")/.." && pwd)"
 shared_brewfile="${repo_root}/.Brewfile.shared"
 darwin_brewfile="${repo_root}/.Brewfile.darwin"
@@ -146,7 +165,11 @@ if [[ "${os}" == "Darwin" ]]; then
     if (( dry_run )); then
         cat "${tmp_brewfile}"
         echo
-        printf '+ brew bundle --file=%q\n' "${tmp_brewfile}"
+        printf '+ brew bundle --no-upgrade --file=%q\n' "${tmp_brewfile}"
+        printf '+ brew upgrade --formula\n'
+        printf '+ brew upgrade --cask'
+        printf ' %q' $(non_self_updating_casks)
+        printf '\n'
         if (( cleanup )); then
             printf '+ brew bundle cleanup --force --formula --tap --file=%q\n' "${tmp_brewfile}"
         fi
@@ -158,7 +181,9 @@ if [[ "${os}" == "Darwin" ]]; then
     pin_managed_casks
     bundle_status=0
     approval_status=0
-    brew bundle --file="${tmp_brewfile}" || bundle_status=$?
+    brew bundle --no-upgrade --file="${tmp_brewfile}" || bundle_status=$?
+    brew upgrade --formula || bundle_status=$?
+    upgrade_non_self_updating_casks || bundle_status=$?
     "${nested_app_approval}" --all || approval_status=$?
     if (( bundle_status != 0 )); then
         exit "${bundle_status}"
