@@ -1,5 +1,4 @@
-# Managed by scripts/dotfiles-sync.sh.
-# GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB are synced; Hugging Face model repos are excluded.
+# Managed by scripts/sync.sh. GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB; Hugging Face model repos are excluded.
 
 github.com/Blaizzy/mlx-audio-swift
 github.com/Comfy-Org/ComfyUI
@@ -32,6 +31,7 @@ github.com/schroneko/aitubercode4share
 github.com/schroneko/ant-bug-bounty
 github.com/schroneko/anytosummary
 github.com/schroneko/anytosummary-cli
+github.com/schroneko/anytosummary-d1-diagnostics
 github.com/schroneko/askmeanything
 github.com/schroneko/atomic-design
 github.com/schroneko/auto-click-cdp-popup
@@ -56,6 +56,7 @@ github.com/schroneko/commercial-ai-usage-guide
 github.com/schroneko/cotton-vote
 github.com/schroneko/create-slides-app
 github.com/schroneko/create-x-post-url
+github.com/schroneko/crystalbound
 github.com/schroneko/ctrlplusg
 github.com/schroneko/cursor-background-agents-test
 github.com/schroneko/cwc-tokyo-2026
@@ -172,6 +173,7 @@ github.com/schroneko/openai_moderation_test
 github.com/schroneko/openchat-history
 github.com/schroneko/openrouter-free-models
 github.com/schroneko/osaisenbako
+github.com/schroneko/otemachi-quest
 github.com/schroneko/oyakey
 github.com/schroneko/pacman
 github.com/schroneko/pdf-toolbar-toggle
@@ -182,7 +184,6 @@ github.com/schroneko/profilecard
 github.com/schroneko/promocodes
 github.com/schroneko/promptoptimizer
 github.com/schroneko/pullscript
-github.com/schroneko/pullscript-budget
 github.com/schroneko/pyinstaller-flask
 github.com/schroneko/qruli
 github.com/schroneko/quickexpand
@@ -260,19 +261,21 @@ github.com/yc-software/qm
 huggingface.co/datasets/schroneko/dataset-for-annotation-v2-annotated-test-schroneko
 huggingface.co/datasets/schroneko/model-compatibility
 huggingface.co/datasets/schroneko/progress-test-schroneko
-huggingface.co/spaces/schroneko/AIdeaLab-VideoJP
-huggingface.co/spaces/schroneko/DALL-E_3_Image_Generation
-huggingface.co/spaces/schroneko/Demo-Llama-Guard-3-1B
-huggingface.co/spaces/schroneko/Meta-Llama-3.1-8B-Instruct
-huggingface.co/spaces/schroneko/OpenAI_Moderation_API_Checker
-huggingface.co/spaces/schroneko/Prompt-Guard-86M
-huggingface.co/spaces/schroneko/Sentence_Similarity_Demo
-huggingface.co/spaces/schroneko/WiFiQRCodeGenerator
-huggingface.co/spaces/schroneko/anthropic-api-token-counter
-huggingface.co/spaces/schroneko/demo-llm-jp-3-8x1.8b-instruct3
-huggingface.co/spaces/schroneko/embedding-models-comparison
+huggingface.co/datasets/schroneko/test-upload-dataset
 huggingface.co/spaces/schroneko/irodori-tts-stackchan-api
 huggingface.co/spaces/schroneko/irodori-tts-zerogpu
-huggingface.co/spaces/schroneko/meta-llama-Llama-Guard-3-8B-INT8
-huggingface.co/spaces/schroneko/tokencount
 huggingface.co/spaces/schroneko/transparent-background
+jev-arena
+jev-showcase/boss-battle
+jev-showcase/final-cut
+jev-showcase/meme-oracle
+jev-showcase/plot-twist
+jev-showcase/vibe-court
+worktrees/anytosummary-first-party-before-jina
+worktrees/anytosummary-first-party-integration
+worktrees/anytosummary-free-optimization
+worktrees/anytosummary-live-contract-audit
+worktrees/anytosummary-semantic-boundary
+worktrees/anytosummary-summary-input-cost
+worktrees/anytosummary-yahoo-pagination
+worktrees/feedmanager-capacity-baseline-20260927
