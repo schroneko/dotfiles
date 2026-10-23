@@ -21,20 +21,6 @@ else
     export MANPAGER="col -b -x|vim -R -c 'set ft=man nolist nomod noma' -"
 fi
 
-_dotfiles_root() {
-    local repo_path="github.com/schroneko/dotfiles"
-
-    if command -v ghq &>/dev/null; then
-        printf '%s/%s\n' "$(ghq root)" "${repo_path}"
-    else
-        printf '%s/%s\n' "$HOME/ghq" "${repo_path}"
-    fi
-}
-
-if [[ -d "$(_dotfiles_root)/.githooks" ]]; then
-    git -C "$(_dotfiles_root)" config core.hooksPath .githooks 2>/dev/null
-fi
-
 _dotagents_repo="${GHQ_ROOT:-$HOME/ghq}/github.com/schroneko/dotagents"
 if [[ -d "${_dotagents_repo}/.git" ]] && ! git -C "${_dotagents_repo}" config --get filter.claude-model.clean &>/dev/null; then
     git -C "${_dotagents_repo}" config filter.claude-model.clean "jq 'del(.model)'" 2>/dev/null
@@ -58,9 +44,6 @@ bindkey -e
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
-if [[ "$(uname)" == "Darwin" ]]; then
-    alias brewup="${${(%):-%x}:A:h}/scripts/homebrew-auto-upgrade.sh"
-fi
 
 if command -v eza &> /dev/null; then
     alias ls='eza --group-directories-first'
@@ -95,53 +78,6 @@ claude() {
     fi
 }
 
-dotfiles_sync_now() {
-    "$(_dotfiles_root)/scripts/dotfiles-sync.sh" "$@"
-}
-alias sync-now='dotfiles_sync_now'
-
-if command -v brew &> /dev/null; then
-    _dotfiles_refresh_brewfiles() {
-        local root="$(_dotfiles_root)"
-        local manager="$root/scripts/brewfile-manager.sh"
-
-        [[ -x "$manager" ]] || return 0
-        BREWFILE_SYNC_DISABLE=1 "$manager" track -- "$@" >/dev/null || \
-            echo "Warning: Brewfile update failed" >&2
-    }
-
-    _dotfiles_approve_nested_homebrew_apps() {
-        [[ "$(uname)" == "Darwin" ]] || return 0
-
-        local helper="$(_dotfiles_root)/scripts/homebrew-approve-nested-apps.sh"
-
-        [[ -x "$helper" ]] || return 1
-        "$helper" --all
-    }
-
-    brew() {
-        command brew "$@"
-        local exit_code=$?
-
-        case "$1" in
-            install|uninstall|remove|reinstall|tap|untap)
-                if [[ $exit_code -eq 0 && -z "${BREWFILE_SYNC_DISABLE:-}" ]]; then
-                    _dotfiles_refresh_brewfiles "$@"
-                fi
-                ;;
-        esac
-
-        case "$1" in
-            install|reinstall|upgrade|bundle)
-                if ! _dotfiles_approve_nested_homebrew_apps; then
-                    echo "Warning: nested Homebrew app approval failed" >&2
-                fi
-                ;;
-        esac
-
-        return $exit_code
-    }
-fi
 
 if command -v mise &> /dev/null; then
     eval "$(mise activate zsh)"

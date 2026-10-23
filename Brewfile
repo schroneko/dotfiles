@@ -1,7 +1,5 @@
-# Managed by scripts/brewfile-manager.sh.
-# Formulae, taps, and cross-platform casks are shared by default. Darwin-only apps and overrides live in .Brewfile.darwin.
+# Apps shared by every Mac. scripts/sync.sh adds what you install and drops what you uninstall.
 
-# Shared packages
 tap "fayazara/tap"
 tap "schroneko/cdpclick", trusted: true
 tap "schroneko/claude-code-updater", "https://github.com/schroneko/claude-code-updater", trusted: true
@@ -15,6 +13,7 @@ brew "ccache"
 brew "cloudflared", restart_service: :changed
 brew "cmake"
 brew "colima"
+brew "container"
 brew "coreutils"
 brew "docker"
 brew "docker-buildx"
@@ -31,6 +30,7 @@ brew "hf"
 brew "imagemagick"
 brew "jq"
 brew "libass"
+brew "mint"
 brew "mise"
 brew "mupdf-tools"
 brew "nasm"
@@ -46,21 +46,17 @@ brew "poppler"
 brew "portaudio"
 brew "qpdf"
 brew "ripgrep"
+brew "schroneko/claude-code-updater/claude-code-updater"
 brew "stow"
 brew "tesseract-lang"
 brew "timg"
 brew "tmux"
 brew "tree"
+brew "xcodegen"
 brew "yt-dlp"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
-
-# Darwin-only packages
-brew "container"
-brew "mint"
-brew "schroneko/claude-code-updater/claude-code-updater"
-brew "xcodegen"
 cask "1password"
 cask "1password-cli"
 cask "beeper"
@@ -86,5 +82,3 @@ cask "schroneko/nicevoice-app/nicevoice"
 cask "slack"
 cask "telegram"
 cask "terminal-browser"
-
-# Linux-only packages

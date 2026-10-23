@@ -1,6 +1,7 @@
 typeset -U path
 path=(
     "$HOME/.local/bin"
+    "$HOME/.bun/bin"
     "$HOME/.mint/bin"
     "$HOME/.lmstudio/bin"
     "$HOME/.antigravity/antigravity/bin"

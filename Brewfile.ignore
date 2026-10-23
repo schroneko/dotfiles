@@ -1,0 +1,7 @@
+# Names that scripts/sync.sh never tracks, installs, or uninstalls, even if a Mac
+# has them installed. One name per line, matched against the entry name and its
+# basename. Removing a line makes the package trackable again.
+zoom
+tailscale-app
+keepassxc
+1password-cli@beta

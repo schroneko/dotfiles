@@ -1,120 +1,45 @@
 # dotfiles
 
-GNU Stow で管理している個人用 dotfiles（macOS / Linux 両対応）
+Mac Studio と MacBook Air で、設定ファイルと Homebrew のアプリを1つの定義で揃えるための repo です。
 
-現在の実体は `~/ghq/github.com/schroneko/dotfiles` で、`~/.zshenv`、`~/.zshrc`、`~/.config/...` はそこへのシンボリックリンクです。Homebrew と容量制御済みの `ghq` repo list は、この repo を source of truth として macOS 間で定期同期します。
-
-新しい Mac で最初にやることは 1 つだけです。
+## 新しい Mac
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/setup.sh)"
 ```
 
-coding agent を新しい Mac で起動した場合も、まずこれを実行すれば十分です。
+Homebrew の導入、この repo の clone、設定ファイルのリンク、`scripts/macos-defaults.sh` の適用、同期用 LaunchAgent の登録をします。
 
-## セットアップ
+## 設定ファイル
 
-### ワンライナー（新しいマシン）
+次のファイルは `~` からこの repo へのシンボリックリンクです。編集したら commit して push し、もう片方の Mac は次の同期で取り込みます。リンクだけ作り直すときは `./setup.sh --link` を使います。
 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/setup.sh)"
-```
-
-### 手動セットアップ
-
-```bash
-ghq get git@github.com:schroneko/dotfiles.git
-
-cd ~/ghq/github.com/schroneko/dotfiles
-git config core.hooksPath .githooks
-git config pull.autostash true
-stow --no-folding --target="$HOME" .
-
-./scripts/macos-defaults.sh
-./scripts/dotfiles-sync.sh
-```
-
-`./scripts/brew-bundle-sync.sh` は split Brewfile を正として同期し、Brewfile にない Homebrew パッケージは自動で削除します。削除を伴わずに同期したい場合だけ `--no-cleanup` を使います。
-
-更新は formula と、`auto_updates` を持たない cask だけを `brew upgrade` します。`auto_updates` を持つ cask はアプリ自身の更新機能に任せ、バックグラウンド同期からは置き換えません。バックグラウンド同期でこれらを更新すると途中で失敗し、`/Applications` に空のアプリが残ることがあったためです。
-
-同期前には、前回の成功した同期時点から削除されたパッケージを `${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/brew-installed.tsv` から検出し、該当する Brewfile の項目を除外へ移します。これにより、Homebrew 以外の手順で削除したパッケージも次回同期で再インストールされません。新しく Brewfile へ追加された項目は、状態ファイルにないため通常どおり導入されます。
-
-macOS の cask 更新後は `scripts/homebrew-approve-nested-apps.sh` が非常駐で実行されます。Homebrew の `app` artifact が示すトップレベルアプリには触れず、その配下にある埋め込み `.app` のうち、Gatekeeper が `Notarized Developer ID` と判定したものだけに既存の quarantine 承認 bit を追加します。`com.apple.provenance` が付いた保護済み bundle は macOS が xattr の変更を拒否するため、無変更でスキップします。quarantine の出所情報やその他の拡張属性は削除しません。毎回実体を確認するため、Homebrew を介さない自己更新も次の同期時に検出します。
-
-トップレベルアプリの承認は、署名要件が一致する通常の `brew upgrade` なら Homebrew 自身が引き継ぎます。通常更新では `brew reinstall --cask` を使わず、`brew upgrade` または `brewup` を使います。
-
-`brew install` / `brew uninstall` / `brew tap` / `brew untap` を実行すると、Brewfile 群は自動更新されます。formula・tap・macOS/Linux 両対応 cask は Homebrew の cask variation 情報から自動判定して `.Brewfile.shared` に入り、macOS 専用の cask と override は `.Brewfile.darwin` に入ります。Linux 専用 override が必要な場合は `.Brewfile.linux` を使います。`ghq/repos.txt` は `scripts/dotfiles-sync.sh` が更新します。
-
-`scripts/dotfiles-sync.sh` は dotfiles repo を pull し、Homebrew を反映し、`ghq/repos.txt` の missing repo を clone し、clean な repo だけ `git pull --ff-only` で更新します。`ghq/repos.txt` には GitHub repo、Hugging Face Spaces、100MiB 未満の Hugging Face dataset repo を自動記録し、Hugging Face model repo は容量事故を避けるため除外します。差分があれば managed state だけ commit/push します。LaunchAgent `com.schroneko.dotfiles-sync` が login 時と 5 分おきにこれを実行します。トップレベルの `.Brewfile` は可読性のための合成ビューで、実際の source of truth は split Brewfile です。
-
-macOS 本体設定は `scripts/macos-defaults.sh` で管理します。Dock、Finder、キーボード、スクリーンショットなどの `defaults write` 設定を一括適用します。内容確認だけなら `./scripts/macos-defaults.sh --dry-run` を使います。
-
-## 管理しているファイル
-
-### シェル & エディタ
-
-- `.vimrc`
-- `.zshenv`
-- `.zshrc`
-- `.bashrc`
-- `.hushlogin`
-
-### 1Password
-
-1Password Environment の ID は `~/.config/op/environment-id` にマシンごとに配置する。`.zshenv` はファイルが存在する場合だけ `OP_ENVIRONMENT_ID` を読み込む。
-
-1Password CLI は Homebrew の通常版 cask `1password-cli` を使う。ベータ版や `~/.local/bin/op` へのローカル導入は使わない。
-
-### Git & SSH
-
+- `.zshrc` / `.zshenv`
 - `.gitconfig`
 - `.ssh/config`
-- `.config/gh/`
+- `.config/nvim/init.lua`
+- `.config/mise/config.toml`
+- `Library/KeyBindings/DefaultKeyBinding.dict`
 
-### ターミナル
+## アプリの同期
 
-- `.config/ghostty/config`
+LaunchAgent `com.schroneko.dotfiles-sync` が、ログイン時と1時間ごとに `scripts/sync.sh` を実行します。
 
-### パッケージ管理
+1. この repo を `git pull` します。
+2. 前回の同期から、この Mac で入れたアプリを `Brewfile` に足し、消したアプリを `Brewfile` から外します。前回の状態は `~/.local/state/dotfiles/brew-state.tsv` にあります。
+3. `Brewfile` 通りに、足りないものを入れ、`Brewfile` にないものを消します。
+4. formula と、`auto_updates` を持たない cask を `brew upgrade` します。自分で更新するアプリはアプリ自身に任せます。バックグラウンドで更新すると空のアプリが残ることがあったためです。
+5. `scripts/homebrew-approve-nested-apps.sh` で、cask の中に入っているアプリの承認をします。
+6. `mise install` と `mise upgrade` をします。
+7. `ghq/repos.txt` の repo のうち、足りないものを clone し、変更のない repo を `git pull --ff-only` します。Hugging Face の model repo と 100MiB を超える dataset は対象外です。
+8. `Brewfile` と `ghq/repos.txt` に差分があれば commit して push します。
 
-- `.Brewfile` (generated view)
-- `.Brewfile.shared`
-- `.Brewfile.darwin`
-- `.Brewfile.linux`
-- `ghq/repos.txt`
-- `Library/LaunchAgents/com.schroneko.dotfiles-sync.plist`
-- `scripts/macos-defaults.sh`
+`Brewfile.ignore` に書いた名前は、同期の対象から外れ、入れることも消すこともしません。一度に 10 個を超えて消えそうなときは、事故とみなして止まります。
 
-## 設定ファイルの更新
+実行前に何が起きるかを見るには `./scripts/sync.sh --dry-run` を使います。ログは `~/Library/Logs/dotfiles-sync.log` です。
 
-```bash
-vim ~/ghq/github.com/schroneko/dotfiles/.zshrc
+## その他
 
-cd ~/ghq/github.com/schroneko/dotfiles
-git add .zshrc
-git commit -m "zshrc を更新"
-git push
-```
-
-## 他のマシンの変更を取り込む
-
-```bash
-cd ~/ghq/github.com/schroneko/dotfiles
-./scripts/dotfiles-sync.sh
-```
-
-## よく使うコマンド
-
-```bash
-sync-now
-./scripts/macos-defaults.sh
-./scripts/dotfiles-sync.sh
-stow --no-folding --target="$HOME" .
-stow -D .
-```
-
-## 参考
-
-- [Mac Studio リモートアクセス構成](docs/mac-studio-remote-access.md)
-- [GNU Stow](https://www.gnu.org/software/stow/)
+- `scripts/macos-defaults.sh`: Dock、Finder、キーボードなどの macOS 設定です。`--dry-run` で内容だけ確認できます。
+- `docs/`: Mac Studio のリモートアクセスの手順です。
+- 1Password CLI は Homebrew の通常版 cask `1password-cli` を使います。1Password Environment の ID はマシンごとに `~/.config/op/environment-id` に置き、`.zshenv` が読み込みます。

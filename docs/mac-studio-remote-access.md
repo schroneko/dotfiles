@@ -26,7 +26,7 @@ MacBook Air から Mac Studio の画面共有へ、SSH ポートフォワード�
 
 ### 1. 基本環境
 
-dotfiles のセットアップを実行します。`.Brewfile.shared` から `cloudflared`、`.Brewfile.darwin` から Tailscale アプリが導入されます。
+dotfiles のセットアップを実行します。`Brewfile` から `cloudflared` が導入されます。
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/schroneko/dotfiles/main/setup.sh)"
