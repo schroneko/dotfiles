@@ -64,7 +64,7 @@ macOS 本体設定は `scripts/macos-defaults.sh` で管理します。Dock、Fi
 
 1Password Environment の ID は `~/.config/op/environment-id` にマシンごとに配置する。`.zshenv` はファイルが存在する場合だけ `OP_ENVIRONMENT_ID` を読み込む。
 
-1Password CLI は Environment 対応の Homebrew cask `1password-cli@beta` を使う。`~/.local/bin/op` へのローカル導入は行わない。
+1Password CLI は Homebrew の通常版 cask `1password-cli` を使う。ベータ版や `~/.local/bin/op` へのローカル導入は使わない。
 
 ### Git & SSH
 
