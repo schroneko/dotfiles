@@ -62,7 +62,7 @@ macOS 本体設定は `scripts/macos-defaults.sh` で管理します。Dock、Fi
 
 ### 1Password
 
-1Password Environment の ID は `~/.config/op/environment-id`、`mac-studio-development` サービスアカウントのトークンは `~/.config/op/service-account-token` にマシンごとに配置する。トークンファイルの権限は `600` にし、リポジトリや同期フォルダへ保存しない。`.zshenv` はファイルが存在する場合だけ `OP_ENVIRONMENT_ID` と `OP_SERVICE_ACCOUNT_TOKEN` を読み込む。
+1Password Environment の ID は `~/.config/op/environment-id` にマシンごとに配置する。`.zshenv` はファイルが存在する場合だけ `OP_ENVIRONMENT_ID` を読み込む。
 
 Homebrew の `1password-cli@beta` が Environment 非対応 build を配布している間は、`scripts/install-1password-cli-beta.sh` が公式署名済み beta を `~/.local/bin/op` に固定導入する。Homebrew 版が Environment 対応へ戻ると、dotfiles 同期時にローカル fallback を撤去する。
 
