@@ -85,5 +85,6 @@ cask "schroneko/hithint/hithint"
 cask "schroneko/nicevoice-app/nicevoice"
 cask "slack"
 cask "telegram"
+cask "terminal-browser"
 
 # Linux-only packages
