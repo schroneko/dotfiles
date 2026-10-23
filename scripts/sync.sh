@@ -173,6 +173,7 @@ want_repo() {
 }
 
 # Clone repos listed in ghq/repos.txt that are missing; fast-forward clean ones.
+# Repo failures are only logged; the exit status reflects Homebrew and mise.
 sync_repos() {
     local root repo dir
     root="$(ghq root)"
@@ -182,13 +183,13 @@ sync_repos() {
         if [[ ! -d "$dir/.git" ]]; then
             if (( DRY )); then log "would clone $repo"; continue; fi
             log "cloning $repo"
-            ghq get --partial blobless --no-recursive "$repo" < /dev/null || warn "clone $repo"
+            ghq get --partial blobless --no-recursive "$repo" < /dev/null > /dev/null 2>&1 || log "could not clone $repo"
             continue
         fi
         if (( DRY )) || [[ "$repo" == github.com/schroneko/dotfiles ]]; then continue; fi
         [[ -z "$(git -C "$dir" status --porcelain 2>/dev/null)" ]] || continue
         git -C "$dir" rev-parse --abbrev-ref '@{upstream}' >/dev/null 2>&1 || continue
-        git -C "$dir" pull --ff-only -q < /dev/null || warn "pull $repo"
+        git -C "$dir" pull --ff-only -q < /dev/null > /dev/null 2>&1 || log "could not pull $repo"
     done < "$REPOS"
 }
 
