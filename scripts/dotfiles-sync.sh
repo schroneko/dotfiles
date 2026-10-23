@@ -256,7 +256,6 @@ main() {
 
     sync_dotfiles_repo
     apply_homebrew_state
-    "${REPO_ROOT}/scripts/install-1password-cli-beta.sh"
     apply_mise_state
 
     if (( APPLY_ONLY )); then
