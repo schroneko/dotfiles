@@ -35,6 +35,14 @@ case "$(basename "$0")" in
         printf '%s\n' '<plist version="1.0"><dict><key>assessment:authority</key><dict><key>assessment:authority:source</key><string>Notarized Developer ID</string></dict><key>assessment:verdict</key><true/></dict></plist>'
         exit 0
         ;;
+    mock-xattr)
+        candidate="${!#}"
+        if [[ "${1:-}" == "-w" && "${candidate}" == *'/Protected.app' ]]; then
+            printf "xattr: [Errno 1] Operation not permitted: '%s'\n" "${candidate}" >&2
+            exit 1
+        fi
+        exec /usr/bin/xattr "$@"
+        ;;
 esac
 
 repo_root="$(/bin/realpath "$(dirname "$0")/..")"
@@ -44,6 +52,7 @@ temp_dir_raw="$(mktemp -d "${TMPDIR:-/tmp}/homebrew-nested-approval-test.XXXXXX"
 temp_dir="$(/bin/realpath "${temp_dir_raw}")"
 mock_brew="${temp_dir}/mock-brew"
 mock_spctl="${temp_dir}/mock-spctl"
+mock_xattr="${temp_dir}/mock-xattr"
 failures=0
 
 cleanup() {
@@ -55,6 +64,7 @@ cleanup() {
 trap cleanup EXIT
 ln -s "${test_script}" "${mock_brew}"
 ln -s "${test_script}" "${mock_spctl}"
+ln -s "${test_script}" "${mock_xattr}"
 
 export HOMEBREW_NESTED_APPROVAL_BREW_BIN="${mock_brew}"
 export HOMEBREW_NESTED_APPROVAL_SPCTL_BIN="${mock_spctl}"
@@ -145,6 +155,18 @@ run_helper
 status=$?
 assert_status already 0 "${status}"
 assert_equal already-unchanged '03c1;one;Homebrew Cask;approved' "$(/usr/bin/xattr -p com.apple.quarantine "${nested_app}")"
+
+prepare_fixture protected
+nested_app="${top_app}/Contents/Resources/Protected.app"
+mkdir -p "${nested_app}"
+/usr/bin/xattr -w com.apple.provenance 'protected' "${nested_app}"
+/usr/bin/xattr -w com.apple.quarantine '0381;one;Homebrew Cask;protected' "${nested_app}"
+export HOMEBREW_NESTED_APPROVAL_XATTR_BIN="${mock_xattr}"
+run_helper
+status=$?
+assert_status protected 0 "${status}"
+assert_equal protected-unchanged '0381;one;Homebrew Cask;protected' "$(/usr/bin/xattr -p com.apple.quarantine "${nested_app}")"
+unset HOMEBREW_NESTED_APPROVAL_XATTR_BIN
 
 prepare_fixture rejected
 good_app="${top_app}/Contents/Resources/Good.app"

@@ -108,6 +108,17 @@ read_quarantine() {
     "${xattr_bin}" -p com.apple.quarantine "${path}" 2>/dev/null
 }
 
+has_provenance() {
+    local path="$1"
+    local attributes
+
+    if ! attributes="$("${xattr_bin}" "${path}" 2>/dev/null)"; then
+        return 1
+    fi
+
+    printf '%s\n' "${attributes}" | /usr/bin/grep -Fxq 'com.apple.provenance'
+}
+
 build_approved_quarantine() {
     local current="$1"
     local flags rest width numeric new_flags
@@ -161,7 +172,7 @@ assess_notarized() {
 process_cask() {
     local cask_json="$1"
     local full_token
-    local target target_real nested_file nested nested_real quarantine approved identity
+    local target target_real nested_file nested nested_real quarantine approved identity xattr_output
     local index existing duplicate parent candidate_count=0
     local -a targets=()
     local -a candidate_paths=()
@@ -272,6 +283,10 @@ process_cask() {
                     ;;
             esac
 
+            if (( dry_run )) && has_provenance "${nested_real}"; then
+                continue
+            fi
+
             approved="$(build_approved_quarantine "${quarantine}")"
             case $? in
                 0)
@@ -345,7 +360,13 @@ process_cask() {
             return 1
         fi
 
-        if ! "${xattr_bin}" -w com.apple.quarantine "${candidate_approved_values[index]}" "${nested}"; then
+        if ! xattr_output="$("${xattr_bin}" -w com.apple.quarantine "${candidate_approved_values[index]}" "${nested}" 2>&1)"; then
+            if has_provenance "${nested}" && [[ "${xattr_output}" == *"Operation not permitted"* ]]; then
+                continue
+            fi
+            if [[ -n "${xattr_output}" ]]; then
+                printf '%s\n' "${xattr_output}" >&2
+            fi
             printf 'Homebrew nested app approval: failed to approve nested app: %s\n' "${nested}" >&2
             return 1
         fi
