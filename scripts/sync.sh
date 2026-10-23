@@ -168,8 +168,9 @@ want_repo() {
     case "$1" in
         huggingface.co/spaces/* | huggingface.co/datasets/*) return 0 ;;
         huggingface.co/*) return 1 ;;  # model repos are too large
+        github.com/*) return 0 ;;
     esac
-    return 0
+    return 1  # local-only dirs under ghq root (worktrees, scratch)
 }
 
 # Clone repos listed in ghq/repos.txt that are missing; fast-forward clean ones.
@@ -200,15 +201,22 @@ refresh_repos() {
     {
         echo "# Managed by scripts/sync.sh. GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB; Hugging Face model repos are excluded."
         echo
+    } > "$TMP/repos.txt"
+    {
+        # Keep entries other Macs listed even if they could not be cloned here.
+        while IFS= read -r repo; do
+            [[ -z "$repo" || "$repo" == \#* || -d "$root/$repo" ]] || ! want_repo "$repo" || echo "$repo"
+        done < "$REPOS"
         ghq list | while IFS= read -r repo; do
             want_repo "$repo" || continue
+            git -C "$root/$repo" remote get-url origin > /dev/null 2>&1 || continue
             if [[ "$repo" == huggingface.co/datasets/* ]]; then
                 size="$(du -sk "$root/$repo" 2>/dev/null | awk '{ print $1 }')"
                 [[ -n "$size" && "$size" -le "$HF_DATASET_MAX_KIB" ]] || continue
             fi
             echo "$repo"
-        done | sort
-    } > "$TMP/repos.txt"
+        done
+    } | sort -u >> "$TMP/repos.txt"
     mv "$TMP/repos.txt" "$REPOS"
 }
 
