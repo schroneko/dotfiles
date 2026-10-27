@@ -162,6 +162,8 @@ apply_brewfile() {
         brew upgrade --cask $casks || warn "brew upgrade --cask"
     fi
     "$REPO/scripts/homebrew-approve-nested-apps.sh" --all || warn "nested app approval"
+    # Drop every cached download and old version; nothing here needs them after install.
+    brew cleanup --prune=all -q || warn "brew cleanup"
 }
 
 want_repo() {
@@ -250,7 +252,7 @@ merge_local_changes "$TMP/Brewfile"
 plan_apply
 
 if (( DRY )); then
-    log "would then: brew upgrade --formula, upgrade casks without auto_updates, approve nested apps, mise install/upgrade, refresh ghq/repos.txt, commit and push"
+    log "would then: brew upgrade --formula, upgrade casks without auto_updates, approve nested apps, brew cleanup --prune=all, mise install/upgrade, refresh ghq/repos.txt, commit and push"
     sync_repos
     exit 0
 fi
