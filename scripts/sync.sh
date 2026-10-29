@@ -4,6 +4,7 @@
 #   scripts/sync.sh               sync (the LaunchAgent runs this every hour)
 #   scripts/sync.sh --dry-run     print what would change; touches nothing
 #   scripts/sync.sh --init-state  record what is installed now as the last-synced state
+#   DOTFILES_MAX_REMOVALS=30 scripts/sync.sh   allow one deliberate cleanup above the 10-removal guard
 #
 # Apps you install or uninstall on this Mac (compared with the last sync) are
 # added to / removed from Brewfile. Then Brewfile is applied: missing entries
@@ -16,7 +17,7 @@ BREWFILE="$REPO/Brewfile"
 IGNORE="$REPO/Brewfile.ignore"
 STATE="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/brew-state.tsv"
 LOCK="${TMPDIR:-/tmp}/dotfiles-sync.lock"
-MAX_REMOVALS=10
+MAX_REMOVALS="${DOTFILES_MAX_REMOVALS:-10}"  # override for one deliberate big cleanup
 TRUSTED_TAPS="schroneko/cdpclick schroneko/exbright schroneko/hithint schroneko/nicevoice-app"
 PINNED_CASKS="google-chrome"
 
@@ -144,6 +145,8 @@ apply_brewfile() {
                 esac || warn "uninstall $kind $name"
             done < <(grep "^$k	" "$TMP/uninstall" || true)
         done
+        # Drop dependencies nothing needs anymore once something was uninstalled.
+        [[ -s "$TMP/uninstall" ]] && { brew autoremove -q || warn "brew autoremove"; }
     fi
     trust_taps
     for name in $PINNED_CASKS; do
