@@ -18,7 +18,6 @@ REPOS="$REPO/ghq/repos.txt"
 STATE="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/brew-state.tsv"
 LOCK="${TMPDIR:-/tmp}/dotfiles-sync.lock"
 MAX_REMOVALS=10
-HF_DATASET_MAX_KIB=102400
 TRUSTED_TAPS="schroneko/cdpclick schroneko/exbright schroneko/hithint schroneko/nicevoice-app"
 PINNED_CASKS="google-chrome"
 
@@ -168,8 +167,6 @@ apply_brewfile() {
 
 want_repo() {
     case "$1" in
-        huggingface.co/spaces/* | huggingface.co/datasets/*) return 0 ;;
-        huggingface.co/*) return 1 ;;  # model repos are too large
         github.com/*) return 0 ;;
     esac
     return 1  # local-only dirs under ghq root (worktrees, scratch)
@@ -196,12 +193,12 @@ sync_repos() {
     done < "$REPOS"
 }
 
-# Rewrite ghq/repos.txt from the repos on this Mac (HF datasets only if under 100MiB).
+# Rewrite ghq/repos.txt from the GitHub repos on this Mac.
 refresh_repos() {
     local root repo size
     root="$(ghq root)"
     {
-        echo "# Managed by scripts/sync.sh. GitHub, Hugging Face Spaces, and Hugging Face datasets under 100MiB; Hugging Face model repos are excluded."
+        echo "# Managed by scripts/sync.sh. GitHub repos only."
         echo
     } > "$TMP/repos.txt"
     {
@@ -212,10 +209,6 @@ refresh_repos() {
         ghq list | while IFS= read -r repo; do
             want_repo "$repo" || continue
             git -C "$root/$repo" remote get-url origin > /dev/null 2>&1 || continue
-            if [[ "$repo" == huggingface.co/datasets/* ]]; then
-                size="$(du -sk "$root/$repo" 2>/dev/null | awk '{ print $1 }')"
-                [[ -n "$size" && "$size" -le "$HF_DATASET_MAX_KIB" ]] || continue
-            fi
             echo "$repo"
         done
     } | sort -u >> "$TMP/repos.txt"

@@ -16,7 +16,7 @@ What it does:
 - enables the `com.schroneko.dotfiles-sync` LaunchAgent
 - runs the first sync
 
-After that, dotfiles, Homebrew state, and the filtered `ghq` repo list sync automatically every hour. The `ghq` filter keeps GitHub repos, Hugging Face Spaces, and Hugging Face datasets under 100MiB, but excludes Hugging Face model repos.
+After that, dotfiles, Homebrew state, and the filtered `ghq` repo list sync automatically every hour. The `ghq` sync covers GitHub repos only; Hugging Face repos are not synced.
 
 ## Interaction Rule
 
