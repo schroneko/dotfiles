@@ -147,6 +147,7 @@ apply_brewfile() {
         done
         # Drop dependencies nothing needs anymore once something was uninstalled.
         [[ -s "$TMP/uninstall" ]] && { brew autoremove -q || warn "brew autoremove"; }
+        hash -r  # forget paths of commands that were just uninstalled (e.g. git)
     fi
     trust_taps
     for name in $PINNED_CASKS; do
