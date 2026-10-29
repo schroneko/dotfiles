@@ -31,8 +31,9 @@ LaunchAgent `com.schroneko.dotfiles-sync` が、ログイン時と1時間ごと�
 4. formula と、`auto_updates` を持たない cask を `brew upgrade` します。自分で更新するアプリはアプリ自身に任せます。バックグラウンドで更新すると空のアプリが残ることがあったためです。
 5. `scripts/homebrew-approve-nested-apps.sh` で、cask の中に入っているアプリの承認をします。
 6. `mise install` と `mise upgrade` をします。
-7. `ghq/repos.txt` の repo のうち、足りないものを clone し、変更のない repo を `git pull --ff-only` します。対象は GitHub の repo だけで、Hugging Face の repo は同期しません。
-8. `Brewfile` と `ghq/repos.txt` に差分があれば commit して push します。
+7. `Brewfile` に差分があれば commit して push します。
+
+ghq の repo は Mac 間で同期しません。必要なときに `ghq get` で clone します。
 
 `Brewfile.ignore` に書いた名前は、同期の対象から外れ、入れることも消すこともしません。一度に 10 個を超えて消えそうなときは、事故とみなして止まります。
 

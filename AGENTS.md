@@ -16,7 +16,7 @@ What it does:
 - enables the `com.schroneko.dotfiles-sync` LaunchAgent
 - runs the first sync
 
-After that, dotfiles, Homebrew state, and the filtered `ghq` repo list sync automatically every hour. The `ghq` sync covers GitHub repos only; Hugging Face repos are not synced.
+After that, dotfiles, Homebrew state, and mise tools sync automatically every hour. `ghq` repos are not synced between Macs; clone them on demand with `ghq get`.
 
 ## Interaction Rule
 

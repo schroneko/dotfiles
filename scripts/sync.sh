@@ -1,5 +1,5 @@
 #!/bin/bash
-# Keep Homebrew apps, mise tools and ghq repos the same on every Mac.
+# Keep Homebrew apps and mise tools the same on every Mac.
 #
 #   scripts/sync.sh               sync (the LaunchAgent runs this every hour)
 #   scripts/sync.sh --dry-run     print what would change; touches nothing
@@ -14,7 +14,6 @@ set -euo pipefail
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 BREWFILE="$REPO/Brewfile"
 IGNORE="$REPO/Brewfile.ignore"
-REPOS="$REPO/ghq/repos.txt"
 STATE="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/brew-state.tsv"
 LOCK="${TMPDIR:-/tmp}/dotfiles-sync.lock"
 MAX_REMOVALS=10
@@ -165,60 +164,10 @@ apply_brewfile() {
     brew cleanup --prune=all -q || warn "brew cleanup"
 }
 
-want_repo() {
-    case "$1" in
-        github.com/*) return 0 ;;
-    esac
-    return 1  # local-only dirs under ghq root (worktrees, scratch)
-}
-
-# Clone repos listed in ghq/repos.txt that are missing; fast-forward clean ones.
-# Repo failures are only logged; the exit status reflects Homebrew and mise.
-sync_repos() {
-    local root repo dir
-    root="$(ghq root)"
-    while IFS= read -r repo; do
-        [[ -n "$repo" && "$repo" != \#* ]] && want_repo "$repo" || continue
-        dir="$root/$repo"
-        if [[ ! -d "$dir/.git" ]]; then
-            if (( DRY )); then log "would clone $repo"; continue; fi
-            log "cloning $repo"
-            ghq get --partial blobless --no-recursive "$repo" < /dev/null > /dev/null 2>&1 || log "could not clone $repo"
-            continue
-        fi
-        if (( DRY )) || [[ "$repo" == github.com/schroneko/dotfiles ]]; then continue; fi
-        [[ -z "$(git -C "$dir" status --porcelain 2>/dev/null)" ]] || continue
-        git -C "$dir" rev-parse --abbrev-ref '@{upstream}' >/dev/null 2>&1 || continue
-        git -C "$dir" pull --ff-only -q < /dev/null > /dev/null 2>&1 || log "could not pull $repo"
-    done < "$REPOS"
-}
-
-# Rewrite ghq/repos.txt from the GitHub repos on this Mac.
-refresh_repos() {
-    local root repo size
-    root="$(ghq root)"
-    {
-        echo "# Managed by scripts/sync.sh. GitHub repos only."
-        echo
-    } > "$TMP/repos.txt"
-    {
-        # Keep entries other Macs listed even if they could not be cloned here.
-        while IFS= read -r repo; do
-            [[ -z "$repo" || "$repo" == \#* || -d "$root/$repo" ]] || ! want_repo "$repo" || echo "$repo"
-        done < "$REPOS"
-        ghq list | while IFS= read -r repo; do
-            want_repo "$repo" || continue
-            git -C "$root/$repo" remote get-url origin > /dev/null 2>&1 || continue
-            echo "$repo"
-        done
-    } | sort -u >> "$TMP/repos.txt"
-    mv "$TMP/repos.txt" "$REPOS"
-}
-
 commit_and_push() {
-    git -C "$REPO" add -- Brewfile ghq/repos.txt
-    if git -C "$REPO" diff --cached --quiet -- Brewfile ghq/repos.txt; then return 0; fi
-    git -C "$REPO" commit -q -m "sync state from $(scutil --get ComputerName 2>/dev/null || hostname -s)" -- Brewfile ghq/repos.txt
+    git -C "$REPO" add -- Brewfile
+    if git -C "$REPO" diff --cached --quiet -- Brewfile; then return 0; fi
+    git -C "$REPO" commit -q -m "sync state from $(scutil --get ComputerName 2>/dev/null || hostname -s)" -- Brewfile
     log "pushing"
     git -C "$REPO" push -q || { git -C "$REPO" pull --rebase --autostash -q && git -C "$REPO" push -q; } || warn "git push"
 }
@@ -245,8 +194,7 @@ merge_local_changes "$TMP/Brewfile"
 plan_apply
 
 if (( DRY )); then
-    log "would then: brew upgrade --formula, upgrade casks without auto_updates, approve nested apps, brew cleanup --prune=all, mise install/upgrade, refresh ghq/repos.txt, commit and push"
-    sync_repos
+    log "would then: brew upgrade --formula, upgrade casks without auto_updates, approve nested apps, brew cleanup --prune=all, mise install/upgrade, commit and push"
     exit 0
 fi
 
@@ -258,8 +206,6 @@ installed_keys "$TMP/installed"
 mkdir -p "$(dirname "$STATE")"
 cp "$TMP/installed" "$STATE"
 
-sync_repos
-refresh_repos
 commit_and_push
 if (( FAILED )); then log "sync finished with warnings"; else log "sync finished"; fi
 exit "$FAILED"
