@@ -19,7 +19,7 @@ STATE="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/brew-state.tsv"
 LOCK="${TMPDIR:-/tmp}/dotfiles-sync.lock"
 MAX_REMOVALS=10
 HF_DATASET_MAX_KIB=102400
-TRUSTED_TAPS="schroneko/cdpclick schroneko/claude-code-updater schroneko/exbright schroneko/hithint schroneko/nicevoice-app"
+TRUSTED_TAPS="schroneko/cdpclick schroneko/exbright schroneko/hithint schroneko/nicevoice-app"
 PINNED_CASKS="google-chrome"
 
 export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
