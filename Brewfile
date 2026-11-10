@@ -46,5 +46,5 @@ cask "rectangle"
 cask "schroneko/cdpclick/cdpclick", trusted: true
 cask "schroneko/exbright/exbright"
 cask "schroneko/hithint/hithint"
-cask "schroneko/nicevoice-app/nicevoice"
+cask "schroneko/nicevoice/nicevoice"
 cask "slack"
